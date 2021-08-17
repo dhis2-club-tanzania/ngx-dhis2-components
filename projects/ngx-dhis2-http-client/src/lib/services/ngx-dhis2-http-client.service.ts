@@ -1,7 +1,7 @@
 import {
   HttpClient,
   HttpErrorResponse,
-  HttpHeaders
+  HttpHeaders,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, throwError, zip } from 'rxjs';
@@ -9,7 +9,7 @@ import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import {
   DEFAULT_ROOT_URL,
-  HTTP_HEADER_OPTIONS
+  HTTP_HEADER_OPTIONS,
 } from '../constants/http.constant';
 import { deduceUrlContent } from '../helpers/deduce-url-content.helper';
 import { getRootUrl } from '../helpers/get-root-url.helper';
@@ -53,7 +53,7 @@ export class NgxDhis2HttpClientService {
       rootUrl: DEFAULT_ROOT_URL,
       version: 0,
       systemInfo: null,
-      currentUser: null
+      currentUser: null,
     };
     this._loaded$ = new BehaviorSubject<boolean>(false);
     this.loaded$ = this._loaded$.asObservable();
@@ -83,18 +83,18 @@ export class NgxDhis2HttpClientService {
                 rootUrl,
                 manifest,
                 systemInfo: res[0],
-                currentUser: res[1]
+                currentUser: res[1],
               };
             })
           );
         })
       )
       .subscribe(
-        res => {
+        (res) => {
           this._instance = {
             ...this._instance,
             ...res,
-            version: getSystemVersion(res.systemInfo)
+            version: getSystemVersion(res.systemInfo),
           };
           this._loaded$.next(true);
         },
@@ -125,7 +125,7 @@ export class NgxDhis2HttpClientService {
     const httpOptions = this._getHttpOptions(newHttpConfig.httpHeaders);
 
     return this._getRootUrl(newHttpConfig).pipe(
-      mergeMap(rootUrl =>
+      mergeMap((rootUrl) =>
         (httpOptions
           ? this.httpClient.post(rootUrl + url, data, httpOptions)
           : this.httpClient.post(rootUrl + url, data)
@@ -140,7 +140,7 @@ export class NgxDhis2HttpClientService {
 
     const httpOptions = this._getHttpOptions(newHttpConfig.httpHeaders);
     return this._getRootUrl(newHttpConfig).pipe(
-      mergeMap(rootUrl =>
+      mergeMap((rootUrl) =>
         (httpOptions
           ? this.httpClient.put(rootUrl + url, data, httpOptions)
           : this.httpClient.put(rootUrl + url, data)
@@ -155,7 +155,7 @@ export class NgxDhis2HttpClientService {
 
     const httpOptions = this._getHttpOptions(newHttpConfig.httpHeaders);
     return this._getRootUrl(newHttpConfig).pipe(
-      mergeMap(rootUrl =>
+      mergeMap((rootUrl) =>
         (httpOptions
           ? this.httpClient.delete(rootUrl + url, httpOptions)
           : this.httpClient.delete(rootUrl + url)
@@ -197,7 +197,7 @@ export class NgxDhis2HttpClientService {
     }
 
     return this.loaded$.pipe(
-      filter(loaded => loaded),
+      filter((loaded) => loaded),
       map(() => this._instance)
     );
   }
@@ -217,9 +217,10 @@ export class NgxDhis2HttpClientService {
       return this._getFromServer(url, httpConfig, httpOptions);
     }
 
-    return (id
-      ? this.indexDbService.findById(schemaName, id)
-      : this.indexDbService.findAll(schemaName, params)
+    return (
+      id
+        ? this.indexDbService.findById(schemaName, id)
+        : this.indexDbService.findAll(schemaName, params)
     ).pipe(
       mergeMap((indexDbResponse: any) => {
         if (
@@ -259,7 +260,7 @@ export class NgxDhis2HttpClientService {
 
   private _getFromServer(url, httpConfig: HttpConfig, httpOptions: any) {
     return this._getRootUrl(httpConfig).pipe(
-      mergeMap(rootUrl =>
+      mergeMap((rootUrl) =>
         (httpOptions
           ? this.httpClient.get(rootUrl + url, httpOptions)
           : this.httpClient.get(rootUrl + url)
@@ -292,7 +293,8 @@ export class NgxDhis2HttpClientService {
       error = {
         message: err.error.toString(),
         status: err.status,
-        statusText: err.statusText
+        statusText: err.statusText,
+        response: err,
       };
     } else {
       // The backend returned an unsuccessful response code.
@@ -303,7 +305,8 @@ export class NgxDhis2HttpClientService {
             ? err.error.message
             : err.error || err.message,
         status: err.status,
-        statusText: err.statusText
+        statusText: err.statusText,
+        response: err,
       };
     }
     return throwError(error);
@@ -339,8 +342,8 @@ export class NgxDhis2HttpClientService {
       ? {
           headers: new HttpHeaders({
             ...HTTP_HEADER_OPTIONS,
-            ...(httpHeaderOptions || {})
-          })
+            ...(httpHeaderOptions || {}),
+          }),
         }
       : null;
   }
