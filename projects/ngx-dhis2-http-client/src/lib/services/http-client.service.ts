@@ -6,7 +6,6 @@ import {
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, throwError, zip } from 'rxjs';
 import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
-
 import {
   DEFAULT_ROOT_URL,
   HTTP_HEADER_OPTIONS,
@@ -15,12 +14,14 @@ import { deduceUrlContent } from '../helpers/deduce-url-content.helper';
 import { getRootUrl } from '../helpers/get-root-url.helper';
 import { getSanitizedHttpConfig } from '../helpers/get-sanitized-http-config.helper';
 import { getSystemVersion } from '../helpers/get-system-version.helper';
+import { isDataStoreRequest } from '../helpers/is-datastore-request.helper';
 import { ErrorMessage } from '../models/error-message.model';
 import { HttpConfig } from '../models/http-config.model';
 import { IndexDBParams } from '../models/index-db-params.model';
 import { Manifest } from '../models/manifest.model';
 import { SystemInfo } from '../models/system-info.model';
 import { User } from '../models/user.model';
+import { DataStoreService } from './data-store.service';
 import { IndexDbService } from './index-db.service';
 import { ManifestService } from './manifest.service';
 import { SystemInfoService } from './system-info.service';
@@ -46,7 +47,8 @@ export class NgxDhis2HttpClientService {
     private manifestService: ManifestService,
     private systemInfoService: SystemInfoService,
     private indexDbService: IndexDbService,
-    private userService: UserService
+    private userService: UserService,
+    private dataStoreService: DataStoreService
   ) {
     this._instance = {
       manifest: null,
@@ -109,11 +111,14 @@ export class NgxDhis2HttpClientService {
 
     const httpOptions = this._getHttpOptions(newHttpConfig.httpHeaders);
 
-    // Make a call directly from url if is external one
     if (newHttpConfig.isExternalLink) {
       return httpOptions
         ? this.httpClient.get(url, httpOptions)
         : this.httpClient.get(url);
+    }
+
+    if (isDataStoreRequest(url)) {
+      return this.dataStoreService.get(url, newHttpConfig);
     }
 
     return this._get(url, newHttpConfig, httpOptions);
