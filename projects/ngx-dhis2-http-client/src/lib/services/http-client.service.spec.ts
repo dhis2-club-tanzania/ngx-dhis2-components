@@ -3,8 +3,6 @@
 import { of } from 'rxjs';
 import { NgxDhis2HttpClientService } from './http-client.service';
 
-const date = new Date();
-
 describe('HttpClientService', () => {
   let httpClientSpy: {
     get: jasmine.Spy;

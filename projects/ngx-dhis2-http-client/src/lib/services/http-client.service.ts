@@ -4,11 +4,8 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Console } from 'console';
-import { BaseDataStoreModel } from 'dist/ngx-dhis2-http-client/public_api';
 import { BehaviorSubject, Observable, of, throwError, zip } from 'rxjs';
 import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
-
 import {
   DEFAULT_ROOT_URL,
   HTTP_HEADER_OPTIONS,

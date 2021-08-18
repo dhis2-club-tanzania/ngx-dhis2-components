@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { flatten } from 'lodash';
 import { Observable, of, throwError, zip } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { generateUid } from '../helpers/generate-uid.helper';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { getDataStoreUrlParams } from '../helpers/get-data-store-url-params.helper';
 import { ErrorMessage } from '../models/error-message.model';
 import { HttpConfig } from '../models/http-config.model';
-import { User } from '../models/user.model';
 import { NgxDhis2HttpClientService } from './http-client.service';
 
 @Injectable({
@@ -83,24 +81,6 @@ export class DataStoreService {
     }
 
     return this.findAll(httpConfig);
-  }
-
-  save(data: any): Observable<any> {
-    const date = new Date();
-
-    return this.httpClient.me().pipe(
-      switchMap((currentUser: User) => {
-        const isNew = data.id === 'new' || !data.id;
-        const newData: any = {
-          ...data,
-          id: isNew ? generateUid() : data.id,
-          created: isNew ? date.toISOString() : data.created,
-          lastUpdated: date.toISOString(),
-          createdBy: isNew ? currentUser.id : data.createdBy,
-        };
-        return isNew ? this.create(newData) : this.update(newData);
-      })
-    );
   }
 
   saveByTrial(data: any): Observable<any> {
