@@ -8,5 +8,5 @@
       "lodash": "_"
     }
   },
-  "whitelistedNonPeerDependencies": ["."]
+  "allowedNonPeerDependencies": ["."]
 }

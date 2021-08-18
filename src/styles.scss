@@ -1,11 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+@use '~@angular/material' as mat;
 @import '../node_modules/bootstrap/scss/bootstrap.scss';
-@import '~@angular/material/theming';
 
-$primary: mat-palette($mat-indigo);
+$primary: mat.define-palette(mat.$indigo-palette);
 
 .primary-color {
-  color: mat-color($primary);
+  color: mat.get-color-from-palette($primary);
 }
 
 html,
