@@ -8,7 +8,7 @@ export function getUserOrgUnits(
 ): string[] | OrgUnit[] {
   return _.uniq(
     _.map(
-      isForReport
+      isForReport && userInfo && userInfo.dataViewOrganisationUnits && userInfo.dataViewOrganisationUnits.length > 0
         ? userInfo.dataViewOrganisationUnits || []
         : userInfo.organisationUnits || [],
       (orgUnit) => (onlyId ? orgUnit.id : orgUnit)

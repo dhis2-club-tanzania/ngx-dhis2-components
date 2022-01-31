@@ -155,7 +155,7 @@ export class OrgUnitService {
         return lowestOrgUnitLevel && lowestOrgUnitLevel.level > level
           ? this.httpClient
               .get(
-                `organisationUnits.json?fields=${orgUnitFields}&order=name:asc&filter=parent.id:eq:${id}&paging=false`,
+                `organisationUnits.json?fields=${orgUnitFields}&filter=parent.id:eq:${id}&paging=false`,
                 { useIndexDb: true }
               )
               .pipe(
@@ -178,7 +178,6 @@ export class OrgUnitService {
           orgUnitFilterConfig.reportUse,
           false
         ) as OrgUnit[];
-
         return zip(
           ...userOrgUnits.map((orgUnit: OrgUnit) =>
             this.loadChildren(
@@ -203,8 +202,7 @@ export class OrgUnitService {
         this.httpClient.get(
           'organisationUnits.json?fields=' +
             orgUnitFields +
-            '&order=level:asc' +
-            '&order=name:asc&filter=path:ilike:' +
+            'filter=path:ilike:' +
             orgUnitId +
             '&pageSize=' +
             pageSize +
@@ -212,7 +210,14 @@ export class OrgUnitService {
           { useIndexDb: true }
         )
       )
-    ).pipe(map((orgUnitResults: any[]) => getCombinedOrgUnits(orgUnitResults)));
+    ).pipe(map((orgUnitResults: any[]) => getCombinedOrgUnits(orgUnitResults))).pipe(
+      map((orgUnitResult: any) => {
+        return {
+          pager : orgUnitResult.pager || {},
+          organisationUnits : _.sortBy(orgUnitResult.organisationUnits, ['level','name'])
+        };
+      })
+    );
   }
 
   private _loadOrgUnitsByUrl(orgUnitUrl: string) {
@@ -222,7 +227,7 @@ export class OrgUnitService {
       })
       .pipe(
         map((orgUnitResult: any) => {
-          return orgUnitResult.organisationUnits;
+          return _.sortBy(orgUnitResult.organisationUnits, ['level','name']);
         })
       );
   }
