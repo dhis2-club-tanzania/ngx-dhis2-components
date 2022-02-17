@@ -109,4 +109,18 @@ export class IndicatorComponent implements OnInit {
       return allMedatada;
     }
   }
+
+  toggleExpression(event: Event, dictionaryItem: any, idSection: string): void {
+    event.stopPropagation();
+    const domElement = document.getElementById(dictionaryItem?.id + idSection);
+    domElement.style.display = 'block';
+    if (domElement.innerText == '') {
+      domElement.innerHTML = dictionaryItem?.data?.metadata?.denominator;
+      domElement.style.backgroundColor = '#eee';
+    } else {
+      domElement.innerHTML = '';
+      domElement.style.backgroundColor = '#FFF';
+      domElement.style.display = 'none';
+    }
+  }
 }
