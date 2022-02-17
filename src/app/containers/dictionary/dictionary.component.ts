@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
-import { DictionaryConfig } from 'dist/ngx-dhis2-dictionary/lib/models/dictionary-config.model';
 import * as _ from 'lodash';
 
 @Component({
@@ -13,7 +12,7 @@ export class DictionaryComponent implements OnInit {
   selectedItem: string;
   metadataIdentifiers: any;
   systemSettings: any;
-  dictionaryConfig: DictionaryConfig = {
+  dictionaryConfig: any = {
     showAllBlock: true,
   };
   metadataIdentifiersArr: any[] = [
