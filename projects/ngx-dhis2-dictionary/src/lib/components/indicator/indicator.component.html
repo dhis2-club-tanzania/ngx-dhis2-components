@@ -263,7 +263,7 @@
           <th>Formula</th>
           <th>Sources</th>
           <th>Reporting Period</th>
-          <th>Reporting Rate</th>
+          <th>Reporting Rate (%)</th>
         </tr>
       </thead>
       <tbody>
@@ -275,11 +275,13 @@
             <code>{{
               dictionaryItem.data.numeratorExpression.description
             }}</code>
-            <a
-              class="float-right"
-              (click)="toggleExpression($event, dictionaryItem, '-nume')"
-              >View expression</a
-            >
+            <div class="w-100">
+              <a
+                class="float-right expression-toggle-btn"
+                (click)="toggleExpression($event, dictionaryItem, '-nume')"
+                >View expression</a
+              >
+            </div>
             <div
               [id]="dictionaryItem?.id + '-nume'"
               style="display: none"
@@ -312,11 +314,13 @@
               }}</code>
             </div>
 
-            <a
-              class="float-right"
-              (click)="toggleExpression($event, dictionaryItem, '-deno')"
-              >View expression</a
-            >
+            <div class="w-100">
+              <a
+                class="float-right expression-toggle-btn"
+                (click)="toggleExpression($event, dictionaryItem, '-deno')"
+                >View expression</a
+              >
+            </div>
             <div
               [id]="dictionaryItem?.id + '-deno'"
               style="display: none"
