@@ -150,6 +150,6 @@ export class DictionaryComponent implements OnInit {
   }
 
   metadataGroupsInfo(groups) {
-    console.log('metadataGroupsInfo ', groups);
+    // console.log('metadataGroupsInfo ', groups);
   }
 }

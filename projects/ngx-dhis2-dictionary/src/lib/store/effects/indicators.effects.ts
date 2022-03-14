@@ -99,7 +99,7 @@ export class IndicatorsEffects {
       this.indicatorService
         ._loadAllIndicators(action.payload.pager)
         .subscribe((allIndicators) => {
-          indicatorsArr = [...indicatorsArr, ...allIndicators.indicators];
+          indicatorsArr = [...indicatorsArr, ...allIndicators];
           this.store.dispatch(
             new LoadIndicatorsByPagesSuccessAction(indicatorsArr)
           );
