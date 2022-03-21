@@ -1,6 +1,6 @@
 {
   "name": "@iapps/ngx-dhis2-dictionary",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "peerDependencies": {
     "@angular/common": "^9.0.0 || 10.1 || ^11.0",
     "@angular/core": "^9.0.0 || 10.1 || ^11.0",
@@ -8,6 +8,7 @@
     "@ngrx/entity": "^9.0.0",
     "@ngrx/store": "^9.0.0",
     "ngx-pagination": "^3.2.1",
+    "@angular/material": "^12.2.1",
     "fuse.js": "^3.4.6"
   },
   "dependencies": {}
