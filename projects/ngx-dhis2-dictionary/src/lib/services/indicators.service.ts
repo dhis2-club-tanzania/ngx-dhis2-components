@@ -13,31 +13,61 @@ export class IndicatorsService {
   constructor(private httpClient: NgxDhis2HttpClientService) {}
 
   // load indicators
-  loadIndicatorsByPage(page: number, pageCount: number) {
-    let url =
-      'indicators.json?fields=id,name,numerator,denominator,indicatorType[name],';
-    url +=
-      'denominatorDescription,numeratorDescription,user[name],lastUpdated,indicatorGroups[id]&pageSize=' +
-      pageCount +
-      '&page=' +
-      page;
-    return this.httpClient.get(url).pipe(
-      map((response) => {
-        console.log(response);
-        return response;
-      }),
-      catchError((error) => of(error))
-    );
+  loadIndicatorsByPage(
+    page: number,
+    pageCount: number,
+    searchingText?: string
+  ): Observable<any> {
+    return this.httpClient
+      .get(
+        'indicators.json?' +
+          (searchingText ? 'filter=name:ilike:' + searchingText + '&' : '') +
+          'fields=id,name,numerator,denominator,indicatorType[name],denominatorDescription,numeratorDescription,user[name],lastUpdated,indicatorGroups[id]&pageSize=' +
+          pageCount +
+          '&page=' +
+          page
+      )
+      .pipe(
+        map((response) => {
+          return response;
+        }),
+        catchError((error) => of(error))
+      );
   }
 
-  loadIndicatorsById(id) {
+  loadProgramIndicatorsByPage(
+    page: number,
+    pageCount: number,
+    searchingText?: string
+  ): Observable<any> {
+    return this.httpClient
+      .get(
+        'programIndicators.json?' +
+          (searchingText ? 'filter=name:ilike:' + searchingText + '&' : '') +
+          'fields=*&pageSize=' +
+          pageCount +
+          '&page=' +
+          page
+      )
+      .pipe(
+        map((response) => {
+          return response;
+        }),
+        catchError((error) => of(error))
+      );
+  }
+
+  loadIndicatorsById(id: string): Observable<any> {
     let url =
       'indicators/' +
       id +
       '.json?fields=id,name,numerator,denominator,indicatorType[name],';
     url +=
       'denominatorDescription,numeratorDescription,user[name],lastUpdated,indicatorGroups[id]';
-    return this.httpClient.get(url);
+    return this.httpClient.get(url).pipe(
+      map((response) => response),
+      catchError((error) => of(error))
+    );
   }
 
   // fetchUrl(url, callback): any {
@@ -51,71 +81,6 @@ export class IndicatorsService {
   //     );
   //   }, delay);
   // }
-
-  _loadAllIndicators(pagerDefinitions): Observable<any> {
-    const urls = [
-      'indicators.json?fields=:all,lastUpdatedBy[id,name],displayName,id,name,' +
-        'numeratorDescription,denominatorDescription,denominator,numerator,annualized,decimals,' +
-        'indicatorType[name],user[name],attributeValues[value,attribute[name]],indicatorGroups[id,name,indicators~size],' +
-        'legendSets[id,name,symbolizer,legends~size],dataSets[id,name]&pageSize=' +
-        5 +
-        '&page=' +
-        1,
-      'indicators.json?fields=:all,lastUpdatedBy[id,name],displayName,id,name,' +
-        'numeratorDescription,denominatorDescription,denominator,numerator,annualized,decimals,' +
-        'indicatorType[name],user[name],attributeValues[value,attribute[name]],indicatorGroups[id,name,indicators~size],' +
-        'legendSets[id,name,symbolizer,legends~size],dataSets[id,name]&pageSize=' +
-        5 +
-        '&page=' +
-        2,
-      'indicators.json?fields=:all,lastUpdatedBy[id,name],displayName,id,name,' +
-        'numeratorDescription,denominatorDescription,denominator,numerator,annualized,decimals,' +
-        'indicatorType[name],user[name],attributeValues[value,attribute[name]],indicatorGroups[id,name,indicators~size],' +
-        'legendSets[id,name,symbolizer,legends~size],dataSets[id,name]&pageSize=' +
-        5 +
-        '&page=' +
-        3,
-      'indicators.json?fields=:all,lastUpdatedBy[id,name],displayName,id,name,' +
-        'numeratorDescription,denominatorDescription,denominator,numerator,annualized,decimals,' +
-        'indicatorType[name],user[name],attributeValues[value,attribute[name]],indicatorGroups[id,name,indicators~size],' +
-        'legendSets[id,name,symbolizer,legends~size],dataSets[id,name]&pageSize=' +
-        5 +
-        '&page=' +
-        4,
-    ];
-
-    // TODO: Review this implementation
-
-    function getAndSaveHFDataByChuck(url, callback) {
-      console.log(url);
-      this.httpClient.get(`${url}`).pipe(
-        map((response) => {
-          return callback(null, response);
-        }),
-        catchError((error) => of(callback(error, null)))
-      );
-    }
-
-    const data = new Promise((resolve, reject) => {
-      return async.mapLimit(
-        urls,
-        5,
-        async.reflect(getAndSaveHFDataByChuck),
-        (err, res) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(
-              _.flatten(
-                res.map((response) => response.value).filter((value) => value)
-              )
-            );
-          }
-        }
-      );
-    });
-    return of(data);
-  }
 
   _loadAllIndicators1(pagerDefinitions): Observable<any> {
     // format pageSize as per number of indicators

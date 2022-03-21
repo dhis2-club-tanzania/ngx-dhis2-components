@@ -24,20 +24,6 @@ import { IndicatorGroupsState } from '../state/indicators.state';
 @Injectable()
 export class IndicatorsEffects {
   @Effect()
-  indicatorsList$: Observable<any> = this.actions$.pipe(
-    ofType<IndicatorsAction>(IndicatorsActions.LoadIndicators),
-    switchMap(() =>
-      this.httpClient.get('indicators.json').pipe(
-        map(
-          (indicatorsListObject: any) =>
-            new loadIndicatorsSuccessAction(indicatorsListObject)
-        ),
-        catchError((error) => of(new loadIndicatorsFailAction(error)))
-      )
-    )
-  );
-
-  @Effect()
   programIndicatorsList$: Observable<any> = this.actions$.pipe(
     ofType<IndicatorsAction>(IndicatorsActions.LoadProgramIndicators),
     switchMap(() =>
@@ -89,22 +75,6 @@ export class IndicatorsEffects {
           )
         )
     )
-  );
-
-  @Effect({ dispatch: false })
-  indicatorsListSuccess$: Observable<any> = this.actions$.pipe(
-    ofType<IndicatorsAction>(IndicatorsActions.LoadIndicatorsSuccess),
-    tap((action: any) => {
-      let indicatorsArr: any[] = [];
-      this.indicatorService
-        ._loadAllIndicators(action.payload.pager)
-        .subscribe((allIndicators) => {
-          indicatorsArr = [...indicatorsArr, ...allIndicators];
-          this.store.dispatch(
-            new LoadIndicatorsByPagesSuccessAction(indicatorsArr)
-          );
-        });
-    })
   );
 
   @Effect({ dispatch: false })

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import * as _ from 'lodash';
-import { Observable, pipe } from 'rxjs';
+import { Observable, of, pipe } from 'rxjs';
 import { IndicatorsService } from '../../services/indicators.service';
 import * as indicators from '../../store/actions/indicators.actions';
 import { AppState } from '../../store/reducers/indicators.reducers';
@@ -25,7 +25,7 @@ export class IndicatorsListComponent implements OnInit {
   error = false;
   loading = true;
   hoverState = 'notHovered';
-  itemsPerPageCount = 10;
+  itemsPerPage = 10;
   selectedIndicator: any = null;
   searchText: string;
   currentPage = 1;
@@ -67,11 +67,19 @@ export class IndicatorsListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadAllIndicators();
+    this.loadAllIndicators(1, 10);
   }
 
-  setItemsPerPage(value) {
-    this.itemsPerPageCount = value;
+  setItemsPerPage(value: number): void {
+    this.itemsPerPage = value;
+    this.allIndicators$ = of(null);
+    this.loadAllIndicators(1, this.itemsPerPage);
+  }
+
+  searchIndicator(event: any): void {
+    this.searchingText = event?.target?.value;
+    console.log(this.searchingText);
+    this.loadAllIndicators(1, this.itemsPerPage, this.searchingText);
   }
 
   toggleListingOfItems() {
@@ -128,83 +136,26 @@ export class IndicatorsListComponent implements OnInit {
     this.selectedMetadataGroups.emit(this.indicatorGroups);
   }
 
-  loadAllIndicators() {
-    // this.indicatorsList$ = this.indicatorsStore.select(
-    //   pipe(getListOfIndicators)
-    // );
-    this.allIndicators$ = this.indicatorService.loadIndicatorsByPage(1, 10);
-    // this.indicatorGroups$ = this.indicatorsStore.pipe(
-    //   select(getIndicatorGroups)
-    // );
-    // this.indicatorsList$.subscribe((indicatorList) => {
-    //   if (indicatorList) {
-    //     this.totalAvailableIndicators = indicatorList.pager
-    //       ? indicatorList.pager.total
-    //       : 0;
-    //     this.allIndicators$.subscribe((indicatorsLoaded) => {
-    //       if (indicatorsLoaded) {
-    //         this.indicators = [];
-    //         _.map(indicatorsLoaded, (indicatorsByPage) => {
-    //           this.indicators = [...this.indicators, ...indicatorsByPage];
-    //           this.completedPercent =
-    //             100 * (this.indicators.length / this.totalAvailableIndicators);
-    //           if (this.completedPercent === 100) {
-    //             this.loading = false;
-    //             this.error = false;
-    //           }
-    //         });
-    //       }
-    //     });
-    //   } else {
-    //     this.indicatorsStore.dispatch(new indicators.loadIndicatorsAction());
-    //     this.indicatorsStore.dispatch(
-    //       new indicators.LoadIndicatorGroupsAction()
-    //     );
-    //     this.indicatorsList$ = this.indicatorsStore.select(
-    //       pipe(getListOfIndicators)
-    //     );
-    //     this.allIndicators$ = this.indicatorsStore.select(
-    //       pipe(getAllIndicators)
-    //     );
-    //     if (this.indicatorsList$) {
-    //       this.indicatorsList$.subscribe((indicatorListResult) => {
-    //         if (indicatorListResult) {
-    //           this.totalAvailableIndicators = indicatorListResult.pager
-    //             ? indicatorListResult.pager.total
-    //             : 0;
-    //           this.allIndicators$.subscribe((indicatorsLoaded) => {
-    //             if (indicatorsLoaded) {
-    //               this.indicators = [];
-    //               _.map(indicatorsLoaded, (indicatorsByPage) => {
-    //                 this.indicators = [...this.indicators, ...indicatorsByPage];
-    //                 this.loadedMetadata.emit({
-    //                   type: 'indicator',
-    //                   data: this.indicators,
-    //                 });
-    //                 this.completedPercent =
-    //                   100 *
-    //                   (this.indicators.length / this.totalAvailableIndicators);
-    //                 if (this.completedPercent === 100) {
-    //                   this.loading = false;
-    //                   this.error = false;
-    //                 }
-    //               });
-    //             }
-    //           });
-    //         }
-    //       });
-    //     }
-    //     this.indicatorGroups$ = this.indicatorsStore.pipe(
-    //       select(getIndicatorGroups)
-    //     );
-    //   }
-    // });
-    // this.indicatorGroups$.subscribe((groups) => {
-    //   if (groups) {
-    //     this.indicatorGroups = groups.indicatorGroups;
-    //     this.selectedMetadataGroups.emit(this.indicatorGroups);
-    //   }
-    // });
+  loadAllIndicators(
+    pageNumber: number,
+    itemPerPage: number,
+    searchingText?: string
+  ): void {
+    this.allIndicators$ = this.indicatorService.loadIndicatorsByPage(
+      pageNumber,
+      itemPerPage,
+      searchingText
+    );
+  }
+
+  getNewList(action: string, currentPage: number, itemsPerPage: number): void {
+    if (action === 'next') {
+      this.allIndicators$ = of(null);
+      this.loadAllIndicators(currentPage + 1, itemsPerPage, this.searchingText);
+    } else {
+      this.allIndicators$ = of(null);
+      this.loadAllIndicators(currentPage - 1, itemsPerPage, this.searchingText);
+    }
   }
 
   getActiveMetadataType(type) {

@@ -43,6 +43,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { IndicatorsEffects } from './store/effects/indicators.effects';
 import { IndicatorsService } from './services/indicators.service';
 import { ExportService } from './services/export.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { ExportService } from './services/export.service';
     MatButtonModule,
     MatTooltipModule,
     MatListModule,
+    MatProgressBarModule,
     StoreModule.forFeature('dictionary', dictionaryReducer),
     StoreModule.forFeature('indicatorsList', indicatorsListReducer),
     StoreModule.forFeature(
