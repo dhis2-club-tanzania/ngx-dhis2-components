@@ -3,21 +3,21 @@ import * as _ from 'lodash';
 
 @Pipe({
   name: 'filterBySearchInput',
-  pure: false
+  pure: false,
 })
 export class FilterBySearchInputPipe implements PipeTransform {
   transform(indicators: any[], searchingText: any): any {
     if (searchingText !== undefined && indicators !== null) {
       if (indicators.length > 0 && searchingText != '') {
         let splittedText = searchingText;
-        [',', '[', ']', '(', ')', ',', '.', '-', '_'].forEach(char => {
+        [',', '[', ']', '(', ')', ',', '.', '-', '_'].forEach((char) => {
           splittedText = splittedText.split(char).join(' ');
         });
         let newIndicators = [];
 
-        splittedText.split(' ').forEach(partOfSearchingText => {
+        splittedText.split(' ').forEach((partOfSearchingText) => {
           if (partOfSearchingText != '') {
-            _.map(newIndicators, formattedIndicator => {
+            _.map(newIndicators, (formattedIndicator) => {
               if (
                 formattedIndicator.name
                   .toLowerCase()
@@ -25,23 +25,23 @@ export class FilterBySearchInputPipe implements PipeTransform {
               ) {
                 newIndicators[
                   _.findIndex(newIndicators, {
-                    id: formattedIndicator.id
+                    id: formattedIndicator.id,
                   })
                 ]['priority'] += 1;
               }
             });
 
-            _.map(indicators, indicator => {
+            _.map(indicators, (indicator) => {
               if (
                 indicator.name
                   .toLowerCase()
                   .indexOf(partOfSearchingText.toLowerCase()) > -1 &&
                 _.findIndex(newIndicators, {
-                  id: indicator.id
+                  id: indicator.id,
                 }) == -1
               ) {
-                indicator['priority'] = 1;
-                newIndicators.push(indicator);
+                let newIndicator = { ...indicator, priority: 1 };
+                newIndicators.push(newIndicator);
               }
             });
           }
