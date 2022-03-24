@@ -146,6 +146,14 @@ export class IndicatorsListComponent implements OnInit {
       itemPerPage,
       searchingText
     );
+
+    this.indicatorGroups$ = this.indicatorsStore.select(getIndicatorGroups);
+    this.indicatorGroups$.subscribe((groups) => {
+      if (groups) {
+        this.indicatorGroups = groups.indicatorGroups;
+        this.selectedMetadataGroups.emit(this.indicatorGroups);
+      }
+    });
   }
 
   getNewList(action: string, currentPage: number, itemsPerPage: number): void {

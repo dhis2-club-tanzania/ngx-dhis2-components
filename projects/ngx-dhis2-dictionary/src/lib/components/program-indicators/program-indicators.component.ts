@@ -172,12 +172,15 @@ export class ProgramIndicatorsComponent implements OnInit {
         searchingText
       );
 
-    // this.programIndicatorGroups$.subscribe((groups) => {
-    //   if (groups) {
-    //     this.programIndicatorGroups = groups.programIndicatorGroups;
-    //     this.selectedMetadataGroups.emit(this.programIndicatorGroups);
-    //   }
-    // });
+    this.programIndicatorGroups$ = this.metadataStore.select(
+      getProgramIndicatorGroups
+    );
+    this.programIndicatorGroups$.subscribe((groups) => {
+      if (groups) {
+        this.programIndicatorGroups = groups.programIndicatorGroups;
+        this.selectedMetadataGroups.emit(this.programIndicatorGroups);
+      }
+    });
   }
 
   dwndToCSV(metadataObject$) {

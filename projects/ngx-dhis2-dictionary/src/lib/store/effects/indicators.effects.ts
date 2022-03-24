@@ -27,7 +27,7 @@ export class IndicatorsEffects {
   programIndicatorsList$: Observable<any> = this.actions$.pipe(
     ofType<IndicatorsAction>(IndicatorsActions.LoadProgramIndicators),
     switchMap(() =>
-      this.httpClient.get('programIndicators.json').pipe(
+      this.httpClient.get('programIndicators.json?paging=false').pipe(
         map(
           (programIndicatorsListObject: any) =>
             new loadProgramIndicatorsSuccessAction(programIndicatorsListObject)
