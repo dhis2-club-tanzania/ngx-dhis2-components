@@ -1,0 +1,54 @@
+<form *ngIf="dashboard" #dashboardForm="ngForm" class="dashboard-basic-details">
+  <mat-form-field class="w-100">
+    <mat-label>Name</mat-label>
+    <input
+      type="text"
+      matInput
+      required
+      [ngModel]="dashboard.name"
+      name="name"
+      #name="ngModel"
+    />
+    <mat-error *ngIf="name.invalid">name is required</mat-error>
+  </mat-form-field>
+  <mat-form-field class="w-100">
+    <mat-label>Description</mat-label>
+    <textarea
+      name=""
+      id=""
+      cols="30"
+      rows="4"
+      matInput
+      [ngModel]="dashboard.description"
+      name="description"
+      #description="ngModel"
+    ></textarea>
+    <input type="text" matInput />
+  </mat-form-field>
+
+  <div class="dashboard-form-buttons d-flex justify-content-between">
+    <button
+      mat-flat-button
+      color="warn"
+      class="d-print-none"
+      (click)="onDelete($event)"
+    >
+      <mat-icon inline>delete</mat-icon>
+      <span class="ml-2">Delete</span>
+    </button>
+    <div>
+      <button mat-stroked-button (click)="onClose($event)">Cancel</button>
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        class="ml-2"
+        [disabled]="!dashboardForm.form.valid"
+        (click)="onSubmit($event, dashboardForm)"
+      >
+        <mat-icon inline>save</mat-icon>
+        <span class="ml-2">Save Changes</span>
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,4 @@
+<mat-chip class="dashboard-menu-item" [color]="isCurrent ? 'primary': ''" [selected]="isCurrent"
+  (click)="onSetDashboard($event)">
+  {{ dashboard?.name }}
+</mat-chip>

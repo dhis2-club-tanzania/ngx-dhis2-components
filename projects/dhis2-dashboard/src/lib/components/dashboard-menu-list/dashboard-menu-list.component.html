@@ -1,0 +1,30 @@
+<div
+  class="dashboard-menu-list-{{ dashboardPreferences?.menuAlignment }} w-100"
+>
+  <div class="d-flex align-items-center">
+    <mat-form-field floatLabel="never">
+      <mat-icon matPrefix inline>search</mat-icon>
+      <input
+        matInput
+        type=" text"
+        (keyup)="onSearchDashboard($event)"
+        placeholder="Search Dashboard"
+      />
+    </mat-form-field>
+
+    <!-- dashboard menu items -->
+    <div class="dashboard-menu-list">
+      <mat-chip-list>
+        <app-dashboard-menu-item
+          *ngFor="let dashboard of dashboards"
+          [dashboard]="dashboard"
+          [menuAlignment]="dashboardPreferences?.menuAlignment"
+          [currentDashboardId]="currentDashboardId"
+          (setDashboard)="onSetCurrentDashboard($event)"
+        >
+        </app-dashboard-menu-item>
+      </mat-chip-list>
+    </div>
+    <!-- end of dashboard menu items -->
+  </div>
+</div>

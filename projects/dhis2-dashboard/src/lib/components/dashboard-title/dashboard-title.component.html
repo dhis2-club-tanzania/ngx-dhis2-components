@@ -1,0 +1,20 @@
+<div class="dashboard-title-container">
+  <!-- title section -->
+  <div class="dashboard-name">
+    {{ name }}
+  </div>
+  <!-- end of title section -->
+
+  <!-- edit button section -->
+  <button
+    accessControl
+    authority="DASHBOARD_UPDATE"
+    mat-stroked-button
+    class="ml-4 d-print-none"
+    (click)="onRename($event)"
+  >
+    <mat-icon inline class="text-muted">edit</mat-icon>
+    <span class="ml-2">Edit</span>
+  </button>
+  <!-- end of edit button section -->
+</div>

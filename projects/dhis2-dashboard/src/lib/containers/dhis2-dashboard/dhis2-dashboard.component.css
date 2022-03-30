@@ -1,0 +1,54 @@
+.dashboard-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+.dashboard-header,
+.dashboard-menu-top,
+.dashboard-content-top {
+  grid-column: span 12;
+}
+
+/**
+  TODO: Find a better way to work with the width thing
+  */
+.dashboard-menu-top {
+  position: fixed;
+  overflow-y: hidden;
+  z-index: 101;
+  width: calc(100% - 256px);
+}
+
+.dashboard-content-top {
+  margin-top: 70px;
+}
+
+.dashboard-header {
+  background-color: #ffffff;
+  padding-left: 20px;
+  padding-right: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: solid thin #dddddd;
+}
+
+.dashboard-brand {
+  font-size: 18px;
+}
+
+.dashboard-menu-left {
+  width: 300px;
+  top: 50px;
+  height: calc(100vh - 55px);
+  position: fixed;
+}
+
+.dashboard-content-left {
+  grid-column: span 12;
+  margin-left: 320px;
+}
+
+.dashboard-loader {
+  margin-top: 200px;
+}

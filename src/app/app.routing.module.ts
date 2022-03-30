@@ -9,11 +9,12 @@ import { DataFilterComponent } from './containers/data-filter/data-filter.compon
 import { DimensionFilterComponent } from './containers/dimension-filter/dimension-filter.component';
 import { SelectionFiltersComponent } from './containers/selection-filters/selection-filters.component';
 import { MenuComponent } from './containers/menu/menu.component';
+import { Dhis2DashboardComponent } from './containers/dhis2-dashboard/dhis2-dashboard.component';
 
 const routes: Routes = [
   {
     path: 'http-client',
-    component: HttpClientComponent
+    component: HttpClientComponent,
   },
   { path: 'dictionary', component: DictionaryComponent },
   { path: 'dictionary/:selected', component: DictionaryComponent },
@@ -24,13 +25,19 @@ const routes: Routes = [
   { path: 'dimension-filter', component: DimensionFilterComponent },
   {
     path: 'selection-filters',
-    component: SelectionFiltersComponent
+    component: SelectionFiltersComponent,
   },
-  { path: 'menu', component: MenuComponent }
+  { path: 'menu', component: MenuComponent },
+  { path: 'dashboard', component: Dhis2DashboardComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true, relativeLinkResolution: 'legacy' })],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes, {
+      useHash: true,
+      relativeLinkResolution: 'legacy',
+    }),
+  ],
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

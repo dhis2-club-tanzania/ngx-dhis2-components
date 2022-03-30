@@ -1,0 +1,48 @@
+.dashboard-menu-list-left,
+.dashboard-menu-list-top {
+  list-style-type: none;
+}
+
+.dashboard-menu-list-top {
+  display: flex;
+  padding: 0 15px 0 15px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.dashboard-menu-list-left > li,
+.dashboard-menu-list-top > li {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.dashboard-menu-list-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 5px 20px 5px 15px;
+  margin-bottom: 10px;
+}
+
+.dashboard-search {
+  margin-left: 20px;
+}
+
+.dashboard-menu-list {
+  margin-left: 10px;
+}
+
+.vertical-alignment {
+  align-items: center;
+  display: flex;
+}
+
+.vertical-alignment span {
+  margin-left: 6px;
+  cursor: pointer;
+}
+
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: 1.6em !important;
+}

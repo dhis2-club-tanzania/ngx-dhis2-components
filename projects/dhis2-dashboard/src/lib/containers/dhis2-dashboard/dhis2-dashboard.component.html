@@ -1,0 +1,28 @@
+<div
+  class="dhi2-dashboard-container"
+  *ngIf="{
+    currentUser: currentUser$ | async,
+    dashboards: dashboards$ | async
+  } as params"
+>
+  <div
+    *ngIf="params?.currentUser && params?.dashboards"
+    class="mat-elevation-z1 no-print"
+  >
+    <app-dashboard-menu
+      [dashboardPreferences]="null"
+      [dashboards]="params?.dashboards"
+    ></app-dashboard-menu>
+  </div>
+</div>
+
+<!-- 
+
+    [dashboardMode]="dashboardMode$ | async"
+      [userIsAdmin]="userIsAdmin$ | async"
+      [currentDashboard]="currentDashboard$ | async"
+      (setCurrentDashboard)="onSetCurrentDashboard($event)"
+      (addDashboard)="onAddDashboard()"
+      (actionUpdate)="onDashboardActionUpdate($event)"
+      (showHelp)="onShowHelpSection($event)"
+ -->

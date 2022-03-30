@@ -395,6 +395,37 @@
           }
         }
       }
+    },
+    "dhis2-dashboard": {
+      "projectType": "library",
+      "root": "projects/dhis2-dashboard",
+      "sourceRoot": "projects/dhis2-dashboard/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/dhis2-dashboard/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/dhis2-dashboard/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/dhis2-dashboard/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/dhis2-dashboard/src/test.ts",
+            "tsConfig": "projects/dhis2-dashboard/tsconfig.spec.json",
+            "karmaConfig": "projects/dhis2-dashboard/karma.conf.js"
+          }
+        }
+      }
     }
   },
   "defaultProject": "ngx-dhis2-components",

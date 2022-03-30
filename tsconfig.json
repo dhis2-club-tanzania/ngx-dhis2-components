@@ -14,6 +14,10 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2018", "dom"],
     "paths": {
+      "dhis2-dashboard": [
+        "dist/dhis2-dashboard/dhis2-dashboard",
+        "dist/dhis2-dashboard"
+      ],
       "ngx-dhis2-dictionary": [
         "dist/ngx-dhis2-dictionary/ngx-dhis2-dictionary",
         "dist/ngx-dhis2-dictionary",
