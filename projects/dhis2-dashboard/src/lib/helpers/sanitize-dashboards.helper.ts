@@ -3,16 +3,18 @@ export function sanitizeDashboards(dashboards: any[]) {
     return {
       ...dashboard,
       dashboardItems: dashboard?.dashboardItems.map((dashboardItem) => {
+        console.log(dashboardItem);
         return {
           ...dashboardItem,
-          visualization:
-            dashboardItem?.type === 'CHART'
+          visualization: !dashboardItem?.visualization
+            ? dashboardItem?.type === 'CHART'
               ? dashboardItem?.chart
               : dashboardItem?.type === 'MAP'
               ? dashboardItem?.map
               : dashboardItem?.type === 'REPORT_TABLE'
-              ? dashboardItem?.reports
-              : null,
+              ? dashboardItem?.reportTables
+              : null
+            : dashboardItem?.visualization,
         };
       }),
     };

@@ -83,6 +83,6 @@ import { FilterByNamePipe } from './pipes/filter-by-name.pipe';
     NgxDhis2PeriodFilterModule,
     NgxDhis2OrgUnitFilterModule,
   ],
-  exports: [Dhis2DashboardComponent, ...materialModules],
+  exports: [Dhis2DashboardComponent],
 })
 export class Dhis2DashboardModule {}

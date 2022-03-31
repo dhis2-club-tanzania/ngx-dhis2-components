@@ -31,7 +31,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     BrowserAnimationsModule,
     NgxDhis2HttpClientModule.forRoot({
-      namespace: 'hisptz',
+      namespace: 'iapps',
       version: 1,
       models: {
         users: 'id',

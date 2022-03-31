@@ -7,6 +7,9 @@
   <lib-dashboard
     *ngIf="params?.currentUser"
     [currentUser]="params?.currentUser"
+    [useDataStore]="useDataStore"
+    [currentDashboardId]="currentDashboardId"
+    (currentDashboard)="onGetCurrentDashboard($event)"
   ></lib-dashboard>
   <mat-progress-bar
     *ngIf="!params?.currentUser"

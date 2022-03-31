@@ -2,7 +2,10 @@ import { createAction, props } from '@ngrx/store';
 import { DashboardItem } from '../../models/dashboard-item.model';
 import { Dashboard } from '../../models/dashboard.model';
 
-export const loadDashboards = createAction('[Dashboard] Load Dashboards');
+export const loadDashboards = createAction(
+  '[Dashboard] Load Dashboards',
+  props<{ useDataStore: boolean; dataStoreKeyRef: string }>()
+);
 
 export const loadDashboardsFail = createAction(
   '[Dashboard] Load Dashboards fail',

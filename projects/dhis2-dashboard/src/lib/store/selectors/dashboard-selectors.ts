@@ -59,7 +59,7 @@ export const getDashboardMenuList = createSelector(
 export const getCurrentDashboardId = createSelector(
   getDashboardState,
   (state: DashboardState) =>
-    state.currentDashboard ? state?.currentDashboard : state?.ids[2]
+    state.currentDashboard ? state?.currentDashboard : state?.ids[0]
 );
 
 export const getCurrentChartType = createSelector(

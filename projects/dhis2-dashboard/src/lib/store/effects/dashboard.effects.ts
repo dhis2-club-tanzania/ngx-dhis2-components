@@ -9,15 +9,14 @@ import {
   loadDashboards,
   loadDashboardsFail,
 } from '../actions/dashboard.actions';
-import { DashboardState } from '../states/dashboard.state';
 
 @Injectable()
-export class DashboardEffects implements OnInitEffects {
+export class DashboardEffects {
   loadDashboards$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadDashboards),
-      switchMap(() => {
-        return this.dashboardService.getAll().pipe(
+      switchMap((action) => {
+        return this.dashboardService.getAll(action).pipe(
           map((response) => {
             return addDashboards({ dashboards: response });
           }),
@@ -26,10 +25,6 @@ export class DashboardEffects implements OnInitEffects {
       })
     )
   );
-
-  ngrxOnInitEffects(): Action {
-    return loadDashboards();
-  }
 
   constructor(
     private actions$: Actions,

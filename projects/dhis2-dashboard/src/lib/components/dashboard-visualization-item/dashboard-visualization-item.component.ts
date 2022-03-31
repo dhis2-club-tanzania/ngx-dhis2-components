@@ -19,7 +19,6 @@ export class DashboardVisualizationItemComponent implements OnInit {
 
   loadDashboardItemConfigs(selections: any[]): void {
     // TODO: Renaming should be done
-    console.log(selections);
     this.dashboardItemChartConfig$ =
       this.dashboardService.getVisualizationsConfigs(
         this.dashboardItemConfig,

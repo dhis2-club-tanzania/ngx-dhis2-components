@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { User } from '@iapps/ngx-dhis2-http-client';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { loadDashboards } from '../../store/actions/dashboard.actions';
 import { DashboardAppState } from '../../store/reducers';
 import { getCurrentUser } from '../../store/selectors/user.selectors';
 
@@ -12,9 +13,23 @@ import { getCurrentUser } from '../../store/selectors/user.selectors';
 })
 export class Dhis2DashboardComponent implements OnInit {
   currentUser$: Observable<User>;
+  @Input() currentDashboardId: string;
+  @Input() useDataStore: boolean;
+  @Input() dataStoreKeyRef: string;
+  @Output() currentDashboard: EventEmitter<string> = new EventEmitter<string>();
   constructor(private store: Store<DashboardAppState>) {}
 
   ngOnInit(): void {
     this.currentUser$ = this.store.select(getCurrentUser);
+    this.store.dispatch(
+      loadDashboards({
+        useDataStore: this.useDataStore,
+        dataStoreKeyRef: this.dataStoreKeyRef,
+      })
+    );
+  }
+
+  onGetCurrentDashboard(id: string): void {
+    this.currentDashboard.emit(id);
   }
 }

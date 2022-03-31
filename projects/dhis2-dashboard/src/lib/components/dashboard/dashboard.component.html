@@ -21,6 +21,7 @@
     <lib-current-dashboard
       *ngIf="params?.currentDashboard"
       [currentDashboard]="params?.currentDashboard"
+      (currentDashboardId)="onGetCurrentDashboardId($event)"
     ></lib-current-dashboard>
   </div>
 

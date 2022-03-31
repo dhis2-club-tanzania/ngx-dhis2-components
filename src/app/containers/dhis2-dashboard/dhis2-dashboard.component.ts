@@ -3,13 +3,18 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-dhis2-dashboard',
   templateUrl: './dhis2-dashboard.component.html',
-  styleUrls: ['./dhis2-dashboard.component.scss']
+  styleUrls: ['./dhis2-dashboard.component.scss'],
 })
 export class Dhis2DashboardComponent implements OnInit {
+  currentDashboardId: string = '';
+  useDataStore: boolean = true;
+  dataStoreKeyRef: 'ehs-surveillance';
+  constructor() {}
 
-  constructor() { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
+  onGetCurrentDashboard(id: string): void {
+    // console.log(id);
+    // this.currentDashboardId = id;
   }
-
 }

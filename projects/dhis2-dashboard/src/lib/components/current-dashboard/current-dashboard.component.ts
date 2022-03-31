@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'lib-current-dashboard',
@@ -7,7 +7,11 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class CurrentDashboardComponent implements OnInit {
   @Input() currentDashboard: any;
+  @Output() currentDashboardId: EventEmitter<string> =
+    new EventEmitter<string>();
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.currentDashboardId.emit(this.currentDashboard?.id);
+  }
 }

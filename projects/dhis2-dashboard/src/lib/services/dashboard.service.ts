@@ -1,31 +1,76 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { Dashboard } from '../models/dashboard.model';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { sanitizeDashboards } from '../helpers/sanitize-dashboards.helper';
 import { keyBy } from 'lodash';
+import * as async from 'async';
 
 const dashboardApiFields =
   'fields=id,name,user[id,name],description,access,created,lastUpdated,' +
   'favorite,dashboardItems[id,type,height,width,x,y,shape,map[id,name],' +
   'chart[id,name],eventChart[id,name],reportTable[id,name],resources[id,name],' +
-  'reports[id,name],messages[id,name]],favorites&pageSize=5';
+  'reports[id,name],messages[id,name]],favorites&pageSize=10';
 const dashboardApiNamespace = 'dashboards';
 @Injectable()
 export class DashboardService {
   constructor(private httpClient: NgxDhis2HttpClientService) {}
 
-  getAll() {
-    return this.httpClient
-      .get(`${dashboardApiNamespace}?${dashboardApiFields}`)
-      .pipe(
-        map((dashboardResponse: any) =>
-          dashboardResponse.dashboards
-            ? sanitizeDashboards(dashboardResponse.dashboards)
-            : [] || []
-        )
+  getAll(configs: any) {
+    if (!configs?.useDataStore) {
+      return this.httpClient
+        .get(`${dashboardApiNamespace}?${dashboardApiFields}`)
+        .pipe(
+          map((dashboardResponse: any) =>
+            dashboardResponse.dashboards
+              ? sanitizeDashboards(dashboardResponse.dashboards)
+              : [] || []
+          )
+        );
+    } else {
+      return this.getDashboardKeys(configs?.dataStoreKeyRef).pipe(
+        switchMap((keys) => {
+          return this.loadAll(keys);
+        })
       );
+    }
+  }
+
+  loadAll(keys): Observable<any> {
+    let data = [];
+    return new Observable((observer) => {
+      async.mapLimit(
+        keys,
+        10,
+        async.reflect((key, callback) => {
+          this.httpClient.get(`dataStore/dashboards/${key}`).subscribe(
+            (results) => {
+              data = [...data, results];
+              callback(null, results);
+            },
+            (err) => {
+              callback(err, null);
+            }
+          );
+        }),
+        () => {
+          const response = data ? sanitizeDashboards(data) : [] || [];
+          observer.next(response);
+          observer.complete();
+        }
+      );
+    });
+  }
+
+  getDashboardKeys(keysPrefix): Observable<string[]> {
+    return this.httpClient.get(`dataStore/dashboards.json`).pipe(
+      map((response) => {
+        return response && response?.length > 0
+          ? response?.filter((key) => key.indexOf(keysPrefix) > -1) || []
+          : [];
+      })
+    );
   }
 
   getOne(id: string) {
@@ -103,13 +148,12 @@ export class DashboardService {
   }
 
   getVisualizationsConfigs(item: any, selections?: any[]): Observable<any> {
+    console.log(item);
     const url = `${item?.type.toLowerCase()}s/${
       item?.visualization?.id
     }.json?fields=id,name,type,dataElementDimensions,displayName~rename(name),displayDescription~rename(description),columns[dimension,legendSet[id],filter,items[dimensionItem~rename(id),displayName~rename(name),dimensionItemType]],rows[dimension,legendSet[id],filter,items[dimensionItem~rename(id),displayName~rename(name),dimensionItemType]],filters[dimension,legendSet[id],filter,items[dimensionItem~rename(id),displayName~rename(name),dimensionItemType]]`;
     return this.httpClient.get(url).pipe(
       map((response) => {
-        console.log(selections);
-        console.log(response);
         const selectionsKeyedByDimensions = keyBy(selections, 'dimension');
         return !selections
           ? response
