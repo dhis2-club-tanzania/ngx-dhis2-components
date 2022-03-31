@@ -1,1 +1,31 @@
-<p>dashboard works!</p>
+<div
+  class="dhi2-dashboard-container"
+  *ngIf="{
+    currentDashboard: currentDashboard$ | async,
+    dashboards: dashboards$ | async
+  } as params"
+>
+  <div
+    *ngIf="params?.currentDashboard && params?.dashboards"
+    class="mat-elevation-z1 no-print"
+  >
+    <app-dashboard-menu
+      [dashboardPreferences]="null"
+      [dashboards]="params?.dashboards"
+      [currentDashboard]="params?.currentDashboard"
+      (setCurrentDashboard)="onSetCurrentDashboard($event)"
+    ></app-dashboard-menu>
+  </div>
+
+  <div class="current-selected-dashboard mt-2">
+    <lib-current-dashboard
+      *ngIf="params?.currentDashboard"
+      [currentDashboard]="params?.currentDashboard"
+    ></lib-current-dashboard>
+  </div>
+
+  <mat-progress-bar
+    *ngIf="!params?.currentDashboard || !params?.dashboards"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</div>

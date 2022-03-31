@@ -29,6 +29,11 @@ import { globalFilterReducer } from './store/reducers/global-filter.reducer';
 import { systemInfoReducer } from './store/reducers/system-info.reducer';
 import { userReducer } from './store/reducers/user.reducer';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { DashboardVisualizationItemComponent } from './components/dashboard-visualization-item/dashboard-visualization-item.component';
+import { CurrentDashboardComponent } from './components/current-dashboard/current-dashboard.component';
+import { ChartContainerComponent } from './components/chart-container/chart-container.component';
+import { DashboardItemsListComponent } from './components/dashboard-items-list/dashboard-items-list.component';
+import { VisualizationLoaderComponent } from './components/visualization-loader/visualization-loader.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +48,11 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     DashboardTitleComponent,
     SummarizeSelectionPipe,
     DashboardComponent,
+    ChartContainerComponent,
+    DashboardItemsListComponent,
+    VisualizationLoaderComponent,
+    DashboardVisualizationItemComponent,
+    CurrentDashboardComponent,
   ],
   providers: [
     DashboardItemService,

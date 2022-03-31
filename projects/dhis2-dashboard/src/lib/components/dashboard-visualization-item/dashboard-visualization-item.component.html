@@ -1,0 +1,26 @@
+<div
+  *ngIf="{
+    dashboardItemChartConfig: dashboardItemChartConfig$ | async
+  } as params"
+>
+  <mat-card class="visualization-card">
+    <div class="visualization-body-content-block">
+      <!-- configs loader -->
+      <div class="visualization-body-loader">
+        <app-visualization-loader
+          *ngIf="!params?.dashboardItemChartConfig"
+          [name]="params?.dashboardItemChartConfig?.visualization?.name"
+        ></app-visualization-loader>
+      </div>
+
+      <!-- show error message on failed configs -->
+
+      <!-- pass configs to chart loader -->
+      <app-chart-container
+        *ngIf="params?.dashboardItemChartConfig"
+        [dashbordItemConfigs]="dashboardItemConfig"
+        [chartConfigs]="params?.dashboardItemChartConfig"
+      ></app-chart-container>
+    </div>
+  </mat-card>
+</div>

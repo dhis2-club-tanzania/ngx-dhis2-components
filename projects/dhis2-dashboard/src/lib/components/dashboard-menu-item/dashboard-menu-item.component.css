@@ -5,3 +5,8 @@
   font-weight: normal;
   font-size: 13px;
 }
+
+.current-dashboard {
+  background-color: #276696;
+  color: #fff;
+}

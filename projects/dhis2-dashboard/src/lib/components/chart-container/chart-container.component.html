@@ -1,0 +1,11 @@
+<ng-container *ngIf="{ analytics: visualizationAnalytics$ | async } as params">
+  <app-visualization-loader
+    *ngIf="loadingData"
+    [visualizationType]="dashbordItemConfigs?.type"
+    [name]="dashbordItemConfigs?.visualization?.name"
+  ></app-visualization-loader>
+
+  <div *ngIf="!loadingData && dataLoaded">
+    <div [id]="chartConfigs?.id"></div>
+  </div>
+</ng-container>

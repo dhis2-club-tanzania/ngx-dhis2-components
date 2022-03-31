@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { Dashboard } from '../models/dashboard.model';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
+import { sanitizeDashboards } from '../helpers/sanitize-dashboards.helper';
 
 const dashboardApiFields =
   'fields=id,name,user[id,name],description,access,created,lastUpdated,' +
@@ -18,7 +19,11 @@ export class DashboardService {
     return this.httpClient
       .get(`${dashboardApiNamespace}?${dashboardApiFields}`)
       .pipe(
-        map((dashboardResponse: any) => dashboardResponse.dashboards || [])
+        map((dashboardResponse: any) =>
+          dashboardResponse.dashboards
+            ? sanitizeDashboards(dashboardResponse.dashboards)
+            : [] || []
+        )
       );
   }
 
@@ -71,5 +76,41 @@ export class DashboardService {
 
   delete(id: string) {
     return this.httpClient.delete(`${dashboardApiNamespace}/${id}`);
+  }
+
+  // NEW
+  getAllDashboardConfigs() {
+    const url = 'dataStore/ehs/dashboards';
+    return this.httpClient.get(url);
+  }
+
+  getDashboardItemsConfigs(id: String) {
+    const dashboardConfigsUrl = `dashboards/${id}.json?fields=id,name,description,favorite,dashboardItems[id,type,shape,visualization[id],chart~rename(visualization)]`;
+
+    return this.httpClient.get(dashboardConfigsUrl).pipe(
+      map((results) => results),
+      catchError((error) => {
+        return of({});
+      })
+    );
+  }
+
+  getChartConfigs(chartId: String) {
+    const chartUrl = `visualizations/${chartId}.json?fields=id,type,dataElementDimensions,displayName~rename(name),displayDescription~rename(description),columns[dimension,legendSet[id],filter,items[dimensionItem~rename(id),displayName~rename(name),dimensionItemType]],rows[dimension,legendSet[id],filter,items[dimensionItem~rename(id),displayName~rename(name),dimensionItemType]],filters[dimension,legendSet[id],filter,items[dimensionItem~rename(id),displayName~rename(name),dimensionItemType]]`;
+
+    return this.httpClient.get(chartUrl);
+  }
+
+  getVisualizationsConfigs(item: any): Observable<any> {
+    const url = `${item?.type.toLowerCase()}s/${
+      item?.visualization?.id
+    }.json?fields=id,name,type,dataElementDimensions,displayName~rename(name),displayDescription~rename(description),columns[dimension,legendSet[id],filter,items[dimensionItem~rename(id),displayName~rename(name),dimensionItemType]],rows[dimension,legendSet[id],filter,items[dimensionItem~rename(id),displayName~rename(name),dimensionItemType]],filters[dimension,legendSet[id],filter,items[dimensionItem~rename(id),displayName~rename(name),dimensionItemType]]`;
+    return this.httpClient.get(url);
+  }
+
+  fetchDashboardItemAnalyticsData() {
+    const url = 'dataStore';
+
+    return this.httpClient.get(url);
   }
 }

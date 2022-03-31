@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
+import { Fn } from '@iapps/function-analytics';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
   components: any[];
+  constructor(private httpClient: NgxDhis2HttpClientService) {}
   ngOnInit() {
+    this.httpClient.rootUrl().subscribe((rootUrl) => {
+      if (Fn) {
+        Fn.init({
+          baseUrl: `${rootUrl}api/`,
+        });
+      }
+    });
     this.components = [
       {
         id: 'http-client',

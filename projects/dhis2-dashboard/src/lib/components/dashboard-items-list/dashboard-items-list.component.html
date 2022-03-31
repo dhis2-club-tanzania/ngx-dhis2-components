@@ -1,0 +1,18 @@
+<div>
+  <div class="row">
+    <ng-container *ngFor="let item of dashboardItems">
+      <div class="col-sm-6 mb-3">
+        <!-- Put filters here -->
+        <lib-dashboard-visualization-item
+          [dashboardItemConfig]="item"
+        ></lib-dashboard-visualization-item>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<!-- 
+[ngClass]="{
+  'col-sm-12': item.shape === 'DOUBLE_WIDTH',
+  'col-sm-6': item.shape === 'NORMAL'
+}" -->

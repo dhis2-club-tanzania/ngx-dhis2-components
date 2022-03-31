@@ -1,19 +1,17 @@
 <div
   class="dhi2-dashboard-container"
   *ngIf="{
-    currentUser: currentUser$ | async,
-    dashboards: dashboards$ | async
+    currentUser: currentUser$ | async
   } as params"
 >
-  <div
-    *ngIf="params?.currentUser && params?.dashboards"
-    class="mat-elevation-z1 no-print"
-  >
-    <app-dashboard-menu
-      [dashboardPreferences]="null"
-      [dashboards]="params?.dashboards"
-    ></app-dashboard-menu>
-  </div>
+  <lib-dashboard
+    *ngIf="params?.currentUser"
+    [currentUser]="params?.currentUser"
+  ></lib-dashboard>
+  <mat-progress-bar
+    *ngIf="!params?.currentUser"
+    mode="indeterminate"
+  ></mat-progress-bar>
 </div>
 
 <!-- 
