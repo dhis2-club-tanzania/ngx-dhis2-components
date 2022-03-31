@@ -46,3 +46,7 @@
 ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
   padding-bottom: 1.6em !important;
 }
+
+.menu-list-container {
+  padding: 0 8px;
+}
