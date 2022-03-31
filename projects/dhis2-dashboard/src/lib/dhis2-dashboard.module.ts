@@ -34,6 +34,9 @@ import { CurrentDashboardComponent } from './components/current-dashboard/curren
 import { ChartContainerComponent } from './components/chart-container/chart-container.component';
 import { DashboardItemsListComponent } from './components/dashboard-items-list/dashboard-items-list.component';
 import { VisualizationLoaderComponent } from './components/visualization-loader/visualization-loader.component';
+import { VisualizationFiltersComponent } from './components/visualization-filters/visualization-filters.component';
+import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
+import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
 
 @NgModule({
   declarations: [
@@ -53,6 +56,7 @@ import { VisualizationLoaderComponent } from './components/visualization-loader/
     VisualizationLoaderComponent,
     DashboardVisualizationItemComponent,
     CurrentDashboardComponent,
+    VisualizationFiltersComponent,
   ],
   providers: [
     DashboardItemService,
@@ -74,6 +78,8 @@ import { VisualizationLoaderComponent } from './components/visualization-loader/
       RouterEffects,
     ]),
     ...materialModules,
+    NgxDhis2PeriodFilterModule,
+    NgxDhis2OrgUnitFilterModule,
   ],
   exports: [Dhis2DashboardComponent, ...materialModules],
 })

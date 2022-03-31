@@ -2,10 +2,57 @@
   <div class="row">
     <ng-container *ngFor="let item of dashboardItems">
       <div class="col-sm-6 mb-3">
-        <!-- Put filters here -->
-        <lib-dashboard-visualization-item
-          [dashboardItemConfig]="item"
-        ></lib-dashboard-visualization-item>
+        <mat-card class="visualization-card">
+          <div class="w-100 d-flex justify-content-left">
+            <button
+              mat-stroked-button
+              (click)="toggleFilters($event, item?.id)"
+            >
+              Filters
+            </button>
+            <button
+              *ngIf="itemsToShowFilters[item?.id]"
+              mat-stroked-button
+              (click)="toggleFilterType($event, 'PERIOD')"
+            >
+              Period
+            </button>
+            <button
+              *ngIf="itemsToShowFilters[item?.id]"
+              mat-stroked-button
+              (click)="toggleFilterType($event, 'ORG_UNIT')"
+            >
+              Org Unit
+            </button>
+          </div>
+
+          <div
+            style="
+              border: solid 1px #eee;
+              position: absolute;
+              z-index: 101;
+              background-color: #fff;
+            "
+          >
+            <lib-visualization-filters
+              *ngIf="itemsToShowFilters[item?.id]"
+              [filterType]="currentFilterType"
+            ></lib-visualization-filters>
+            <div
+              class="d-flex justify-content-end mt-2 mb-2"
+              *ngIf="itemsToShowFilters[item?.id]"
+            >
+              <button mat-stroked-button>Cancel</button>
+              <button mat-stroked-button class="ml-2">Update</button>
+            </div>
+          </div>
+          <!-- {{ item | json }} -->
+          <div style="z-index: 100">
+            <lib-dashboard-visualization-item
+              [dashboardItemConfig]="item"
+            ></lib-dashboard-visualization-item>
+          </div>
+        </mat-card>
       </div>
     </ng-container>
   </div>
