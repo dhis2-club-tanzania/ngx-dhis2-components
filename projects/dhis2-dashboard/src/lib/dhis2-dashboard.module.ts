@@ -37,6 +37,7 @@ import { VisualizationLoaderComponent } from './components/visualization-loader/
 import { VisualizationFiltersComponent } from './components/visualization-filters/visualization-filters.component';
 import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
 import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
+import { FilterByNamePipe } from './pipes/filter-by-name.pipe';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
     DashboardLoaderComponent,
     DashboardTitleComponent,
     SummarizeSelectionPipe,
+    FilterByNamePipe,
     DashboardComponent,
     ChartContainerComponent,
     DashboardItemsListComponent,

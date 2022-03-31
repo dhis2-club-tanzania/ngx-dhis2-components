@@ -46,8 +46,6 @@ const reducer = createReducer(
     ...loadingBaseState,
   })),
   on(addDashboards, (state, { dashboards }) => {
-    console.log('dashboards', dashboards);
-    console.log('state', state);
     return dashboardAdapter.addMany(dashboards, {
       ...state,
       ...loadedBaseState,

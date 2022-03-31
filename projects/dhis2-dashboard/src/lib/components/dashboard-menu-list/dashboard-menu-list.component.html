@@ -1,5 +1,7 @@
 <div
-  class="dashboard-menu-list-{{ dashboardPreferences?.menuAlignment }} w-100"
+  class="menu-list-container dashboard-menu-list-{{
+    dashboardPreferences?.menuAlignment
+  }} w-100"
 >
   <div class="d-flex align-items-center">
     <mat-form-field floatLabel="never">
@@ -16,7 +18,7 @@
     <div class="dashboard-menu-list">
       <mat-chip-list>
         <app-dashboard-menu-item
-          *ngFor="let dashboard of dashboards"
+          *ngFor="let dashboard of dashboards | filterByName: searchTerm"
           [dashboard]="dashboard"
           [menuAlignment]="dashboardPreferences?.menuAlignment"
           [currentDashboardId]="currentDashboardId"

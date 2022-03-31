@@ -20,7 +20,6 @@ export class ChartContainerComponent implements OnInit {
   constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
-    console.log(JSON.stringify(this.chartConfigs));
     this.loadingData = true;
     this.dataLoaded = false;
 
@@ -86,15 +85,6 @@ export class ChartContainerComponent implements OnInit {
   }
 
   drawChart(analytics: any) {
-    // console.log('the analytics results');
-    // console.log(analytics?._data);
-
-    // console.log('dboard item configs');
-    // console.log(this.dashbordItemConfigs);
-
-    // console.log('the chart configs');
-    // console.log(this.chartConfigs);
-
     let config = {
       renderId: this.chartConfigs?.id,
       type: this.dashbordItemConfigs?.type,
@@ -127,15 +117,6 @@ export class ChartContainerComponent implements OnInit {
       ),
       touched: true,
     };
-
-    console.log('the analytics :: ');
-    console.log(analytics);
-
-    console.log('configurations  :: ');
-    console.log(config);
-
-    console.log('chart configs :: ');
-    console.log(this.chartConfigs);
 
     const visualizer = new D2Visualizer()
       .setConfig(config)

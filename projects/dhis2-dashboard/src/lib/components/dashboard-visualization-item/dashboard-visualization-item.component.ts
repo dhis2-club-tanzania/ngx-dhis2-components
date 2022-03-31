@@ -9,11 +9,21 @@ import { DashboardService } from '../../services/dashboard.service';
 })
 export class DashboardVisualizationItemComponent implements OnInit {
   @Input() dashboardItemConfig: any;
+  @Input() selections: any[];
   dashboardItemChartConfig$: Observable<any>;
   constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
+    this.loadDashboardItemConfigs(this.selections);
+  }
+
+  loadDashboardItemConfigs(selections: any[]): void {
+    // TODO: Renaming should be done
+    console.log(selections);
     this.dashboardItemChartConfig$ =
-      this.dashboardService.getVisualizationsConfigs(this.dashboardItemConfig);
+      this.dashboardService.getVisualizationsConfigs(
+        this.dashboardItemConfig,
+        selections
+      );
   }
 }

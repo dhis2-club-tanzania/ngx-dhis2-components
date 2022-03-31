@@ -11,6 +11,7 @@
               Filters
             </button>
             <button
+              class="ml-1"
               *ngIf="itemsToShowFilters[item?.id]"
               mat-stroked-button
               (click)="toggleFilterType($event, 'PERIOD')"
@@ -18,6 +19,7 @@
               Period
             </button>
             <button
+              class="ml-1"
               *ngIf="itemsToShowFilters[item?.id]"
               mat-stroked-button
               (click)="toggleFilterType($event, 'ORG_UNIT')"
@@ -27,29 +29,42 @@
           </div>
 
           <div
+            class="mt-1"
             style="
               border: solid 1px #eee;
               position: absolute;
               z-index: 101;
+              padding: 4px 8px;
               background-color: #fff;
+              width: 100%;
             "
+            *ngIf="showFilterSelections && itemsToShowFilters[item?.id]"
           >
             <lib-visualization-filters
-              *ngIf="itemsToShowFilters[item?.id]"
               [filterType]="currentFilterType"
+              (selections)="onGetSelections($event)"
             ></lib-visualization-filters>
             <div
-              class="d-flex justify-content-end mt-2 mb-2"
-              *ngIf="itemsToShowFilters[item?.id]"
+              [ngClass]="{ 'mt-2': currentFilterType != 'PERIOD' }"
+              class="d-flex justify-content-end mb-2"
             >
-              <button mat-stroked-button>Cancel</button>
-              <button mat-stroked-button class="ml-2">Update</button>
+              <button mat-stroked-button (click)="onCancel($event)">
+                Cancel
+              </button>
+              <button
+                mat-stroked-button
+                class="ml-2"
+                (click)="onUpdate($event, selections)"
+              >
+                Update
+              </button>
             </div>
           </div>
           <!-- {{ item | json }} -->
           <div style="z-index: 100">
             <lib-dashboard-visualization-item
               [dashboardItemConfig]="item"
+              [selections]="selections"
             ></lib-dashboard-visualization-item>
           </div>
         </mat-card>
