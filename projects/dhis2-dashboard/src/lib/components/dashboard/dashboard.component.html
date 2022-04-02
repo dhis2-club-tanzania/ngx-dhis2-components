@@ -5,16 +5,19 @@
     dashboards: dashboards$ | async
   } as params"
 >
-  <div
-    *ngIf="params?.currentDashboard && params?.dashboards"
-    class="mat-elevation-z1 no-print"
-  >
+  <div *ngIf="params?.dashboards" class="mat-elevation-z1 no-print">
     <app-dashboard-menu
       [dashboardPreferences]="null"
       [dashboards]="params?.dashboards"
-      [currentDashboard]="params?.currentDashboard"
+      [currentDashboardId]="
+        currentDashboardId ? currentDashboardId : params?.dashboards[0]?.id
+      "
       (setCurrentDashboard)="onSetCurrentDashboard($event)"
     ></app-dashboard-menu>
+    <mat-progress-bar
+      *ngIf="!params?.dashboards"
+      mode="indeterminate"
+    ></mat-progress-bar>
   </div>
 
   <div class="current-selected-dashboard mt-2">
@@ -23,10 +26,10 @@
       [currentDashboard]="params?.currentDashboard"
       (currentDashboardId)="onGetCurrentDashboardId($event)"
     ></lib-current-dashboard>
-  </div>
 
-  <mat-progress-bar
-    *ngIf="!params?.currentDashboard || !params?.dashboards"
-    mode="indeterminate"
-  ></mat-progress-bar>
+    <mat-progress-bar
+      *ngIf="!params?.currentDashboard"
+      mode="indeterminate"
+    ></mat-progress-bar>
+  </div>
 </div>

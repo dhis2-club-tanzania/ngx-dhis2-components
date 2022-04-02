@@ -10,8 +10,6 @@ import { DashboardPreferences } from '../../models/dashboard-preferences.model';
 import { Dashboard } from '../../models/dashboard.model';
 import { DashboardModeState } from '../../models/dashboard-mode.mode';
 import { DashboardActionUpdate } from '../../models/dashboard-action-update.model';
-import { DashboardAction } from '../../models/dashboard-action.model';
-import { DASHBOARD_ACTIONS } from '../../constants/dashboard-actions.constant';
 
 @Component({
   selector: 'app-dashboard-menu',
@@ -22,11 +20,10 @@ import { DASHBOARD_ACTIONS } from '../../constants/dashboard-actions.constant';
 export class DashboardMenuComponent implements OnInit {
   @Input() dashboardPreferences: DashboardPreferences;
   @Input() dashboards: Dashboard[];
-  @Input() currentDashboard: Dashboard;
+  @Input() currentDashboardId: string;
+  currentDashboard: Dashboard;
   @Input() dashboardMode: DashboardModeState;
   @Input() userIsAdmin: boolean;
-
-  dashboardActions: DashboardAction[];
 
   @Output() setCurrentDashboard: EventEmitter<string> =
     new EventEmitter<string>();
@@ -37,7 +34,9 @@ export class DashboardMenuComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.dashboardActions = DASHBOARD_ACTIONS;
+    this.currentDashboard = (this.dashboards.filter(
+      (dashboard) => dashboard?.id === this.currentDashboardId
+    ) || [])[0];
   }
 
   onSetCurrentDashboard(id: string) {
