@@ -4,3 +4,7 @@
   position: relative;
   padding: 4px;
 }
+
+.active-filter-type {
+  background-color: #e0e0e0;
+}

@@ -26,6 +26,9 @@
             </button>
             <button
               class="ml-1"
+              [ngClass]="{
+                'active-filter-type': currentFilterType == 'PERIOD'
+              }"
               *ngIf="currentDashboardItemId == item?.id"
               mat-stroked-button
               (click)="toggleFilterType($event, 'PERIOD')"
@@ -34,6 +37,9 @@
             </button>
             <button
               class="ml-1"
+              [ngClass]="{
+                'active-filter-type': currentFilterType == 'ORG_UNIT'
+              }"
               *ngIf="currentDashboardItemId == item?.id"
               mat-stroked-button
               (click)="toggleFilterType($event, 'ORG_UNIT')"
