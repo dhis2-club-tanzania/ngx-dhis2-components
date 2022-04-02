@@ -7,8 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Dhis2DashboardComponent implements OnInit {
   currentDashboardId: string = '';
-  useDataStore: boolean = true;
-  dataStoreKeyRef: 'ehs-surveillance';
+  useDataStore: boolean = false;
+  dataStoreKeyRef: string = 'ehs-surveillance';
   constructor() {}
 
   ngOnInit(): void {}

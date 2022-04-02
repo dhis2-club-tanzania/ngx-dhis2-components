@@ -1,6 +1,14 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { omit } from 'lodash';
 import { DashboardVisualizationItemComponent } from '../dashboard-visualization-item/dashboard-visualization-item.component';
+import { orderBy } from 'lodash';
 
 @Component({
   selector: 'app-dashboard-items-list',
@@ -9,26 +17,37 @@ import { DashboardVisualizationItemComponent } from '../dashboard-visualization-
 })
 export class DashboardItemsListComponent implements OnInit {
   @Input() dashboardItems: any[];
-  itemsToShowFilters: any = {};
+  currentDashboardItemId: string;
   currentFilterType: string = 'PERIOD';
   selections: any[];
   showFilterSelections: boolean = true;
   shouldRenderAnItem: boolean = true;
 
-  @ViewChild(DashboardVisualizationItemComponent, { static: false })
-  visualizationComponent: DashboardVisualizationItemComponent;
+  @ViewChildren('vizItem')
+  visualizationComponents: QueryList<DashboardVisualizationItemComponent>;
 
+  formattedDashboardItems: any[];
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // this.formattedDashboardItems = orderBy(
+    //   this.dashboardItems,
+    //   ['y', 'x'],
+    //   ['asc', 'asc']
+    // ).map((item) => {
+    //   return {
+    //     ...item,
+    //     rows: item?.height,
+    //     cols: item?.width,
+    //   };
+    // });
+    // console.log(this.formattedDashboardItems);
+  }
 
   toggleFilters(event: Event, itemId: string): void {
     event.stopPropagation();
-    if (!this.itemsToShowFilters[itemId]) {
-      this.itemsToShowFilters[itemId] = itemId;
-    } else {
-      this.itemsToShowFilters = omit(this.itemsToShowFilters, itemId);
-    }
+    this.currentDashboardItemId =
+      this.currentDashboardItemId == itemId ? null : itemId;
   }
 
   toggleFilterType(event: Event, filterType): void {
@@ -46,9 +65,17 @@ export class DashboardItemsListComponent implements OnInit {
     this.showFilterSelections = false;
   }
 
-  onUpdate(event: Event, selections: any[]): void {
+  onUpdate(
+    event: Event,
+    selections: any[],
+    currentDashboardItemId: string
+  ): void {
     event.stopPropagation();
-    this.visualizationComponent.loadDashboardItemConfigs(selections);
+
+    (this.visualizationComponents.filter(
+      (vizComponent) =>
+        vizComponent?.dashboardItemConfig?.id === currentDashboardItemId
+    ) || [])[0].updateVisualizationObjectParameters(selections);
     this.showFilterSelections = false;
   }
 }

@@ -4,7 +4,6 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { Dashboard } from '../models/dashboard.model';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { sanitizeDashboards } from '../helpers/sanitize-dashboards.helper';
-import { keyBy } from 'lodash';
 import * as async from 'async';
 
 const dashboardApiFields =
@@ -148,50 +147,12 @@ export class DashboardService {
   }
 
   getVisualizationsConfigs(item: any, selections?: any[]): Observable<any> {
-    console.log(item);
     const url = `${item?.type.toLowerCase()}s/${
       item?.visualization?.id
     }.json?fields=id,name,type,dataElementDimensions,displayName~rename(name),displayDescription~rename(description),columns[dimension,legendSet[id],filter,items[dimensionItem~rename(id),displayName~rename(name),dimensionItemType]],rows[dimension,legendSet[id],filter,items[dimensionItem~rename(id),displayName~rename(name),dimensionItemType]],filters[dimension,legendSet[id],filter,items[dimensionItem~rename(id),displayName~rename(name),dimensionItemType]]`;
     return this.httpClient.get(url).pipe(
       map((response) => {
-        const selectionsKeyedByDimensions = keyBy(selections, 'dimension');
-        return !selections
-          ? response
-          : {
-              ...response,
-              filters: response?.filters.map((visFilter) => {
-                if (selectionsKeyedByDimensions[visFilter?.dimension]) {
-                  return {
-                    ...visFilter,
-                    items:
-                      selectionsKeyedByDimensions[visFilter?.dimension]?.items,
-                  };
-                } else {
-                  return visFilter;
-                }
-              }),
-              rows: response?.rows.map((row) => {
-                if (selectionsKeyedByDimensions[row?.dimension]) {
-                  return {
-                    ...row,
-                    items: selectionsKeyedByDimensions[row?.dimension]?.items,
-                  };
-                } else {
-                  return row;
-                }
-              }),
-              columns: response?.columns.map((column) => {
-                if (selectionsKeyedByDimensions[column?.dimension]) {
-                  return {
-                    ...column,
-                    items:
-                      selectionsKeyedByDimensions[column?.dimension]?.items,
-                  };
-                } else {
-                  return column;
-                }
-              }),
-            };
+        return response;
       }),
       catchError((error) => of(error))
     );

@@ -4,6 +4,7 @@ import { Fn } from '@iapps/function-analytics';
 import { D2Visualizer } from '@iapps/d2-visualizer';
 import * as _ from 'lodash';
 import { DashboardService } from '../../services/dashboard.service';
+import { updateVisualizationObject } from '../../helpers/update-visualization-object.helper';
 
 @Component({
   selector: 'app-chart-container',
@@ -20,68 +21,7 @@ export class ChartContainerComponent implements OnInit {
   constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
-    this.loadingData = true;
-    this.dataLoaded = false;
-
-    this.visualizationAnalytics$ =
-      this.dashboardService.fetchDashboardItemAnalyticsData();
-
-    let analyticsData = new Fn.Analytics();
-
-    this.chartConfigs?.columns?.forEach((dimension) => {
-      if (dimension?.dimension == 'dx') {
-        analyticsData.setData(
-          dimension?.items?.map((item) => item?.id)?.join(';')
-        );
-      } else if (dimension?.dimension == 'ou') {
-        analyticsData.setOrgUnit(
-          dimension?.items?.map((item) => item?.id)?.join(';')
-        );
-      } else if (dimension?.dimension == 'pe') {
-        analyticsData.setPeriod(
-          dimension?.items?.map((item) => item?.id)?.join(';')
-        );
-      } else {
-      }
-    });
-
-    this.chartConfigs?.filters?.forEach((dimension) => {
-      if (dimension?.dimension == 'dx') {
-        analyticsData.setData(
-          dimension?.items?.map((item) => item?.id)?.join(';')
-        );
-      } else if (dimension?.dimension == 'ou') {
-        analyticsData.setOrgUnit(
-          dimension?.items?.map((item) => item?.id)?.join(';')
-        );
-      } else if (dimension?.dimension == 'pe') {
-        analyticsData.setPeriod(
-          dimension?.items?.map((item) => item?.id)?.join(';')
-        );
-      } else {
-      }
-    });
-
-    this.chartConfigs?.rows?.forEach((dimension) => {
-      if (dimension?.dimension == 'dx') {
-        analyticsData.setData(
-          dimension?.items?.map((item) => item?.id)?.join(';')
-        );
-      } else if (dimension?.dimension == 'ou') {
-        analyticsData.setOrgUnit(
-          dimension?.items?.map((item) => item?.id)?.join(';')
-        );
-      } else if (dimension?.dimension == 'pe') {
-        analyticsData.setPeriod(
-          dimension?.items?.map((item) => item?.id)?.join(';')
-        );
-      } else {
-      }
-    });
-
-    analyticsData.get().then((analyticsResults) => {
-      this.drawChart(analyticsResults);
-    });
+    this.getAnalyticsObject();
   }
 
   drawChart(analytics: any) {
@@ -125,8 +65,79 @@ export class ChartContainerComponent implements OnInit {
       .setType(this.dashbordItemConfigs?.type)
       .setChartType(this.chartConfigs?.type?.toLowerCase())
       .draw();
-
-    this.dataLoaded = true;
-    this.loadingData = false;
   }
+
+  getAnalyticsObject(selections?: any): void {
+    this.loadingData = true;
+    this.dataLoaded = false;
+
+    const visualizationObject = selections
+      ? updateVisualizationObject(this.chartConfigs, selections)
+      : this.chartConfigs;
+
+    this.visualizationAnalytics$ =
+      this.dashboardService.fetchDashboardItemAnalyticsData();
+
+    let analyticsData = new Fn.Analytics();
+
+    visualizationObject?.columns?.forEach((dimension) => {
+      if (dimension?.dimension == 'dx') {
+        analyticsData.setData(
+          dimension?.items?.map((item) => item?.id)?.join(';')
+        );
+      } else if (dimension?.dimension == 'ou') {
+        analyticsData.setOrgUnit(
+          dimension?.items?.map((item) => item?.id)?.join(';')
+        );
+      } else if (dimension?.dimension == 'pe') {
+        analyticsData.setPeriod(
+          dimension?.items?.map((item) => item?.id)?.join(';')
+        );
+      } else {
+      }
+    });
+
+    visualizationObject?.filters?.forEach((dimension) => {
+      if (dimension?.dimension == 'dx') {
+        analyticsData.setData(
+          dimension?.items?.map((item) => item?.id)?.join(';')
+        );
+      } else if (dimension?.dimension == 'ou') {
+        analyticsData.setOrgUnit(
+          dimension?.items?.map((item) => item?.id)?.join(';')
+        );
+      } else if (dimension?.dimension == 'pe') {
+        analyticsData.setPeriod(
+          dimension?.items?.map((item) => item?.id)?.join(';')
+        );
+      } else {
+      }
+    });
+
+    visualizationObject?.rows?.forEach((dimension) => {
+      if (dimension?.dimension == 'dx') {
+        analyticsData.setData(
+          dimension?.items?.map((item) => item?.id)?.join(';')
+        );
+      } else if (dimension?.dimension == 'ou') {
+        analyticsData.setOrgUnit(
+          dimension?.items?.map((item) => item?.id)?.join(';')
+        );
+      } else if (dimension?.dimension == 'pe') {
+        analyticsData.setPeriod(
+          dimension?.items?.map((item) => item?.id)?.join(';')
+        );
+      } else {
+      }
+    });
+
+    analyticsData.get().then((analyticsResults) => {
+      this.drawChart(analyticsResults);
+
+      this.dataLoaded = true;
+      this.loadingData = false;
+    });
+  }
+
+  updateChartConfigs(): void {}
 }

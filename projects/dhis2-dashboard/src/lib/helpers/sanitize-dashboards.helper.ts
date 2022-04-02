@@ -3,7 +3,6 @@ export function sanitizeDashboards(dashboards: any[]) {
     return {
       ...dashboard,
       dashboardItems: dashboard?.dashboardItems.map((dashboardItem) => {
-        console.log(dashboardItem);
         return {
           ...dashboardItem,
           visualization: !dashboardItem?.visualization
