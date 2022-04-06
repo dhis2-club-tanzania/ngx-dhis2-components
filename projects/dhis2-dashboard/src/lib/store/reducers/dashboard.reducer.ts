@@ -20,6 +20,9 @@ import {
   updateCurrentDashboardItemVisulizationType,
   upsertCurrentDashboard,
   updateCurrentChartType,
+  loadVisualizationsConfigurations,
+  updateVisualizationsConfigs,
+  updateCurrentVisualizationSelections,
 } from '../actions/dashboard.actions';
 import {
   dashboardAdapter,
@@ -56,6 +59,82 @@ const reducer = createReducer(
       ...state,
       currentDashboard: dashboard.id,
     })
+  ),
+  on(loadVisualizationsConfigurations, (state) => ({
+    ...state,
+  })),
+  on(updateVisualizationsConfigs, (state, { visualizationsDetails }) => {
+    const dashboardId = visualizationsDetails[0]?.dashboardId;
+    let currentDashboardEntity = state?.entities[dashboardId];
+    currentDashboardEntity = {
+      ...currentDashboardEntity,
+      dashboardItems: currentDashboardEntity?.dashboardItems.map(
+        (dashboardItem) => {
+          return {
+            ...dashboardItem,
+            visualization: {
+              ...dashboardItem?.visualization,
+              ...(visualizationsDetails.filter((visualizationDetails) => {
+                if (
+                  visualizationDetails?.dashboardId ===
+                    currentDashboardEntity?.id &&
+                  visualizationDetails?.dashboardItemId === dashboardItem?.id &&
+                  visualizationDetails?.visId ===
+                    dashboardItem?.visualization?.id
+                ) {
+                  return visualizationDetails;
+                }
+              }) || [])[0],
+            },
+          };
+        }
+      ),
+    };
+
+    return dashboardAdapter.updateOne(
+      { id: dashboardId, changes: currentDashboardEntity },
+      {
+        ...state,
+      }
+    );
+  }),
+  on(
+    updateCurrentVisualizationSelections,
+    (state, { selections, dashboardId, dashboardItemId }) => {
+      let currentDashboardEntity = state?.entities[dashboardId];
+      const pesDefn =
+        selections?.filter((selection) => selection?.dimension === 'pe') || [];
+      const ousDefn =
+        selections?.filter((selection) => selection?.dimension === 'ou') || [];
+      currentDashboardEntity = {
+        ...currentDashboardEntity,
+        dashboardItems: currentDashboardEntity?.dashboardItems.map(
+          (dashboardItem) => {
+            return {
+              ...dashboardItem,
+              visualization:
+                dashboardItem?.id === dashboardItemId
+                  ? {
+                      ...dashboardItem?.visualization,
+                      periods:
+                        pesDefn?.length > 0
+                          ? pesDefn[0]
+                          : dashboardItem?.visualization['periods'],
+                      organisationUnits:
+                        ousDefn?.length > 0
+                          ? ousDefn[0]
+                          : dashboardItem?.visualization['organisationUnits'],
+                    }
+                  : dashboardItem?.visualization,
+            };
+          }
+        ),
+      };
+      return dashboardAdapter.updateOne(
+        { id: dashboardId, changes: currentDashboardEntity },
+        { ...state }
+      );
+    }
   ),
   on(saveDashboard, (state, { originalId, dashboard }) =>
     dashboardAdapter.updateOne(

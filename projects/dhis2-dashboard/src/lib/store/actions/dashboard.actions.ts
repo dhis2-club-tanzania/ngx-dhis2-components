@@ -1,6 +1,9 @@
 import { createAction, props } from '@ngrx/store';
 import { DashboardItem } from '../../models/dashboard-item.model';
-import { Dashboard } from '../../models/dashboard.model';
+import {
+  Dashboard,
+  VisualizationDetailsModel,
+} from '../../models/dashboard.model';
 
 export const loadDashboards = createAction(
   '[Dashboard] Load Dashboards',
@@ -104,4 +107,23 @@ export const updateCurrentDashboardItemVisulizationType = createAction(
 export const updateCurrentChartType = createAction(
   '[Dshboard item] update current chart type',
   props<{ chartType: string }>()
+);
+
+export const loadVisualizationsConfigurations = createAction(
+  '[Visualization] load visualization configs',
+  props<{
+    visualizationsDetails: VisualizationDetailsModel[];
+  }>()
+);
+
+export const updateVisualizationsConfigs = createAction(
+  '[Visualization] update visualization configs',
+  props<{
+    visualizationsDetails: VisualizationDetailsModel[];
+  }>()
+);
+
+export const updateCurrentVisualizationSelections = createAction(
+  '[Visualization] Update visualization selections',
+  props<{ selections: any[]; dashboardId: string; dashboardItemId: string }>()
 );

@@ -4,10 +4,13 @@ import { Action, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { DashboardService } from '../../services/dashboard.service';
+import { FavoritesService } from '../../services/favorites.service';
 import {
   addDashboards,
   loadDashboards,
   loadDashboardsFail,
+  loadVisualizationsConfigurations,
+  updateVisualizationsConfigs,
 } from '../actions/dashboard.actions';
 
 @Injectable()
@@ -26,8 +29,26 @@ export class DashboardEffects {
     )
   );
 
+  visualizationConfigs$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadVisualizationsConfigurations),
+      switchMap((action) => {
+        return this.favoriteService
+          .getVisualizationsConfigurations(action?.visualizationsDetails)
+          .pipe(
+            map((response) => {
+              return updateVisualizationsConfigs({
+                visualizationsDetails: response,
+              });
+            })
+          );
+      })
+    )
+  );
+
   constructor(
     private actions$: Actions,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private favoriteService: FavoritesService
   ) {}
 }

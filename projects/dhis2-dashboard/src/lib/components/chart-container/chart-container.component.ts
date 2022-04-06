@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Fn } from '@iapps/function-analytics';
 import { D2Visualizer } from '@iapps/d2-visualizer';
@@ -12,7 +12,7 @@ import { updateVisualizationObject } from '../../helpers/update-visualization-ob
   styleUrls: ['./chart-container.component.css'],
 })
 export class ChartContainerComponent implements OnInit {
-  @Input() chartConfigs: any;
+  @Input() visualizationConfigs: any;
   @Input() dashbordItemConfigs: any;
   visualizationAnalytics$: Observable<any>;
   loadingData: boolean = false;
@@ -21,14 +21,19 @@ export class ChartContainerComponent implements OnInit {
   constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
+    const selections = [
+      this.visualizationConfigs?.periods,
+      this.visualizationConfigs?.organisationUnits,
+    ];
+
     this.getAnalyticsObject();
   }
 
   drawChart(analytics: any) {
     let config = {
-      renderId: this.chartConfigs?.id,
+      renderId: this.visualizationConfigs?.id,
       type: this.dashbordItemConfigs?.type,
-      title: this.chartConfigs?.name,
+      title: this.visualizationConfigs?.name,
       subtitle: '',
       hideTitle: false,
       hideSubtitle: false,
@@ -46,14 +51,14 @@ export class ChartContainerComponent implements OnInit {
       percentStackedValues: false,
       multiAxisTypes: [],
       xAxisType: _.uniq(
-        this.chartConfigs.rows.map((row) => row.dimension) || []
+        this.visualizationConfigs.rows.map((row) => row.dimension) || []
       ),
       yAxisType:
-        this.chartConfigs?.columns?.length > 0
-          ? this.chartConfigs?.columns[0]?.dimension
+        this.visualizationConfigs?.columns?.length > 0
+          ? this.visualizationConfigs?.columns[0]?.dimension
           : null,
       zAxisType: _.uniq(
-        this.chartConfigs?.filters.map((row) => row.dimension) || []
+        this.visualizationConfigs?.filters.map((row) => row.dimension) || []
       ),
       touched: true,
     };
@@ -61,9 +66,9 @@ export class ChartContainerComponent implements OnInit {
     const visualizer = new D2Visualizer()
       .setConfig(config)
       .setData(analytics?.data || analytics?._data)
-      .setId(this.chartConfigs?.id)
+      .setId(this.visualizationConfigs?.id)
       .setType(this.dashbordItemConfigs?.type)
-      .setChartType(this.chartConfigs?.type?.toLowerCase())
+      .setChartType(this.visualizationConfigs?.type?.toLowerCase())
       .draw();
   }
 
@@ -72,8 +77,8 @@ export class ChartContainerComponent implements OnInit {
     this.dataLoaded = false;
 
     const visualizationObject = selections
-      ? updateVisualizationObject(this.chartConfigs, selections)
-      : this.chartConfigs;
+      ? updateVisualizationObject(this.visualizationConfigs, selections)
+      : this.visualizationConfigs;
 
     this.visualizationAnalytics$ =
       this.dashboardService.fetchDashboardItemAnalyticsData();
@@ -139,5 +144,5 @@ export class ChartContainerComponent implements OnInit {
     });
   }
 
-  updateChartConfigs(): void {}
+  updatevisualizationConfigs(): void {}
 }

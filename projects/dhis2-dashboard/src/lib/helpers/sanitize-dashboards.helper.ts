@@ -5,6 +5,7 @@ export function sanitizeDashboards(dashboards: any[]) {
       dashboardItems: dashboard?.dashboardItems.map((dashboardItem) => {
         return {
           ...dashboardItem,
+          dashboardId: dashboard?.id,
           visualization: !dashboardItem?.visualization
             ? dashboardItem?.type === 'CHART'
               ? dashboardItem?.chart

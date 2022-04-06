@@ -151,42 +151,26 @@ export const getCurrentDashboardItem = (forAnalysis?: boolean) =>
       : dashboardItem;
   });
 
-export const getCurrentDashboardItemVisualizationDimensions = createSelector(
-  getCurrentDashboardItem(),
-  (dashboardItem: DashboardItem) => {
-    if (!dashboardItem || !dashboardItem.visualization) {
-      return [];
-    }
+export const getDashboardItemVisualizationConfigs = (id: string) =>
+  createSelector(getCurrentDashboard(), (dashboard: Dashboard) => {
+    const matchedItem = (dashboard?.dashboardItems?.filter(
+      (item) => item?.id === id
+    ) || [])[0];
+    return matchedItem ? matchedItem?.visualization : { message: 'Missing' };
+  });
 
-    const layers = (dashboardItem.visualization as any).layers;
-
-    if (layers) {
-      return flatten(
-        layers.map((layer: any) =>
-          (layer.dataSelections || []).map((dataSelection) => {
-            return {
-              ...dataSelection,
-              items: (dataSelection.items || []).map((item) => ({
-                ...item,
-                id: item.dimensionItem,
-              })),
-            };
-          })
-        )
-      );
-    }
-
-    return (dashboardItem.visualization.dimensions || []).map((dimension) => {
-      return {
-        ...dimension,
-        items: (dimension.items || []).map((item) => ({
-          ...item,
-          id: item.dimensionItem,
-        })),
-      };
-    });
-  }
-);
+export const getCurrentDashboardVisualizationSelections = (id: string) =>
+  createSelector(getCurrentDashboard(), (dashboard: Dashboard) => {
+    const matchedItem = (dashboard?.dashboardItems?.filter(
+      (item) => item?.id === id
+    ) || [])[0];
+    return matchedItem
+      ? [
+          matchedItem?.visualization['periods'],
+          matchedItem?.visualization['organisationUnits'],
+        ]
+      : [];
+  });
 
 export const checkIfAllVisualizationDimensionsSelected = createSelector(
   getCurrentDashboardItem(),

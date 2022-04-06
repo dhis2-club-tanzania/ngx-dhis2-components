@@ -6,9 +6,14 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { omit } from 'lodash';
 import { DashboardVisualizationItemComponent } from '../dashboard-visualization-item/dashboard-visualization-item.component';
 import { orderBy } from 'lodash';
+import {
+  loadVisualizationsConfigurations,
+  updateCurrentVisualizationSelections,
+} from '../../store/actions/dashboard.actions';
+import { DashboardAppState } from '../../store/reducers';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-dashboard-items-list',
@@ -27,9 +32,20 @@ export class DashboardItemsListComponent implements OnInit {
   visualizationComponents: QueryList<DashboardVisualizationItemComponent>;
 
   formattedDashboardItems: any[];
-  constructor() {}
+  constructor(private store: Store<DashboardAppState>) {}
 
   ngOnInit(): void {
+    this.store.dispatch(
+      loadVisualizationsConfigurations({
+        visualizationsDetails: this.dashboardItems.map((dashboardItem) => {
+          return {
+            dashboardId: dashboardItem?.dashboardId,
+            dashboardItemId: dashboardItem?.id,
+            visId: dashboardItem?.visualization?.id,
+          };
+        }),
+      })
+    );
     // this.formattedDashboardItems = orderBy(
     //   this.dashboardItems,
     //   ['y', 'x'],
@@ -58,6 +74,13 @@ export class DashboardItemsListComponent implements OnInit {
 
   onGetSelections(selections: any[]): void {
     this.selections = selections;
+    this.store.dispatch(
+      updateCurrentVisualizationSelections({
+        selections,
+        dashboardId: this.dashboardItems[0]?.dashboardId,
+        dashboardItemId: this.currentDashboardItemId,
+      })
+    );
   }
 
   onCancel(event: Event): void {
@@ -77,5 +100,9 @@ export class DashboardItemsListComponent implements OnInit {
         vizComponent?.dashboardItemConfig?.id === currentDashboardItemId
     ) || [])[0].updateVisualizationObjectParameters(selections);
     this.showFilterSelections = false;
+  }
+
+  onGetSelectionDimensions(selections: any[]): void {
+    this.selections = selections;
   }
 }

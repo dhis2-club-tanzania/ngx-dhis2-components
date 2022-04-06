@@ -1,7 +1,16 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { updateVisualizationObject } from '../../helpers/update-visualization-object.helper';
 import { DashboardService } from '../../services/dashboard.service';
+import { DashboardAppState } from '../../store/reducers';
+import { getDashboardItemVisualizationConfigs } from '../../store/selectors/dashboard-selectors';
 import { ChartContainerComponent } from '../chart-container/chart-container.component';
 
 @Component({
@@ -11,16 +20,23 @@ import { ChartContainerComponent } from '../chart-container/chart-container.comp
 })
 export class DashboardVisualizationItemComponent implements OnInit {
   @Input() dashboardItemConfig: any;
-  @Input() selections: any[];
-  dashboardItemChartConfig$: Observable<any>;
+  dashboardItemVisualizationConfig$: Observable<any>;
 
   @ViewChild(ChartContainerComponent, { static: false })
   visualizationContainer: ChartContainerComponent;
-  constructor(private dashboardService: DashboardService) {}
+
+  @Output() selectionDimensions: EventEmitter<any[]> = new EventEmitter<
+    any[]
+  >();
+  constructor(
+    private dashboardService: DashboardService,
+    private store: Store<DashboardAppState>
+  ) {}
 
   ngOnInit(): void {
-    this.dashboardItemChartConfig$ =
-      this.dashboardService.getVisualizationsConfigs(this.dashboardItemConfig);
+    this.dashboardItemVisualizationConfig$ = this.store.select(
+      getDashboardItemVisualizationConfigs(this.dashboardItemConfig?.id)
+    );
   }
 
   updateVisualizationObjectParameters(selections: any[]): void {

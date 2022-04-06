@@ -9,12 +9,13 @@ import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
 })
 export class VisualizationFiltersComponent implements OnInit {
   @Input() filterType: string;
+  @Input() dimensionSelections: any[];
 
   /** For Period Filter */
   periodObject: any;
   action: string;
   periodFilterConfig: PeriodFilterConfig = {
-    singleSelection: true,
+    singleSelection: false,
     emitOnSelection: true,
     childrenPeriodSortOrder: 'ASC',
     allowDateRangeSelection: true,
@@ -28,7 +29,7 @@ export class VisualizationFiltersComponent implements OnInit {
   /** For Org Unit Filter */
   orgUnitObject: any;
   orgUnitFilterConfig: OrgUnitFilterConfig = {
-    singleSelection: true,
+    singleSelection: false,
     showOrgUnitLevelGroupSection: true,
     showUserOrgUnitSection: true,
     reportUse: true,
@@ -40,7 +41,14 @@ export class VisualizationFiltersComponent implements OnInit {
   @Output() selections = new EventEmitter<any[]>();
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.selectedPeriodItems = (this.dimensionSelections.filter(
+      (selection) => selection?.dimension == 'pe'
+    ) || [])[0]?.items;
+    this.selectedOrgUnitItems = (this.dimensionSelections.filter(
+      (selection) => selection?.dimension == 'ou'
+    ) || [])[0]?.items;
+  }
 
   onPeriodUpdate(periodObject: any, action: string): void {
     this.periodObject = periodObject;

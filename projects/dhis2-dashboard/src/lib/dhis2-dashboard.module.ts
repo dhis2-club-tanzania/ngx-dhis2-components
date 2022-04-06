@@ -38,6 +38,8 @@ import { VisualizationFiltersComponent } from './components/visualization-filter
 import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
 import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
 import { FilterByNamePipe } from './pipes/filter-by-name.pipe';
+import { VisualizationFiltersContainerComponent } from './components/visualization-filters-container/visualization-filters-container.component';
+import { DashboardVisualizationSelectionSummaryComponent } from './components/dashboard-visualization-selection-summary/dashboard-visualization-selection-summary.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,8 @@ import { FilterByNamePipe } from './pipes/filter-by-name.pipe';
     DashboardVisualizationItemComponent,
     CurrentDashboardComponent,
     VisualizationFiltersComponent,
+    VisualizationFiltersContainerComponent,
+    DashboardVisualizationSelectionSummaryComponent,
   ],
   providers: [
     DashboardItemService,

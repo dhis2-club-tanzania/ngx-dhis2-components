@@ -32,3 +32,10 @@ export interface Dashboard {
     id: string;
   };
 }
+
+export interface VisualizationDetailsModel {
+  dashboardId: string;
+  dashboardItemId: string;
+  visId: string;
+  configs?: any;
+}

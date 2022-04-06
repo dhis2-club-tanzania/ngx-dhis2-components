@@ -47,6 +47,11 @@
               Org Unit
             </button>
           </div>
+          <!-- <div>
+            <lib-dashboard-visualization-selection-summary
+              [dashboardItem]="item"
+            ></lib-dashboard-visualization-selection-summary>
+          </div> -->
 
           <div
             class="mt-1"
@@ -60,10 +65,11 @@
             "
             *ngIf="showFilterSelections && currentDashboardItemId == item?.id"
           >
-            <lib-visualization-filters
+            <lib-visualization-filters-container
               [filterType]="currentFilterType"
+              [dashboardItem]="item"
               (selections)="onGetSelections($event)"
-            ></lib-visualization-filters>
+            ></lib-visualization-filters-container>
             <div
               [ngClass]="{ 'mt-2': currentFilterType != 'PERIOD' }"
               class="d-flex justify-content-end mb-2"
@@ -85,7 +91,6 @@
             <lib-dashboard-visualization-item
               #vizItem
               [dashboardItemConfig]="item"
-              [selections]="selections"
             ></lib-dashboard-visualization-item>
           </div>
         </mat-card>

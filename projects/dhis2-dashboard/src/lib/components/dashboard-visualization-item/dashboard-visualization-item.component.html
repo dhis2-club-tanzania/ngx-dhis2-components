@@ -1,14 +1,18 @@
 <div
   *ngIf="{
-    dashboardItemChartConfig: dashboardItemChartConfig$ | async
+    dashboardItemVisualizationConfig: dashboardItemVisualizationConfig$ | async
   } as params"
 >
   <div class="visualization-body-content-block">
     <!-- configs loader -->
     <div class="visualization-body-loader">
       <app-visualization-loader
-        *ngIf="!params?.dashboardItemChartConfig"
-        [name]="params?.dashboardItemChartConfig?.visualization?.name"
+        *ngIf="
+          !params?.dashboardItemVisualizationConfig ||
+          (params?.dashboardItemVisualizationConfig &&
+            !params?.dashboardItemVisualizationConfig?.periods)
+        "
+        [name]="params?.dashboardItemVisualizationConfig?.name"
       ></app-visualization-loader>
     </div>
 
@@ -16,9 +20,12 @@
 
     <!-- pass configs to chart loader -->
     <app-chart-container
-      *ngIf="params?.dashboardItemChartConfig"
+      *ngIf="
+        params?.dashboardItemVisualizationConfig &&
+        params?.dashboardItemVisualizationConfig?.periods
+      "
       [dashbordItemConfigs]="dashboardItemConfig"
-      [chartConfigs]="params?.dashboardItemChartConfig"
+      [visualizationConfigs]="params?.dashboardItemVisualizationConfig"
     ></app-chart-container>
   </div>
 </div>
