@@ -9,6 +9,7 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { DashboardService } from '../../services/dashboard.service';
+import { updateCurrentVisualizationType } from '../../store/actions/dashboard.actions';
 import { DashboardAppState } from '../../store/reducers';
 import { getDashboardItemVisualizationConfigs } from '../../store/selectors/dashboard-selectors';
 import { ChartContainerComponent } from '../chart-container/chart-container.component';
@@ -28,6 +29,8 @@ export class DashboardVisualizationItemComponent implements OnInit {
   @Output() selectionDimensions: EventEmitter<any[]> = new EventEmitter<
     any[]
   >();
+  @Output()
+  visualizationTypeChange: EventEmitter<any> = new EventEmitter<any>();
   constructor(
     private dashboardService: DashboardService,
     private store: Store<DashboardAppState>
@@ -41,5 +44,10 @@ export class DashboardVisualizationItemComponent implements OnInit {
 
   updateVisualizationObjectParameters(selections: any[]): void {
     this.visualizationContainer.getAnalyticsObject(selections);
+  }
+
+  toggleFooter(event: Event): void {
+    event.stopPropagation();
+    console.log(event);
   }
 }

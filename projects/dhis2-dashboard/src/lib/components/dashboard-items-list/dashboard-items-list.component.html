@@ -15,7 +15,16 @@
   </mat-grid-list> -->
   <div class="row">
     <ng-container *ngFor="let item of dashboardItems">
-      <div class="col-lg-6 col-md-6 col-sm-12 col-sx-12 mb-3">
+      <div
+        class="mb-3"
+        [ngClass]="{
+          'col-lg-6': item?.shape === 'NORMAL' || !item?.shape,
+          'col-md-6': item?.shape === 'NORMAL' || !item?.shape,
+          'col-sm-12': item?.shape === 'NORMAL' || !item?.shape,
+          'col-sx-12': item?.shape === 'NORMAL' || !item?.shape,
+          'col-md-12': item?.shape === 'DOUBLE_WIDTH'
+        }"
+      >
         <mat-card class="visualization-card">
           <div class="w-100 d-flex justify-content-left">
             <button

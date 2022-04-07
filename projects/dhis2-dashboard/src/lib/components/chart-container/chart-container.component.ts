@@ -14,19 +14,24 @@ import { updateVisualizationObject } from '../../helpers/update-visualization-ob
 export class ChartContainerComponent implements OnInit {
   @Input() visualizationConfigs: any;
   @Input() dashbordItemConfigs: any;
+  analyticsResults: any;
   visualizationAnalytics$: Observable<any>;
   loadingData: boolean = false;
   dataLoaded: boolean = false;
+  showVisualizationOptions: boolean = false;
+  currentVisualizationType: string;
+  metadataIdentifiers: string[];
+  dictionaryConfig: any = {
+    showAllBlock: false,
+  };
+  keyForDX: string;
 
   constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
-    const selections = [
-      this.visualizationConfigs?.periods,
-      this.visualizationConfigs?.organisationUnits,
-    ];
-
+    this.currentVisualizationType = this.dashbordItemConfigs?.type;
     this.getAnalyticsObject();
+    this.metadataIdentifiers = [];
   }
 
   drawChart(analytics: any) {
@@ -87,6 +92,7 @@ export class ChartContainerComponent implements OnInit {
 
     visualizationObject?.columns?.forEach((dimension) => {
       if (dimension?.dimension == 'dx') {
+        this.keyForDX = 'columns';
         analyticsData.setData(
           dimension?.items?.map((item) => item?.id)?.join(';')
         );
@@ -104,6 +110,7 @@ export class ChartContainerComponent implements OnInit {
 
     visualizationObject?.filters?.forEach((dimension) => {
       if (dimension?.dimension == 'dx') {
+        this.keyForDX = 'filters';
         analyticsData.setData(
           dimension?.items?.map((item) => item?.id)?.join(';')
         );
@@ -121,6 +128,7 @@ export class ChartContainerComponent implements OnInit {
 
     visualizationObject?.rows?.forEach((dimension) => {
       if (dimension?.dimension == 'dx') {
+        this.keyForDX = 'rows';
         analyticsData.setData(
           dimension?.items?.map((item) => item?.id)?.join(';')
         );
@@ -138,11 +146,30 @@ export class ChartContainerComponent implements OnInit {
 
     analyticsData.get().then((analyticsResults) => {
       this.drawChart(analyticsResults);
-
+      this.analyticsResults = analyticsResults;
       this.dataLoaded = true;
       this.loadingData = false;
     });
   }
 
   updatevisualizationConfigs(): void {}
+
+  onVisualizationTypeChange(type: string): void {
+    this.currentVisualizationType = type;
+    if (this.currentVisualizationType === 'CHART') {
+      this.drawChart(this.analyticsResults);
+    } else if (this.currentVisualizationType === 'INFO') {
+      this.metadataIdentifiers =
+        this.visualizationConfigs[this.keyForDX][0]?.items?.map(
+          (item) => item?.id
+        ) || [];
+    }
+    // this.store.dispatch(
+    //   updateCurrentVisualizationType({
+    //     visualizationType: type,
+    //     dashboardId: this.dashboardItemConfig?.dashboardId,
+    //     dashboardItemId: this.dashboardItemConfig?.id,
+    //   })
+    // );
+  }
 }

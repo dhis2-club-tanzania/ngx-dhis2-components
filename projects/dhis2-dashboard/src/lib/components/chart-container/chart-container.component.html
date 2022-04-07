@@ -1,11 +1,35 @@
-<ng-container *ngIf="{ analytics: visualizationAnalytics$ | async } as params">
+<div
+  *ngIf="{ analytics: visualizationAnalytics$ | async } as params"
+  (mouseover)="showVisualizationOptions = true"
+  (mouseleave)="showVisualizationOptions = false"
+>
   <app-visualization-loader
     *ngIf="loadingData"
     [visualizationType]="dashbordItemConfigs?.type"
     [name]="dashbordItemConfigs?.visualization?.name"
   ></app-visualization-loader>
 
-  <div *ngIf="!loadingData && dataLoaded">
-    <div [id]="visualizationConfigs?.id"></div>
+  <div *ngIf="!loadingData && dataLoaded" class="visualization-section">
+    <div
+      [id]="visualizationConfigs?.id"
+      *ngIf="currentVisualizationType === 'CHART'"
+    ></div>
+    <div *ngIf="currentVisualizationType === 'MAP'"></div>
+    <div *ngIf="currentVisualizationType === 'TABLE'"></div>
+    <div *ngIf="currentVisualizationType === 'INFO'">
+      <div class="dictionary-block">
+        <ngx-dhis2-dictionary-list
+          [metadataIdentifiers]="metadataIdentifiers"
+          [selectedItem]="metadataIdentifiers[0]"
+          [dictionaryConfig]="dictionaryConfig"
+        ></ngx-dhis2-dictionary-list>
+      </div>
+    </div>
   </div>
-</ng-container>
+  <div class="visualization-footer" *ngIf="showVisualizationOptions">
+    <lib-visualization-footer
+      [visualizationType]="currentVisualizationType"
+      (visualizationTypeChange)="onVisualizationTypeChange($event)"
+    ></lib-visualization-footer>
+  </div>
+</div>

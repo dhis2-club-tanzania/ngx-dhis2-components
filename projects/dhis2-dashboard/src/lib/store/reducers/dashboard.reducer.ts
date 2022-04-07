@@ -23,6 +23,7 @@ import {
   loadVisualizationsConfigurations,
   updateVisualizationsConfigs,
   updateCurrentVisualizationSelections,
+  updateCurrentVisualizationType,
 } from '../actions/dashboard.actions';
 import {
   dashboardAdapter,
@@ -124,6 +125,33 @@ const reducer = createReducer(
                         ousDefn?.length > 0
                           ? ousDefn[0]
                           : dashboardItem?.visualization['organisationUnits'],
+                    }
+                  : dashboardItem?.visualization,
+            };
+          }
+        ),
+      };
+      return dashboardAdapter.updateOne(
+        { id: dashboardId, changes: currentDashboardEntity },
+        { ...state }
+      );
+    }
+  ),
+  on(
+    updateCurrentVisualizationType,
+    (state, { visualizationType, dashboardId, dashboardItemId }) => {
+      let currentDashboardEntity = state?.entities[dashboardId];
+      currentDashboardEntity = {
+        ...currentDashboardEntity,
+        dashboardItems: currentDashboardEntity?.dashboardItems.map(
+          (dashboardItem) => {
+            return {
+              ...dashboardItem,
+              visualization:
+                dashboardItem?.id === dashboardItemId
+                  ? {
+                      ...dashboardItem?.visualization,
+                      currentVisualizationType: visualizationType,
                     }
                   : dashboardItem?.visualization,
             };

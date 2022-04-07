@@ -5,16 +5,34 @@ export function sanitizeDashboards(dashboards: any[]) {
       dashboardItems: dashboard?.dashboardItems.map((dashboardItem) => {
         return {
           ...dashboardItem,
+          currentVisualizationType: dashboardItem?.type,
           dashboardId: dashboard?.id,
           visualization: !dashboardItem?.visualization
             ? dashboardItem?.type === 'CHART'
-              ? dashboardItem?.chart
+              ? {
+                  ...dashboardItem?.chart,
+                  currentVisualizationType: dashboardItem?.type,
+                }
               : dashboardItem?.type === 'MAP'
-              ? dashboardItem?.map
+              ? {
+                  ...dashboardItem?.map,
+                  currentVisualizationType: dashboardItem?.type,
+                }
               : dashboardItem?.type === 'REPORT_TABLE'
-              ? dashboardItem?.reportTables
+              ? {
+                  ...dashboardItem?.reportTables,
+                  currentVisualizationType: dashboardItem?.type,
+                }
+              : dashboardItem?.type === 'TEXT'
+              ? {
+                  ...dashboardItem?.text,
+                  currentVisualizationType: dashboardItem?.type,
+                }
               : null
-            : dashboardItem?.visualization,
+            : {
+                ...dashboardItem?.visualization,
+                currentVisualizationType: dashboardItem?.type,
+              },
         };
       }),
     };

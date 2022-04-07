@@ -127,3 +127,12 @@ export const updateCurrentVisualizationSelections = createAction(
   '[Visualization] Update visualization selections',
   props<{ selections: any[]; dashboardId: string; dashboardItemId: string }>()
 );
+
+export const updateCurrentVisualizationType = createAction(
+  '[Visualization] Update current dashboard item visualization type',
+  props<{
+    visualizationType: string;
+    dashboardId: string;
+    dashboardItemId: string;
+  }>()
+);
