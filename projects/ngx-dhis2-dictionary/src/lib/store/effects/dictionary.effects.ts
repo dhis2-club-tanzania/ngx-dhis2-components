@@ -195,9 +195,8 @@ export class DictionaryEffects {
                 .pipe(catchError((err) => of(functionIdentifier)))
                 .subscribe((functionInfo) => {
                   if (functionInfo.key) {
-                    const functionInfos = this.formatFunctionsObject(
-                      functionInfo
-                    );
+                    const functionInfos =
+                      this.formatFunctionsObject(functionInfo);
                     this.store.dispatch(
                       new UpdateDictionaryMetadataAction(metadata, {
                         name: functionInfos.name,
@@ -783,7 +782,7 @@ export class DictionaryEffects {
         const allDataElements = [];
         const programStages = [];
         let dataElementsAvailable = [];
-        const associatedMetadata = [];
+        let associatedMetadata = [];
         let indicatorsAvailable = [];
         let programStagesAvailable = [];
         let trackedEntityAttributesAvailable = [];
@@ -803,12 +802,12 @@ export class DictionaryEffects {
           filterElements.split(',').forEach((elementId) => {
             associatedMetadata.push(elementId);
           });
-          const programStagesListRes = this.getAvailableDataElements(
+          let programStagesListRes = this.getAvailableDataElements(
             programIndicator.filter
           );
           programStagesListRes.split(',').forEach((programStage) => {
             if (programStage.length === 11) {
-              programStagesListRes.push(programStage);
+              programStagesListRes = [...programStagesListRes, programStage];
               associatedMetadata.push(programStage);
             }
           });
@@ -969,9 +968,10 @@ export class DictionaryEffects {
         ).subscribe((results: any) => {
           // metadataInfoLoaded = {...metadataInfoLoaded, programStages: results[0]['programStages']};
           results[0].programStages.forEach((stage) => {
-            programIndicatorDescriptionExpression = programIndicatorDescriptionExpression
-              .split(stage.id + '.')
-              .join(stage.name);
+            programIndicatorDescriptionExpression =
+              programIndicatorDescriptionExpression
+                .split(stage.id + '.')
+                .join(stage.name);
             if (programIndicatorDescriptionExpression.indexOf(stage.name) < 0) {
               programIndicatorDescriptionExpression = stage.name;
             }
@@ -982,9 +982,10 @@ export class DictionaryEffects {
 
           // metadataInfoLoaded = {...metadataInfoLoaded, dataElements: results[1]['dataElements']};
           results[1].dataElements.forEach((dataElement) => {
-            programIndicatorDescriptionExpression = programIndicatorDescriptionExpression
-              .split(dataElement.id)
-              .join(dataElement.name);
+            programIndicatorDescriptionExpression =
+              programIndicatorDescriptionExpression
+                .split(dataElement.id)
+                .join(dataElement.name);
             filterDescription = filterDescription
               .split(dataElement.id)
               .join(' ' + dataElement.name);
@@ -1000,9 +1001,10 @@ export class DictionaryEffects {
           };
           metadataInfoLoaded = {
             ...metadataInfoLoaded,
-            programIndicatorDescriptionExpression: this.formatProgramIndicatorExpression(
-              programIndicatorDescriptionExpression
-            ),
+            programIndicatorDescriptionExpression:
+              this.formatProgramIndicatorExpression(
+                programIndicatorDescriptionExpression
+              ),
           };
           this.store.dispatch(
             new UpdateDictionaryMetadataAction(programIndicatorId, {
