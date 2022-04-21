@@ -312,19 +312,22 @@
         <tr
           *ngFor="
             let dataSet of dictionaryItem.data.denominatorDatasets;
-            let i = index
+            let count = index
           "
         >
-          <td *ngIf="i === 0">Denominator</td>
           <td
-            *ngIf="i === 0"
             [attr.rowspan]="dictionaryItem.data.denominatorDatasets.length || 1"
+            *ngIf="count === 0"
           >
-            <div class="w-100">
-              <code>{{
-                dictionaryItem.data.denominatorExpression.description
-              }}</code>
-            </div>
+            Denominator
+          </td>
+          <td
+            [attr.rowspan]="dictionaryItem.data.denominatorDatasets.length || 1"
+            *ngIf="count === 0"
+          >
+            <code>{{
+              dictionaryItem.data.denominatorExpression.description
+            }}</code>
 
             <div class="w-100">
               <a
