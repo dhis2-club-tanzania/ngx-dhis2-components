@@ -311,8 +311,8 @@
     This indicator was first created on
     <strong>{{ dataSetInfo.data.metadata.created | date }}</strong> by
     <strong>{{ dataSetInfo.data.metadata.user.name }}</strong>
-    <span *ngIf="dataSetInfo.data.metadata.lastUpdated"
-      >and last updated on
+    <span *ngIf="dataSetInfo.data.metadata.lastUpdated">
+      and last updated on
       <strong>{{ dataSetInfo.data.metadata.lastUpdated | date }}</strong></span
     >
     <span *ngIf="dataSetInfo.data.metadata.lastUpdatedBy">
@@ -367,9 +367,7 @@
                       .userGroupAccesses
                   "
                 >
-                  {{
-                    formatTextToSentenceFormat(userGroupAccess.displayName)
-                  }}
+                  {{ formatTextToSentenceFormat(userGroupAccess.displayName) }}
                   ({{ userGroupAccess.access }})
                 </li>
               </ul>

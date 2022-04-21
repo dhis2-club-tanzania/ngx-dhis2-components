@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2020 Rajab Mkomwa
+ * Copyright (C) 2020 Rajab Mkomwa & Josephat Mwakyusa
  *
  * ngx-dhis2-components is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -115,7 +115,10 @@ export class IndicatorComponent implements OnInit {
     const domElement = document.getElementById(dictionaryItem?.id + idSection);
     domElement.style.display = 'block';
     if (domElement.innerText == '') {
-      domElement.innerHTML = dictionaryItem?.data?.metadata?.denominator;
+      domElement.innerHTML =
+        idSection == '-deno'
+          ? dictionaryItem?.data?.metadata?.denominator
+          : dictionaryItem?.data?.metadata?.numerator;
       domElement.style.backgroundColor = '#eee';
     } else {
       domElement.innerHTML = '';

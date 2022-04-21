@@ -267,33 +267,39 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngIf="dictionaryItem.data.numeratorDatasets">
-          <td>Numerator</td>
-          <td
-            [attr.rowspan]="dictionaryItem.data.numeratorDatasets.length || 1"
-          >
-            <code>{{
-              dictionaryItem.data.numeratorExpression.description
-            }}</code>
-            <div class="w-100">
-              <a
-                class="float-right expression-toggle-btn"
-                (click)="toggleExpression($event, dictionaryItem, '-nume')"
-                >View expression</a
-              >
-            </div>
-            <div
-              [id]="dictionaryItem?.id + '-nume'"
-              style="display: none"
-              class="w-100 expression-codes"
-            ></div>
-          </td>
-          <ng-container
-            *ngFor="
-              let dataSet of dictionaryItem.data.numeratorDatasets;
-              let i = index
-            "
-          >
+        <tr
+          *ngFor="
+            let dataSet of dictionaryItem.data.numeratorDatasets;
+            let i = index
+          "
+        >
+          <ng-container>
+            <td
+              [attr.rowspan]="dictionaryItem.data.numeratorDatasets.length || 1"
+              *ngIf="i === 0"
+            >
+              Numerator
+            </td>
+            <td
+              *ngIf="i === 0"
+              [attr.rowspan]="dictionaryItem.data.numeratorDatasets.length || 1"
+            >
+              <code>{{
+                dictionaryItem.data.numeratorExpression.description
+              }}</code>
+              <div class="w-100">
+                <a
+                  class="float-right expression-toggle-btn"
+                  (click)="toggleExpression($event, dictionaryItem, '-nume')"
+                  >View expression</a
+                >
+              </div>
+              <div
+                [id]="dictionaryItem?.id + '-nume'"
+                style="display: none"
+                class="w-100 expression-codes"
+              ></div>
+            </td>
             <td>{{ dataSet.name }}</td>
             <td>
               <b>{{ dataSet.periodType }}</b> with deadline for submission after
@@ -303,9 +309,15 @@
             <td>{{ dataSet.reportingRate }}</td>
           </ng-container>
         </tr>
-        <tr *ngIf="dictionaryItem.data.denominatorDatasets">
-          <td>Denominator</td>
+        <tr
+          *ngFor="
+            let dataSet of dictionaryItem.data.denominatorDatasets;
+            let i = index
+          "
+        >
+          <td *ngIf="i === 0">Denominator</td>
           <td
+            *ngIf="i === 0"
             [attr.rowspan]="dictionaryItem.data.denominatorDatasets.length || 1"
           >
             <div class="w-100">
@@ -327,20 +339,13 @@
               class="w-100 expression-codes"
             ></div>
           </td>
-          <ng-container
-            *ngFor="
-              let dataSet of dictionaryItem.data.denominatorDatasets;
-              let i = index
-            "
-          >
-            <td>{{ dataSet.name }}</td>
-            <td>
-              <b>{{ dataSet.periodType }}</b> with deadline for submission after
-              <b>{{ dataSet.timelyDays }}</b>
-              days
-            </td>
-            <td>{{ dataSet.reportingRate }}</td>
-          </ng-container>
+          <td>{{ dataSet.name }}</td>
+          <td>
+            <b>{{ dataSet.periodType }}</b> with deadline for submission after
+            <b>{{ dataSet.timelyDays }}</b>
+            days
+          </td>
+          <td>{{ dataSet.reportingRate }}</td>
         </tr>
       </tbody>
     </table>
@@ -454,12 +459,12 @@
       This indicator was first created on
       <b>{{ dictionaryItem.data.metadata.created | date }}</b> by
       <b>{{ dictionaryItem.data.metadata.user.name }}</b>
-      <span *ngIf="dictionaryItem.data.metadata.lastUpdated"
-        >and last updated on
-        <b>{{ dictionaryItem.data.metadata.lastUpdated | date }}</b></span
-      >
-      <span *ngIf="dictionaryItem.data.metadata.lastUpdatedBy"
-        >by<b>{{ dictionaryItem.data.metadata.lastUpdatedBy.name }}</b></span
+      <span *ngIf="dictionaryItem.data.metadata.lastUpdated">
+        and last updated on
+        <b>{{ dictionaryItem.data.metadata.lastUpdated | date }}</b>
+      </span>
+      <span *ngIf="dictionaryItem.data.metadata.lastUpdatedBy">
+        by <b>{{ dictionaryItem.data.metadata.lastUpdatedBy.name }}</b></span
       >
     </p>
 
