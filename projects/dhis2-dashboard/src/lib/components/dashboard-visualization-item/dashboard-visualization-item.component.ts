@@ -54,14 +54,11 @@ export class DashboardVisualizationItemComponent implements OnInit {
 
   toggleFooter(event: Event): void {
     event.stopPropagation();
-    console.log(event);
+    // console.log(event);
   }
 
   onGraphTypeUpdateFromContainer(event: Event) {
     // event.stopPropagation();
-
-    console.log('event on DashVizIt');
-    console.log(event);
 
     this.onGraphTypeUpdate.emit(event);
   }

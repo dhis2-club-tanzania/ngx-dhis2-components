@@ -13,6 +13,15 @@
       ></lib-dashboard-visualization-item>
     </mat-grid-tile>
   </mat-grid-list> -->
+
+  <!-- <ngx-dhis2-org-unit-filter
+  [orgUnitFilterConfig]="orgUnitFilterConfig"
+  [selectedOrgUnitItems]="selectedOrgUnitItems"
+  (orgUnitUpdate)="onOrgUnitUpdate($event, 'UPDATE')"
+  (orgUnitClose)="onOrgUnitUpdate($event, 'CLOSE')"
+></ngx-dhis2-org-unit-filter> -->
+
+
   <div class="row">
     <ng-container *ngFor="let item of dashboardItems">
       <div
@@ -47,11 +56,11 @@
             <button
               class="ml-1"
               [ngClass]="{
-                'active-filter-type': currentFilterType == 'ORG_UNIT'
+                'active-filter-type': currentFilterType == 'ORGANISATION_UNIT'
               }"
               *ngIf="currentDashboardItemId == item?.id"
               mat-stroked-button
-              (click)="toggleFilterType($event, 'ORG_UNIT')"
+              (click)="toggleFilterType($event, 'ORGANISATION_UNIT')"
             >
               Org Unit
             </button>

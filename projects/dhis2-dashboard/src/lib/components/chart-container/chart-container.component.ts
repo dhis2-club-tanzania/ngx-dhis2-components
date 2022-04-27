@@ -38,6 +38,7 @@ export class ChartContainerComponent implements OnInit {
   barIcon: string;
   lineIcon: string;
   keyForDX: string;
+  visualizationSubTitle: string = '';
 
   constructor(private dashboardService: DashboardService) {}
 
@@ -56,7 +57,7 @@ export class ChartContainerComponent implements OnInit {
       renderId: this.visualizationConfigs?.id,
       type: this.dashbordItemConfigs?.type,
       title: this.visualizationConfigs?.name,
-      subtitle: '',
+      subtitle: this.visualizationSubTitle || '',
       hideTitle: false,
       hideSubtitle: false,
       showData: true,
@@ -134,6 +135,8 @@ export class ChartContainerComponent implements OnInit {
       }
     });
 
+    this.visualizationSubTitle = '';
+
     visualizationObject?.filters?.forEach((dimension) => {
       if (dimension?.dimension == 'dx') {
         this.keyForDX = 'filters';
@@ -144,10 +147,22 @@ export class ChartContainerComponent implements OnInit {
         analyticsData.setOrgUnit(
           dimension?.items?.map((item) => item?.id)?.join(';')
         );
+
+        this.visualizationSubTitle =
+          dimension?.items?.map((item) => item?.name)?.join(',') +
+          this.visualizationSubTitle;
       } else if (dimension?.dimension == 'pe') {
+        // console.log('the dimension');
+        // console.log(dimension);
+
         analyticsData.setPeriod(
           dimension?.items?.map((item) => item?.id)?.join(';')
         );
+
+        this.visualizationSubTitle =
+          this.visualizationSubTitle +
+          '' +
+          dimension?.items?.map((item) => item?.name)?.join(',');
       } else {
       }
     });
@@ -178,9 +193,9 @@ export class ChartContainerComponent implements OnInit {
         this.loadingData = false;
       },
       (error) => {
-        console.log(typeof error);
-        console.log(Object.keys(error));
-        console.log(error.response);
+        // console.log(typeof error);
+        // console.log(Object.keys(error));
+        // console.log(error.response);
 
         this.errorResponse = error?.response;
         // console.log(
@@ -232,7 +247,7 @@ export class ChartContainerComponent implements OnInit {
   }
 
   onChartTypeChange(e, type) {
-    console.log(this.dashbordItemConfigs);
+    // console.log(this.dashbordItemConfigs);
 
     this.onGraphTypeUpdate.emit({
       itemId: this.dashbordItemConfigs?.id,

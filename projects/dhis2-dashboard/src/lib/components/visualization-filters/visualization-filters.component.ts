@@ -45,9 +45,9 @@ export class VisualizationFiltersComponent implements OnInit {
     this.selectedPeriodItems = (this.dimensionSelections.filter(
       (selection) => selection?.dimension == 'pe'
     ) || [])[0]?.items;
-    this.selectedOrgUnitItems = (this.dimensionSelections.filter(
-      (selection) => selection?.dimension == 'ou'
-    ) || [])[0]?.items;
+    // this.selectedOrgUnitItems = (this.dimensionSelections.filter(
+    //   (selection) => selection?.dimension == 'ou'
+    // ) || [])[0]?.items;
   }
 
   onPeriodUpdate(periodObject: any, action: string): void {
@@ -71,7 +71,7 @@ export class VisualizationFiltersComponent implements OnInit {
           ...selections,
           {
             dimension: 'ou',
-            dimensionItemType: 'OU',
+            dimensionItemType: 'ORGANISATION_UNIT',
             action: this.action,
             items: this.selectedOrgUnitItems,
           },
@@ -90,6 +90,7 @@ export class VisualizationFiltersComponent implements OnInit {
           ...selections,
           {
             dimension: 'pe',
+            dimensionItemType: 'PERIOD',
             action: this.action,
             items: this.selectedPeriodItems,
           },
@@ -100,6 +101,7 @@ export class VisualizationFiltersComponent implements OnInit {
           ...selections,
           {
             dimension: 'ou',
+            dimensionItemType: 'ORGANISATION_UNIT',
             action: this.action,
             items: this.selectedOrgUnitItems,
           },

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { DashboardAppState } from '../../store/reducers';
 import { getCurrentDashboardVisualizationSelections } from '../../store/selectors/dashboard-selectors';
 
@@ -17,9 +18,11 @@ export class VisualizationFiltersContainerComponent implements OnInit {
   constructor(private store: Store<DashboardAppState>) {}
 
   ngOnInit(): void {
-    this.selections$ = this.store.select(
-      getCurrentDashboardVisualizationSelections(this.dashboardItem?.id)
-    );
+    this.selections$ = this.store
+      .select(
+        getCurrentDashboardVisualizationSelections(this.dashboardItem?.id)
+      )
+      .pipe(take(1));
   }
 
   onGetSelections(selections: any[]): void {
