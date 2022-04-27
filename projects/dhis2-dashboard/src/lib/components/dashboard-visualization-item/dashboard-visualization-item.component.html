@@ -30,6 +30,7 @@
         <app-chart-container
           [dashbordItemConfigs]="dashboardItemConfig"
           [visualizationConfigs]="params?.dashboardItemVisualizationConfig"
+          (onGraphTypeUpdate)="onGraphTypeUpdateFromContainer($event)"
         ></app-chart-container>
       </div>
     </div>

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   COLUMN_CHART_ICON,
   INFO_ICON,
+  LINE_ICON,
   MAP_ICON,
   TABLE_ICON,
 } from '../../shared/icons';
@@ -21,12 +22,14 @@ export class VisualizationTypesComponent implements OnInit {
   chartIcon: string;
   mapIcon: string;
   infoIcon: string;
+  lineIcon: string;
 
   constructor() {
     this.tableIcon = TABLE_ICON;
     this.chartIcon = COLUMN_CHART_ICON;
     this.mapIcon = MAP_ICON;
     this.infoIcon = INFO_ICON;
+    this.lineIcon = LINE_ICON;
   }
 
   ngOnInit() {}

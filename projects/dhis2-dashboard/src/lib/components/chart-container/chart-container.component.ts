@@ -5,6 +5,11 @@ import { D2Visualizer } from '@iapps/d2-visualizer';
 import * as _ from 'lodash';
 import { DashboardService } from '../../services/dashboard.service';
 import { updateVisualizationObject } from '../../helpers/update-visualization-object.helper';
+import {
+  LINE_ICON,
+  COLUMN_CHART_ICON,
+  BAR_CHART_ICON,
+} from '../../shared/icons';
 
 @Component({
   selector: 'app-chart-container',
@@ -14,16 +19,24 @@ import { updateVisualizationObject } from '../../helpers/update-visualization-ob
 export class ChartContainerComponent implements OnInit {
   @Input() visualizationConfigs: any;
   @Input() dashbordItemConfigs: any;
+
+  @Output() onGraphTypeUpdate: EventEmitter<any> = new EventEmitter<any>();
+
   analyticsResults: any;
   visualizationAnalytics$: Observable<any>;
   loadingData: boolean = false;
   dataLoaded: boolean = false;
+  errorLoadingData = false;
+  errorResponse = null;
   showVisualizationOptions: boolean = false;
   currentVisualizationType: string;
   metadataIdentifiers: string[];
   dictionaryConfig: any = {
     showAllBlock: false,
   };
+  chartIcon: string;
+  barIcon: string;
+  lineIcon: string;
   keyForDX: string;
 
   constructor(private dashboardService: DashboardService) {}
@@ -32,6 +45,10 @@ export class ChartContainerComponent implements OnInit {
     this.currentVisualizationType = this.dashbordItemConfigs?.type;
     this.getAnalyticsObject();
     this.metadataIdentifiers = [];
+
+    this.chartIcon = COLUMN_CHART_ICON;
+    this.lineIcon = LINE_ICON;
+    this.barIcon = BAR_CHART_ICON;
   }
 
   drawChart(analytics: any) {
@@ -77,9 +94,18 @@ export class ChartContainerComponent implements OnInit {
       .draw();
   }
 
-  getAnalyticsObject(selections?: any): void {
+  getAnalyticsObject(selections?: any, chartType?: String): void {
     this.loadingData = true;
     this.dataLoaded = false;
+    this.errorLoadingData = false;
+    this.errorResponse = null;
+
+    if (chartType != null) {
+      this.visualizationConfigs = {
+        ...this.visualizationConfigs,
+        type: chartType?.toLowerCase(),
+      };
+    }
 
     const visualizationObject = selections
       ? updateVisualizationObject(this.visualizationConfigs, selections)
@@ -144,12 +170,44 @@ export class ChartContainerComponent implements OnInit {
       }
     });
 
-    analyticsData.get().then((analyticsResults) => {
-      this.drawChart(analyticsResults);
-      this.analyticsResults = analyticsResults;
-      this.dataLoaded = true;
-      this.loadingData = false;
-    });
+    analyticsData.get().then(
+      (analyticsResults) => {
+        this.drawChart(analyticsResults);
+        this.analyticsResults = analyticsResults;
+        this.dataLoaded = true;
+        this.loadingData = false;
+      },
+      (error) => {
+        console.log(typeof error);
+        console.log(Object.keys(error));
+        console.log(error.response);
+
+        this.errorResponse = error?.response;
+        // console.log(
+        //   '****************************************************************'
+        // );
+        // console.log(
+        //   '****************************************************************'
+        // );
+        // console.log(
+        //   '****************************************************************'
+        // );
+        // console.log(error);
+        // console.log(
+        //   '****************************************************************'
+        // );
+        // console.log(
+        //   '****************************************************************'
+        // );
+        // console.log(
+        //   '****************************************************************'
+        //
+
+        this.loadingData = false;
+        this.dataLoaded = false;
+        this.errorLoadingData = true;
+      }
+    );
   }
 
   updatevisualizationConfigs(): void {}
@@ -171,5 +229,14 @@ export class ChartContainerComponent implements OnInit {
     //     dashboardItemId: this.dashboardItemConfig?.id,
     //   })
     // );
+  }
+
+  onChartTypeChange(e, type) {
+    console.log(this.dashbordItemConfigs);
+
+    this.onGraphTypeUpdate.emit({
+      itemId: this.dashbordItemConfigs?.id,
+      type: type,
+    });
   }
 }

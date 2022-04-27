@@ -29,6 +29,9 @@ export class DashboardVisualizationItemComponent implements OnInit {
   @Output() selectionDimensions: EventEmitter<any[]> = new EventEmitter<
     any[]
   >();
+
+  @Output() onGraphTypeUpdate: EventEmitter<any> = new EventEmitter<any>();
+
   @Output()
   visualizationTypeChange: EventEmitter<any> = new EventEmitter<any>();
   constructor(
@@ -42,12 +45,24 @@ export class DashboardVisualizationItemComponent implements OnInit {
     );
   }
 
-  updateVisualizationObjectParameters(selections: any[]): void {
-    this.visualizationContainer.getAnalyticsObject(selections);
+  updateVisualizationObjectParameters(
+    selections: any[],
+    chartType?: String
+  ): void {
+    this.visualizationContainer.getAnalyticsObject(selections, chartType);
   }
 
   toggleFooter(event: Event): void {
     event.stopPropagation();
     console.log(event);
+  }
+
+  onGraphTypeUpdateFromContainer(event: Event) {
+    // event.stopPropagation();
+
+    console.log('event on DashVizIt');
+    console.log(event);
+
+    this.onGraphTypeUpdate.emit(event);
   }
 }
