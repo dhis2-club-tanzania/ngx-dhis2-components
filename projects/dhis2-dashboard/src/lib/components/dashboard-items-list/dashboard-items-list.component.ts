@@ -27,18 +27,6 @@ export class DashboardItemsListComponent implements OnInit {
   selections: any[];
   showFilterSelections: boolean = true;
   shouldRenderAnItem: boolean = true;
-  selectedOrgUnitItems = [];
-
-  orgUnitFilterConfig: any = {
-    singleSelection: false,
-    showOrgUnitLevelGroupSection: true,
-    showUserOrgUnitSection: true,
-    reportUse: true,
-    emitOnSelection: true,
-    hideActionButtons: true,
-    minLevel: 4,
-  };
-
   @ViewChildren('vizItem')
   visualizationComponents: QueryList<DashboardVisualizationItemComponent>;
 
@@ -85,13 +73,6 @@ export class DashboardItemsListComponent implements OnInit {
 
   onGetSelections(selections: any[]): void {
     this.selections = selections;
-    this.store.dispatch(
-      updateCurrentVisualizationSelections({
-        selections,
-        dashboardId: this.dashboardItems[0]?.dashboardId,
-        dashboardItemId: this.currentDashboardItemId,
-      })
-    );
   }
 
   onCancel(event: Event): void {
@@ -106,6 +87,13 @@ export class DashboardItemsListComponent implements OnInit {
   ): void {
     event.stopPropagation();
 
+    this.store.dispatch(
+      updateCurrentVisualizationSelections({
+        selections,
+        dashboardId: this.dashboardItems[0]?.dashboardId,
+        dashboardItemId: this.currentDashboardItemId,
+      })
+    );
     (this.visualizationComponents.filter(
       (vizComponent) =>
         vizComponent?.dashboardItemConfig?.id === currentDashboardItemId
@@ -124,9 +112,5 @@ export class DashboardItemsListComponent implements OnInit {
 
   onGetSelectionDimensions(selections: any[]): void {
     this.selections = selections;
-  }
-
-  onOrgUnitUpdate(event, action) {
-    
   }
 }

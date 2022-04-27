@@ -14,14 +14,6 @@
     </mat-grid-tile>
   </mat-grid-list> -->
 
-  <!-- <ngx-dhis2-org-unit-filter
-  [orgUnitFilterConfig]="orgUnitFilterConfig"
-  [selectedOrgUnitItems]="selectedOrgUnitItems"
-  (orgUnitUpdate)="onOrgUnitUpdate($event, 'UPDATE')"
-  (orgUnitClose)="onOrgUnitUpdate($event, 'CLOSE')"
-></ngx-dhis2-org-unit-filter> -->
-
-
   <div class="row">
     <ng-container *ngFor="let item of dashboardItems">
       <div
@@ -65,11 +57,6 @@
               Org Unit
             </button>
           </div>
-          <!-- <div>
-            <lib-dashboard-visualization-selection-summary
-              [dashboardItem]="item"
-            ></lib-dashboard-visualization-selection-summary>
-          </div> -->
 
           <div
             class="mt-1"
@@ -81,7 +68,7 @@
               background-color: #fff;
               width: 100%;
             "
-            *ngIf="showFilterSelections && currentDashboardItemId == item?.id"
+            *ngIf="showFilterSelections && currentDashboardItemId === item?.id"
           >
             <lib-visualization-filters-container
               [filterType]="currentFilterType"

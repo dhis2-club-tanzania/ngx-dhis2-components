@@ -193,31 +193,7 @@ export class ChartContainerComponent implements OnInit {
         this.loadingData = false;
       },
       (error) => {
-        // console.log(typeof error);
-        // console.log(Object.keys(error));
-        // console.log(error.response);
-
         this.errorResponse = error?.response;
-        // console.log(
-        //   '****************************************************************'
-        // );
-        // console.log(
-        //   '****************************************************************'
-        // );
-        // console.log(
-        //   '****************************************************************'
-        // );
-        // console.log(error);
-        // console.log(
-        //   '****************************************************************'
-        // );
-        // console.log(
-        //   '****************************************************************'
-        // );
-        // console.log(
-        //   '****************************************************************'
-        //
-
         this.loadingData = false;
         this.dataLoaded = false;
         this.errorLoadingData = true;
