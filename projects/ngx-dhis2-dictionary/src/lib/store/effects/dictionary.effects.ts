@@ -1,4 +1,5 @@
 import { DatePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -22,7 +23,8 @@ export class DictionaryEffects {
     private actions$: Actions,
     private store: Store<DictionaryState>,
     private httpClient: NgxDhis2HttpClientService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private http: HttpClient
   ) {}
 
   @Effect({ dispatch: false })
@@ -519,9 +521,14 @@ export class DictionaryEffects {
        * Get numerator expression
        */
       zip(
-        this.httpClient.get(
-          'expressions/description?expression=' +
-            encodeURIComponent(indicator.numerator)
+        this.httpClient.post(
+          'indicators/expression/description',
+          indicator.numerator,
+          {
+            httpHeaders: {
+              'Content-Type': 'application/json;charset=UTF-8',
+            },
+          }
         ),
         this.httpClient.get(
           'dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays&' +
@@ -604,9 +611,14 @@ export class DictionaryEffects {
          * Get denominator expression
          */
         zip(
-          this.httpClient.get(
-            'expressions/description?expression=' +
-              encodeURIComponent(indicator.denominator)
+          this.httpClient.post(
+            'indicators/expression/description',
+            indicator.denominator,
+            {
+              httpHeaders: {
+                'Content-Type': 'application/json;charset=UTF-8',
+              },
+            }
           ),
           this.httpClient.get(
             'dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays&' +

@@ -1,6 +1,6 @@
 {
   "name": "@iapps/ngx-dhis2-dictionary",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "peerDependencies": {
     "@angular/common": "^9.0.0 || 10.1 || ^11.0",
     "@angular/core": "^9.0.0 || 10.1 || ^11.0",
