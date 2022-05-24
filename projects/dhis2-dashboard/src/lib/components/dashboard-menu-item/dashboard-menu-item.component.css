@@ -7,6 +7,6 @@
 }
 
 .current-dashboard {
-  background-color: #276696;
+  background-color: #276696 !important;
   color: #fff;
 }
