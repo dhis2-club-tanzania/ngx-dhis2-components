@@ -5,7 +5,16 @@
     dashboards: dashboards$ | async
   } as params"
 >
-  <div *ngIf="params?.dashboards" class="mat-elevation-z1 no-print">
+  <div
+    *ngIf="params?.dashboards"
+    class="no-print mat-elevation-z1"
+    style="
+      position: fixed;
+      z-index: 1205;
+      margin-top: -90px;
+      background-color: #fff;
+    "
+  >
     <app-dashboard-menu
       [dashboardPreferences]="null"
       [dashboards]="params?.dashboards"
@@ -28,6 +37,7 @@
     ></lib-current-dashboard>
 
     <mat-progress-bar
+      class="dashboard-loader"
       *ngIf="!params?.currentDashboard"
       mode="indeterminate"
     ></mat-progress-bar>

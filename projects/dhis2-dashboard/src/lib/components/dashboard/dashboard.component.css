@@ -50,5 +50,10 @@
 }
 
 .dashboard-loader {
-  margin-top: 200px;
+  margin-top: 80px;
+}
+
+.current-selected-dashboard {
+
+  z-index: 1200;
 }

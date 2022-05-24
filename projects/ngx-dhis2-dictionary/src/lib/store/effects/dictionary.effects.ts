@@ -551,6 +551,8 @@ export class DictionaryEffects {
             numeratorDatasets: dataSets,
           };
 
+          // console.log('dataSets', dataSets);
+
           this.httpClient
             .get(
               `analytics.json?dimension=dx:${dataSets
