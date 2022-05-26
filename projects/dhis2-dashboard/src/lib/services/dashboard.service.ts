@@ -160,7 +160,9 @@ export class DashboardService {
 
   fetchDashboardItemAnalyticsData() {
     const url = 'dataStore';
-
-    return this.httpClient.get(url);
+    return this.httpClient.get(url).pipe(
+      map((response) => response),
+      catchError((error) => of(error))
+    );
   }
 }

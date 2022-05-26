@@ -1,0 +1,15 @@
+
+.visualization-footer {
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    bottom: 0;
+    margin-bottom: 5px;
+    margin-left: 5px;
+  }
+
+.visualization-section {
+    min-height: 370px;
+    max-height: 400px;
+    overflow: auto;
+}

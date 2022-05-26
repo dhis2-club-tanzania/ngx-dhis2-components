@@ -45,6 +45,13 @@ import { IndicatorsService } from './services/indicators.service';
 import { ExportService } from './services/export.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRadioModule } from '@angular/material/radio';
+import { DataAnalysisComponent } from './components/data-analysis/data-analysis.component';
+import { ChartContainerComponent } from './components/chart-container/chart-container.component';
+import { VisualizationLoaderComponent } from './components/visualization-loader/visualization-loader.component';
+import { VisualizationFiltersComponent } from './components/visualization-filters/visualization-filters.component';
+import { VisualizationFiltersContainerComponent } from './components/visualization-filters-container/visualization-filters-container.component';
+import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
+import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
 
 @NgModule({
   declarations: [
@@ -68,6 +75,11 @@ import { MatRadioModule } from '@angular/material/radio';
     FilterBySearchInputPipe,
     FilterIndicatorsByGroupIdPipe,
     ShortenNamePipe,
+    DataAnalysisComponent,
+    ChartContainerComponent,
+    VisualizationLoaderComponent,
+    VisualizationFiltersComponent,
+    VisualizationFiltersContainerComponent,
   ],
   imports: [
     CommonModule,
@@ -81,6 +93,8 @@ import { MatRadioModule } from '@angular/material/radio';
     MatTooltipModule,
     MatListModule,
     MatProgressBarModule,
+    NgxDhis2OrgUnitFilterModule,
+    NgxDhis2PeriodFilterModule,
     MatRadioModule,
     StoreModule.forFeature('dictionary', dictionaryReducer),
     StoreModule.forFeature('indicatorsList', indicatorsListReducer),

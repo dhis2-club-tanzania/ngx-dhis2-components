@@ -255,7 +255,7 @@
       dictionaryItem?.data?.denominatorExpression
     "
   >
-    <p>Calculation details</p>
+    <h2>Calculation details</h2>
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -413,6 +413,13 @@
     </table>
   </div>
 
+  <!-- Data analysis -->
+
+  <h2>Visualization</h2>
+  <lib-data-analysis
+    [indicator]="dictionaryItem.data.metadata"
+  ></lib-data-analysis>
+
   <!-- Data elements in indicators -->
   <div
     *ngIf="
@@ -420,7 +427,7 @@
       dictionaryItem.data.dataElements.length > 0
     "
   >
-    <p>Data elements in indicator</p>
+    <h2>Data elements in indicator</h2>
     <small>
       The following is the summary of the data elements used in the calculations
     </small>

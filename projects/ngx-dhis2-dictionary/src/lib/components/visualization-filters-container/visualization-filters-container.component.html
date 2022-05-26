@@ -1,0 +1,8 @@
+<div *ngIf="selections$ | async as selections">
+  <lib-visualization-filters
+    *ngIf="selections"
+    [dimensionSelections]="selections"
+    [filterType]="filterType"
+    (selections)="onGetSelections($event)"
+  ></lib-visualization-filters>
+</div>
