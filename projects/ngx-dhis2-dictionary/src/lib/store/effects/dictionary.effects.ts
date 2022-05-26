@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -22,7 +23,8 @@ export class DictionaryEffects {
     private actions$: Actions,
     private store: Store<DictionaryState>,
     private httpClient: NgxDhis2HttpClientService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private domSinitizer: DomSanitizer
   ) {}
 
   @Effect({ dispatch: false })
@@ -519,15 +521,36 @@ export class DictionaryEffects {
        * Get numerator expression
        */
       zip(
-        this.httpClient.post(
-          'indicators/expression/description',
-          indicator.numerator,
-          {
+        this.httpClient
+          .post('indicators/expression/description', indicator.numerator, {
             httpHeaders: {
               'Content-Type': 'application/json;charset=UTF-8',
             },
-          }
-        ),
+          })
+          .pipe(
+            map((response: any) => {
+              return {
+                ...response,
+                improvedDescription: this.domSinitizer.bypassSecurityTrustHtml(
+                  '<span style="background-color: #46a3f3ed;padding: 1px 4px;margin: 4px;border-radius: 0;">' +
+                    response?.description
+                      ?.split('+')
+                      .join(
+                        '</span> <b style="color: #000"> + </b> </br><span style="background-color: #46a3f3ed;padding: 1px  4px;margin: 4px;border-radius: 0;">'
+                      )
+                      .split(' * ')
+                      .join(
+                        '</span> <b style="color: #000"> * </b> </br><span style="background-color: #46a3f3ed;padding: 1px  4px;margin: 4px;border-radius: 0;">'
+                      )
+                      .split(' / ')
+                      .join(
+                        '</span> <b style="color: #000 !important"> / </b> </br><span style="background-color: #46a3f3ed;padding: 1px  4px;margin: 4px;border-radius: 0;">'
+                      ) +
+                    '</span>'
+                ),
+              };
+            })
+          ),
         this.httpClient.get(
           'dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays' +
             `${
@@ -626,15 +649,37 @@ export class DictionaryEffects {
          * Get denominator expression
          */
         zip(
-          this.httpClient.post(
-            'indicators/expression/description',
-            indicator?.denominator,
-            {
+          this.httpClient
+            .post('indicators/expression/description', indicator?.denominator, {
               httpHeaders: {
                 'Content-Type': 'application/json;charset=UTF-8',
               },
-            }
-          ),
+            })
+            .pipe(
+              map((response: any) => {
+                return {
+                  ...response,
+                  improvedDescription:
+                    this.domSinitizer.bypassSecurityTrustHtml(
+                      '<span style="background-color: #46a3f3ed;padding: 1px 4px;margin: 4px;border-radius: 0;">' +
+                        response?.description
+                          ?.split('+')
+                          .join(
+                            '</span>  <b style="color: #000"> + </b>  </br><span style="background-color: #46a3f3ed;padding: 1px  4px;margin: 4px;border-radius: 0;">'
+                          )
+                          .split(' * ')
+                          .join(
+                            '</span> <b style="color: #000"> * </b> </br><span style="background-color: #46a3f3ed;padding: 1px  4px;margin: 4px;border-radius: 0;">'
+                          )
+                          .split(' / ')
+                          .join(
+                            '</span> <b style="color: #000 !important"> / </b> </br><span style="background-color: #46a3f3ed;padding: 1px  4px;margin: 4px;border-radius: 0;">'
+                          ) +
+                        '</span>'
+                    ),
+                };
+              })
+            ),
           this.httpClient.get(
             'dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays' +
               `${

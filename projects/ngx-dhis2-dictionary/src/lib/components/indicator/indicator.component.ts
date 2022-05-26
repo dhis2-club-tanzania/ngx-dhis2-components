@@ -16,6 +16,7 @@
  */
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatRadioChange } from '@angular/material/radio';
 import * as _ from 'lodash';
 
 @Component({
@@ -29,6 +30,8 @@ export class IndicatorComponent implements OnInit {
   listAllMetadataInGroup: boolean;
 
   @Output() setActive: EventEmitter<string> = new EventEmitter<string>();
+
+  viewCategory: string = 'Standard';
   constructor() {}
 
   ngOnInit(): void {}
@@ -125,5 +128,9 @@ export class IndicatorComponent implements OnInit {
       domElement.style.backgroundColor = '#FFF';
       domElement.style.display = 'none';
     }
+  }
+
+  getSelection(event: MatRadioChange): void {
+    this.viewCategory = event?.value;
   }
 }

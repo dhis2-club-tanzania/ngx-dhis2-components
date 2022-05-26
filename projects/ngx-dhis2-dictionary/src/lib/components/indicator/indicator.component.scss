@@ -63,3 +63,11 @@
 .expression-toggle-btn {
   cursor: pointer;
 }
+
+.improved-view {
+  color: #FFF !important;
+}
+
+::ng-deep .mat-radio-label-content {
+  font-size: 0.6rem !important;
+}

@@ -260,7 +260,35 @@
       <thead>
         <tr>
           <th>Expression</th>
-          <th>Formula</th>
+          <th>
+            <div class="row">
+              <div class="col-4">Formula</div>
+              <div class="col-8">
+                <div class="w-100 d-flex justify-content-end">
+                  <mat-radio-group class="view-category">
+                    <mat-radio-button
+                      (change)="getSelection($event)"
+                      class="view-category-btn"
+                      [value]="'Standard'"
+                      [checked]="viewCategory === 'Standard'"
+                      color="primary"
+                    >
+                      Standard
+                    </mat-radio-button>
+                    <mat-radio-button
+                      (change)="getSelection($event)"
+                      class="registration-category-btn ml-3"
+                      [value]="'Improved'"
+                      [checked]="viewCategory === 'Improved'"
+                      color="primary"
+                    >
+                      Improved
+                    </mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+            </div>
+          </th>
           <th>Sources</th>
           <th>Reporting Period</th>
           <th>Reporting Rate (%)</th>
@@ -288,9 +316,16 @@
                 dictionaryItem?.data?.numeratorDatasets?.length || 1
               "
             >
-              <code>{{
-                dictionaryItem?.data?.numeratorExpression?.description
-              }}</code>
+              <div
+                class="improved-view"
+                *ngIf="viewCategory === 'Improved'"
+                [innerHtml]="
+                  dictionaryItem?.data?.numeratorExpression?.improvedDescription
+                "
+              ></div>
+              <code *ngIf="viewCategory === 'Standard'">
+                {{ dictionaryItem?.data?.numeratorExpression?.description }}
+              </code>
               <div class="w-100">
                 <a
                   class="float-right expression-toggle-btn"
@@ -336,9 +371,16 @@
             [attr.rowspan]="dictionaryItem.data.denominatorDatasets.length || 1"
             *ngIf="count === 0"
           >
-            <code>{{
-              dictionaryItem?.data?.denominatorExpression?.description
-            }}</code>
+            <div
+              class="improved-view"
+              *ngIf="viewCategory === 'Improved'"
+              [innerHtml]="
+                dictionaryItem?.data?.denominatorExpression?.improvedDescription
+              "
+            ></div>
+            <code *ngIf="viewCategory === 'Standard'">
+              {{ dictionaryItem?.data?.denominatorExpression?.description }}
+            </code>
 
             <div class="w-100">
               <a
