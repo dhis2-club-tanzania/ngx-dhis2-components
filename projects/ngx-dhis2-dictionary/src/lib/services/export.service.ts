@@ -37,7 +37,6 @@ export class ExportService {
       //     ? matchedTableContent[1]
       //     : '';
       ctx['div'] = htmlTable;
-      console.log(ctx['div']);
 
       str += '{div}</body></html>';
 

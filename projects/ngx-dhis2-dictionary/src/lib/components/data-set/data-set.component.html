@@ -31,7 +31,7 @@
     </a>
   </h3>
 </div>
-<div class="introduction"><h3 style="color: #464646">Introduction</h3></div>
+<div class="introduction"><h2>Introduction</h2></div>
 <div class="description">
   <p class="dataset">
     Data set
@@ -63,7 +63,7 @@
   </p>
 </div>
 <div>
-  <h4 style="color: #464646">Dataset facts</h4>
+  <h2>Dataset facts</h2>
   <p>
     The dataset has
     <strong>{{ dataSetInfo.data.metadata.dataSetElements.length }}</strong> data
@@ -240,7 +240,7 @@
     dataSetInfo.data.metadata.categoryCombo.name !== 'default'
   "
 >
-  <h4 style="color: #464646">Category Combination</h4>
+  <h2 style="color: #464646">Category Combination</h2>
   <p>
     The form has
     <span style="color: #325e80">{{
@@ -266,7 +266,7 @@
   </table>
 </div>
 <div *ngIf="dataSetInfo.data && dataSetInfo.data.legendSetsInformation">
-  <h4 style="color: #464646">Legend for analysis</h4>
+  <h2>Legend for analysis</h2>
   <p>
     Uses
     <strong>{{ dataSetInfo.data.legendSetsInformation.length }} </strong>legend
@@ -306,9 +306,9 @@
   </div>
 </div>
 <div *ngIf="dataSetInfo.data.metadata">
-  <h4 style="color: #464646">Accessibility & Sharing settings</h4>
+  <h2>Accessibility & Sharing settings</h2>
   <p>
-    This indicator was first created on
+    This dataset was first created on
     <strong>{{ dataSetInfo.data.metadata.created | date }}</strong> by
     <strong>{{ dataSetInfo.data.metadata.user.name }}</strong>
     <span *ngIf="dataSetInfo.data.metadata.lastUpdated">

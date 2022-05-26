@@ -84,7 +84,6 @@ export class ProgramIndicatorsComponent implements OnInit {
 
   searchIndicator(event: any): void {
     this.searchingText = event?.target?.value;
-    console.log(this.searchingText);
     this.loadAllProgramIndicators(1, this.itemsPerPage, this.searchingText);
   }
 

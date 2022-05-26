@@ -78,7 +78,6 @@ export class IndicatorsListComponent implements OnInit {
 
   searchIndicator(event: any): void {
     this.searchingText = event?.target?.value;
-    console.log(this.searchingText);
     this.loadAllIndicators(1, this.itemsPerPage, this.searchingText);
   }
 

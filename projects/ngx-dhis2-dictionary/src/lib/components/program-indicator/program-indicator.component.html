@@ -31,7 +31,7 @@
     </a>
   </h3>
 </div>
-<div class="introduction"><h3 style="color: #464646">Introduction</h3></div>
+<div class="introduction"><h2>Introduction</h2></div>
 <div class="description">
   <p>
     <span style="color: #325e80"
@@ -106,7 +106,7 @@
     programIndicatorInfo.data.metadata.programIndicatorGroups.length > 0
   "
 >
-  <h3 style="color: #464646">Program Indicator Facts</h3>
+  <h2>Program Indicator Facts</h2>
   <p>Belongs to the following program groups of indicators</p>
   <div>
     <table class="table table-bordered">
@@ -142,7 +142,7 @@
     programIndicatorInfo.data.legendSetsInformation.length > 0
   "
 >
-  <h4 style="color: #464646">Legend for analysis</h4>
+  <h2>Legend for analysis</h2>
   <div
     *ngFor="
       let legendSetInformation of programIndicatorInfo.data
@@ -203,7 +203,7 @@
   </div>
 </div>
 <div>
-  <h4 style="color: #464646">Calculation details</h4>
+  <h2>Calculation details</h2>
   <p>
     Calculation of the values will be
     {{ programIndicatorInfo.data.metadata.aggregationType }} of values across
@@ -310,9 +310,9 @@
   </div>
 </div>
 <div>
-  <h4 style="color: #464646">Accessibility & Sharing settings</h4>
+  <h2>Accessibility & Sharing settings</h2>
   <p>
-    This indicator was first created on
+    This program indicator was first created on
     <strong>{{ programIndicatorInfo.data.metadata.created | date }} </strong>
     <span> by </span>
     <strong>{{ programIndicatorInfo.data.metadata.user.name }} </strong>

@@ -251,8 +251,8 @@
   <!-- Calculation details -->
   <div
     *ngIf="
-      dictionaryItem.data.numeratorExpression &&
-      dictionaryItem.data.denominatorExpression
+      dictionaryItem?.data?.numeratorExpression &&
+      dictionaryItem?.data?.denominatorExpression
     "
   >
     <p>Calculation details</p>
@@ -269,23 +269,27 @@
       <tbody>
         <tr
           *ngFor="
-            let dataSet of dictionaryItem.data.numeratorDatasets;
+            let dataSet of dictionaryItem?.data?.numeratorDatasets;
             let i = index
           "
         >
           <ng-container>
             <td
-              [attr.rowspan]="dictionaryItem.data.numeratorDatasets.length || 1"
+              [attr.rowspan]="
+                dictionaryItem?.data?.numeratorDatasets?.length || 1
+              "
               *ngIf="i === 0"
             >
               Numerator
             </td>
             <td
               *ngIf="i === 0"
-              [attr.rowspan]="dictionaryItem.data.numeratorDatasets.length || 1"
+              [attr.rowspan]="
+                dictionaryItem?.data?.numeratorDatasets?.length || 1
+              "
             >
               <code>{{
-                dictionaryItem.data.numeratorExpression.description
+                dictionaryItem?.data?.numeratorExpression?.description
               }}</code>
               <div class="w-100">
                 <a
@@ -300,13 +304,20 @@
                 class="w-100 expression-codes"
               ></div>
             </td>
-            <td>{{ dataSet.name }}</td>
             <td>
-              <b>{{ dataSet.periodType }}</b> with deadline for submission after
-              <b>{{ dataSet.timelyDays }}</b>
+              <a
+                class="dataset-inline-list"
+                (click)="onSetActive(dataSet.id, $event)"
+                >{{ dataSet?.name }}</a
+              >
+            </td>
+            <td>
+              <b>{{ dataSet?.periodType }}</b> with deadline for submission
+              after
+              <b>{{ dataSet?.timelyDays }}</b>
               days
             </td>
-            <td>{{ dataSet.reportingRate }}</td>
+            <td>{{ dataSet?.reportingRate }}</td>
           </ng-container>
         </tr>
         <tr
@@ -326,7 +337,7 @@
             *ngIf="count === 0"
           >
             <code>{{
-              dictionaryItem.data.denominatorExpression.description
+              dictionaryItem?.data?.denominatorExpression?.description
             }}</code>
 
             <div class="w-100">
@@ -342,13 +353,19 @@
               class="w-100 expression-codes"
             ></div>
           </td>
-          <td>{{ dataSet.name }}</td>
           <td>
-            <b>{{ dataSet.periodType }}</b> with deadline for submission after
-            <b>{{ dataSet.timelyDays }}</b>
+            <a
+              class="dataset-inline-list"
+              (click)="onSetActive(dataSet.id, $event)"
+              >{{ dataSet?.name }}</a
+            >
+          </td>
+          <td>
+            <b>{{ dataSet?.periodType }}</b> with deadline for submission after
+            <b>{{ dataSet?.timelyDays }}</b>
             days
           </td>
-          <td>{{ dataSet.reportingRate }}</td>
+          <td>{{ dataSet?.reportingRate }}</td>
         </tr>
       </tbody>
     </table>

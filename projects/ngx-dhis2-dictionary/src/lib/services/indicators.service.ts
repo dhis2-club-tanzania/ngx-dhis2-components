@@ -113,7 +113,6 @@ export class IndicatorsService {
     ).pipe(
       mergeMap(
         (url: string) => {
-          console.log(url);
           return this.httpClient
             .get(url)
             .pipe(map((indicators: any) => indicators));
@@ -161,7 +160,6 @@ export class IndicatorsService {
 
   _indicatorProperties(indicatorsObj): Observable<any> {
     this.indicators = [...this.indicators, ...indicatorsObj];
-    console.log(this.indicators);
     return from(
       _.map(
         this.indicators,

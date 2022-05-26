@@ -1,5 +1,4 @@
 import { DatePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -23,8 +22,7 @@ export class DictionaryEffects {
     private actions$: Actions,
     private store: Store<DictionaryState>,
     private httpClient: NgxDhis2HttpClientService,
-    private datePipe: DatePipe,
-    private http: HttpClient
+    private datePipe: DatePipe
   ) {}
 
   @Effect({ dispatch: false })
@@ -34,12 +32,12 @@ export class DictionaryEffects {
       this.store
         .select(getDictionaryList(action.dictionaryMetadataIdentifiers))
         .pipe(
-          map((dictionaryList: any[]) =>
-            _.filter(
+          map((dictionaryList: any[]) => {
+            return _.filter(
               action.dictionaryMetadataIdentifiers,
               (metadataId) => !_.find(dictionaryList, ['id', metadataId])
-            )
-          )
+            );
+          })
         )
     ),
     tap((identifiers: any) => {
@@ -90,12 +88,12 @@ export class DictionaryEffects {
                 );
                 const indicatorUrl =
                   'indicators/' +
-                  metadata.id +
+                  metadata?.id +
                   '.json?fields=:all,user[name,email,phoneNumber],displayName,lastUpdatedBy[id,name,phoneNumber,email],id,name,numeratorDescription,' +
                   'denominatorDescription,denominator,numerator,annualized,decimals,indicatorType[name],user[name],userGroupAccesses[*],userAccesses[*],' +
                   'attributeValues[value,attribute[name]],indicatorGroups[id,name,code,indicators[id,name]],legendSet[name,symbolizer,' +
                   'legends~size],dataSets[name]';
-                this.getIndicatorInfo(indicatorUrl, metadata.id);
+                this.getIndicatorInfo(indicatorUrl, metadata?.id);
               } else if (
                 metadata.href &&
                 metadata.href.indexOf('programIndicator') !== -1
@@ -531,10 +529,22 @@ export class DictionaryEffects {
           }
         ),
         this.httpClient.get(
-          'dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays&' +
-            'filter=dataSetElements.dataElement.id:in:[' +
-            this.getAvailableDataElements(indicator.numerator) +
-            ']&paging=false'
+          'dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays' +
+            `${
+              this.getAvailableDataElements(indicator?.numerator)?.length > 0
+                ? '&filter=dataSetElements.dataElement.id:in:[' +
+                  this.getAvailableDataElements(indicator?.numerator) +
+                  ']'
+                : ''
+            }${
+              this.getDataSetsFromExpression(indicator?.numerator)?.length > 0
+                ? '&filter=id:in:[' +
+                  this.getDataSetsFromExpression(indicator?.numerator).join(
+                    ','
+                  ) +
+                  ']'
+                : ''
+            }&paging=false`
         )
       ).subscribe((numeratorResults: any[]) => {
         if (numeratorResults[0]) {
@@ -545,19 +555,22 @@ export class DictionaryEffects {
         }
 
         if (numeratorResults[1] && numeratorResults[1].dataSets) {
-          const dataSets = numeratorResults[1].dataSets;
+          const dataSets = numeratorResults[1]?.dataSets;
           metadataInfoLoaded = {
             ...metadataInfoLoaded,
             numeratorDatasets: dataSets,
           };
-
-          // console.log('dataSets', dataSets);
-
           this.httpClient
             .get(
               `analytics.json?dimension=dx:${dataSets
-                .map((dataSet: any) => `${dataSet.id}.REPORTING_RATE`)
+                .map((dataSet: any) => {
+                  return `${dataSet.id}.REPORTING_RATE`;
+                })
                 .join(';')}&dimension=ou:USER_ORGUNIT&dimension=pe:LAST_YEAR`
+            )
+            .pipe(
+              map((response) => response),
+              catchError((error) => of(error))
             )
             .subscribe((analyticsResponse: any) => {
               const analyticsHeaders = analyticsResponse
@@ -615,7 +628,7 @@ export class DictionaryEffects {
         zip(
           this.httpClient.post(
             'indicators/expression/description',
-            indicator.denominator,
+            indicator?.denominator,
             {
               httpHeaders: {
                 'Content-Type': 'application/json;charset=UTF-8',
@@ -623,10 +636,24 @@ export class DictionaryEffects {
             }
           ),
           this.httpClient.get(
-            'dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays&' +
-              'filter=dataSetElements.dataElement.id:in:[' +
-              this.getAvailableDataElements(indicator.denominator) +
-              ']&paging=false'
+            'dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays' +
+              `${
+                this.getAvailableDataElements(indicator?.denominator)?.length >
+                0
+                  ? '&filter=dataSetElements.dataElement.id:in:[' +
+                    this.getAvailableDataElements(indicator?.denominator) +
+                    ']'
+                  : ''
+              }${
+                this.getDataSetsFromExpression(indicator?.denominator)?.length >
+                0
+                  ? '&filter=id:in:[' +
+                    this.getDataSetsFromExpression(indicator?.denominator).join(
+                      ','
+                    ) +
+                    ']'
+                  : ''
+              }&paging=false`
           )
         ).subscribe((denominatorResults: any[]) => {
           if (denominatorResults[0]) {
@@ -635,19 +662,21 @@ export class DictionaryEffects {
               denominatorExpression: denominatorResults[0],
             };
           }
-
           if (denominatorResults[1] && denominatorResults[1].dataSets) {
             const dataSets = denominatorResults[1].dataSets;
             metadataInfoLoaded = {
               ...metadataInfoLoaded,
               denominatorDatasets: dataSets,
             };
-
             this.httpClient
               .get(
                 `analytics.json?dimension=dx:${dataSets
                   .map((dataSet: any) => `${dataSet.id}.REPORTING_RATE`)
                   .join(';')}&dimension=ou:USER_ORGUNIT&dimension=pe:LAST_YEAR`
+              )
+              .pipe(
+                map((response) => response),
+                catchError((error) => of(error))
               )
               .subscribe((analyticsResponse: any) => {
                 const analyticsHeaders = analyticsResponse
@@ -674,7 +703,6 @@ export class DictionaryEffects {
                       )
                       .map((row: string[]) => row[valueIndex])
                       .reduce((sum, value) => sum + parseFloat(value), 0);
-
                     return {
                       ...dataSet,
                       reportingRate,
@@ -1073,6 +1101,20 @@ export class DictionaryEffects {
             });
         });
       });
+  }
+
+  getDataSetsFromExpression(expression: string): string[] {
+    const dataSets =
+      (
+        expression
+          .split('+')
+          .join('.')
+          .split('.')
+          .filter((expressionItem) => expressionItem?.indexOf('R{') > -1) || []
+      ).map((item) => {
+        return item.replace('R{', '').trim();
+      }) || [];
+    return dataSets;
   }
 
   getAvailableDataElements(data, condition?) {
