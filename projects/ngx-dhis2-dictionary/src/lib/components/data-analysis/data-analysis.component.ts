@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { updateVisualizationObject } from '../../helpers/visualization.helper';
 import { ChartContainerComponent } from '../chart-container/chart-container.component';
 import { VisualizationFiltersContainerComponent } from '../visualization-filters-container/visualization-filters-container.component';
 
@@ -155,14 +156,16 @@ export class DataAnalysisComponent implements OnInit {
 
   onUpdate(event: Event, selections: any[]): void {
     event.stopPropagation();
-
-    this.visualizationContainer.getAnalyticsObject(selections);
     this.showFilterSelections = false;
+    this.visualizationConfigs = updateVisualizationObject(
+      this.visualizationConfigs,
+      selections
+    );
+    this.visualizationContainer.getAnalyticsObject(selections);
   }
 
   onGetSelections(selections: any[]): void {
     this.selections = selections;
-    console.log('HEHEHEH');
     if (this.selections) {
       this.visualizationFiltersContainerComponent.onSetSelections(
         this.selections

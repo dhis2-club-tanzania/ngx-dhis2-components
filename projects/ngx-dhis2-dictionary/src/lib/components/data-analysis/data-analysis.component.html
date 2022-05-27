@@ -39,7 +39,7 @@
   <lib-visualization-filters-container
     [filterType]="currentFilterType"
     [selections]="selections"
-    (selections)="onGetSelections($event)"
+    (dimensionSelections)="onGetSelections($event)"
   ></lib-visualization-filters-container>
   <div class="d-flex justify-content-end mb-2">
     <button mat-stroked-button (click)="onCancel($event)">Cancel</button>

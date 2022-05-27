@@ -79,7 +79,6 @@ export class ChartContainerComponent implements OnInit {
     this.loadingData = true;
     this.dataLoaded = false;
 
-    console.log(selections);
     const visualizationObject = selections
       ? updateVisualizationObject(this.visualizationConfigs, selections)
       : this.visualizationConfigs;
@@ -102,6 +101,8 @@ export class ChartContainerComponent implements OnInit {
       } else {
       }
     });
+
+    this.dataLoaded = true;
 
     visualizationObject?.filters?.forEach((dimension) => {
       if (dimension?.dimension == 'dx') {
@@ -142,10 +143,14 @@ export class ChartContainerComponent implements OnInit {
     analyticsData.get().then((analyticsResults) => {
       this.dataLoaded = true;
       this.loadingData = false;
-      setTimeout(() => {
-        this.drawChart(analyticsResults);
-        this.analyticsResults = analyticsResults;
-      }, 200);
+      if (analyticsResults) {
+        try {
+          this.drawChart(analyticsResults);
+          this.analyticsResults = analyticsResults;
+        } catch (err) {
+          console.log(err);
+        }
+      }
     });
   }
 
@@ -161,12 +166,5 @@ export class ChartContainerComponent implements OnInit {
           (item) => item?.id
         ) || [];
     }
-    // this.store.dispatch(
-    //   updateCurrentVisualizationType({
-    //     visualizationType: type,
-    //     dashboardId: this.dashboardItemConfig?.dashboardId,
-    //     dashboardItemId: this.dashboardItemConfig?.id,
-    //   })
-    // );
   }
 }

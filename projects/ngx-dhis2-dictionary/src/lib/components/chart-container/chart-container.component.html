@@ -6,14 +6,14 @@
   <!-- <lib-visualization-loader
     *ngIf="loadingData"
     [visualizationType]="visualizationConfigs?.type"
-    [name]="visualizationConfigs?.visualization?.name"
+    [name]="''"
   ></lib-visualization-loader> -->
   <h4 *ngIf="!loadingData">
     {{ visualizationConfigs?.title }}
   </h4>
 
   <mat-progress-bar *ngIf="loadingData" mode="indeterminate"></mat-progress-bar>
-  <div class="visualization-section">
+  <div class="visualization-section" *ngIf="dataLoaded">
     <div [id]="visualizationConfigs?.id"></div>
   </div>
 </div>

@@ -20,8 +20,6 @@ export class VisualizationFiltersContainerComponent implements OnInit {
   }
 
   onSetSelections(selections: any[]): void {
-    // this.selections = selections;
-    // console.log('NDANIIIIIII');
     this.selections$ = of(this.selections);
   }
 
