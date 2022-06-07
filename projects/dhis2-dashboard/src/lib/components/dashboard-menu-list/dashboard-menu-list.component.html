@@ -2,6 +2,7 @@
   class="menu-list-container dashboard-menu-list-{{
     dashboardPreferences?.menuAlignment
   }} w-100"
+  [ngClass]="{ 'top-margin': currentDashboardsToShow !== '0' }"
 >
   <div class="d-flex align-items-center" style="background-color: #fff">
     <!-- <mat-form-field floatLabel="never">
