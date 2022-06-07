@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { User } from '@iapps/ngx-dhis2-http-client';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Dashboard } from '../../models/dashboard.model';
 import { setCurrentDashboard } from '../../store/actions/dashboard.actions';
 import { DashboardAppState } from '../../store/reducers';
@@ -22,6 +24,8 @@ export class DashboardComponent implements OnInit {
   dashboards$: Observable<Dashboard[]>;
   currentDashboard$: Observable<any>;
   @Output() currentDashboard: EventEmitter<string> = new EventEmitter<string>();
+
+  selectedTab = new FormControl(0);
   constructor(private store: Store<DashboardAppState>) {}
 
   ngOnInit(): void {
@@ -43,5 +47,9 @@ export class DashboardComponent implements OnInit {
 
   onGetCurrentDashboardId(id: string): void {
     this.currentDashboard.emit(id);
+  }
+
+  changeTab(val) {
+    this.selectedTab.setValue(val);
   }
 }

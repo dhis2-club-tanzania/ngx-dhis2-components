@@ -13,7 +13,7 @@ import { DashboardModeState } from '../../models/dashboard-mode.mode';
 @Component({
   selector: 'app-dashboard-menu-list',
   templateUrl: './dashboard-menu-list.component.html',
-  styleUrls: ['./dashboard-menu-list.component.css'],
+  styleUrls: ['./dashboard-menu-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardMenuListComponent implements OnInit {
@@ -24,6 +24,7 @@ export class DashboardMenuListComponent implements OnInit {
   @Input() userIsAdmin: boolean;
 
   searchTerm: string;
+  currentDashboardsToShow: string = '0';
 
   @Output()
   setCurrentDashboard: EventEmitter<string> = new EventEmitter<string>();
@@ -53,5 +54,10 @@ export class DashboardMenuListComponent implements OnInit {
   onShowHelpSection(e) {
     e.stopPropagation();
     this.showHelp.emit(true);
+  }
+
+  toggleDashboardsCount(event: Event, itemsCount: string): void {
+    event.stopPropagation();
+    this.currentDashboardsToShow = itemsCount === '0' ? 'all' : '0';
   }
 }

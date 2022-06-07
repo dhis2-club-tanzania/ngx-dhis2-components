@@ -5,16 +5,7 @@
     dashboards: dashboards$ | async
   } as params"
 >
-  <div
-    *ngIf="params?.dashboards"
-    class="w-100 no-print mat-elevation-z1"
-    style="
-      position: fixed;
-      z-index: 1205;
-      margin-top: -80px;
-      background-color: #fff;
-    "
-  >
+  <div *ngIf="params?.dashboards" class="w-100 no-print">
     <app-dashboard-menu
       [dashboardPreferences]="null"
       [dashboards]="params?.dashboards"
@@ -23,22 +14,38 @@
       "
       (setCurrentDashboard)="onSetCurrentDashboard($event)"
     ></app-dashboard-menu>
+    <!-- <mat-tab-group
+      (selectedTabChange)="changeTab(selectedTab.value)"
+      [selectedIndex]="selectedTab.value"
+      (selectedIndexChange)="selectedTab.setValue($event)"
+    >
+      <mat-tab *ngFor="let dashboard of params?.dashboards">
+        <ng-template mat-tab-label>
+          {{ dashboard?.name }}
+        </ng-template>
+        <ng-template matTabContent>
+          <lib-current-dashboard
+            class="current-selected-dashboard mt-2"
+            *ngIf="selectedTab.value === dashboard?.index"
+            [currentDashboard]="params?.currentDashboard"
+          ></lib-current-dashboard>
+
+          <mat-progress-bar
+            class="dashboard-loader"
+            *ngIf="!params?.currentDashboard"
+            mode="indeterminate"
+          ></mat-progress-bar>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group> -->
+    <div class="current-selected-dashboard mt-2">
+      <lib-current-dashboard
+        *ngIf="params?.currentDashboard"
+        [currentDashboard]="params?.currentDashboard"
+      ></lib-current-dashboard>
+    </div>
     <mat-progress-bar
       *ngIf="!params?.dashboards"
-      mode="indeterminate"
-    ></mat-progress-bar>
-  </div>
-
-  <div class="current-selected-dashboard mt-2">
-    <lib-current-dashboard
-      *ngIf="params?.currentDashboard"
-      [currentDashboard]="params?.currentDashboard"
-      (currentDashboardId)="onGetCurrentDashboardId($event)"
-    ></lib-current-dashboard>
-
-    <mat-progress-bar
-      class="dashboard-loader"
-      *ngIf="!params?.currentDashboard"
       mode="indeterminate"
     ></mat-progress-bar>
   </div>

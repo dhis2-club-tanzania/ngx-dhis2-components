@@ -136,3 +136,8 @@ export const updateCurrentVisualizationType = createAction(
     dashboardItemId: string;
   }>()
 );
+
+export const setSelectionsUpdateState = createAction(
+  '[Visualization] set selections updates',
+  props<{ updated: boolean }>()
+);

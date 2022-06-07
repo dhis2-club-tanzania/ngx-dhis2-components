@@ -43,6 +43,7 @@ import { DashboardVisualizationSelectionSummaryComponent } from './components/da
 import { VisualizationFooterComponent } from './components/visualization-footer/visualization-footer.component';
 import { VisualizationTypesComponent } from './components/visualization-types/visualization-types.component';
 import { NgxDhis2DictionaryModule } from 'projects/ngx-dhis2-dictionary/src/lib/ngx-dhis2-dictionary.module';
+import { MenuItemsControlPipe } from './pipes/menu-items-control.pipe';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { NgxDhis2DictionaryModule } from 'projects/ngx-dhis2-dictionary/src/lib/
     DashboardVisualizationSelectionSummaryComponent,
     VisualizationFooterComponent,
     VisualizationTypesComponent,
+    MenuItemsControlPipe,
   ],
   providers: [
     DashboardItemService,

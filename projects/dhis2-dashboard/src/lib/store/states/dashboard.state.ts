@@ -11,6 +11,7 @@ export interface DashboardState extends EntityState<Dashboard>, BaseState {
   currentVisualization: string;
   dashboardMode: string;
   currentChartType: string;
+  selectionsUpdatedForCurrentDashboard: boolean;
 }
 
 // export function sortByName(a: Dashboard, b: Dashboard): number {
@@ -28,4 +29,5 @@ export const initialDashboardState: DashboardState =
     currentVisualization: '',
     dashboardMode: DashboardMode.VIEW,
     currentChartType: 'column',
+    selectionsUpdatedForCurrentDashboard: false,
   });

@@ -24,6 +24,7 @@ import {
   updateVisualizationsConfigs,
   updateCurrentVisualizationSelections,
   updateCurrentVisualizationType,
+  setSelectionsUpdateState,
 } from '../actions/dashboard.actions';
 import {
   dashboardAdapter,
@@ -133,10 +134,14 @@ const reducer = createReducer(
       };
       return dashboardAdapter.updateOne(
         { id: dashboardId, changes: currentDashboardEntity },
-        { ...state }
+        { ...state, selectionsUpdatedForCurrentDashboard: true }
       );
     }
   ),
+  on(setSelectionsUpdateState, (state, { updated }) => ({
+    ...state,
+    selectionsUpdatedForCurrentDashboard: updated,
+  })),
   on(
     updateCurrentVisualizationType,
     (state, { visualizationType, dashboardId, dashboardItemId }) => {

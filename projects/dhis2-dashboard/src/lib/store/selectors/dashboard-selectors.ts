@@ -25,35 +25,9 @@ export const {
   selectIds: getDashboardIds,
 } = dashboardAdapter.getSelectors(getDashboardState);
 
-export const getDashboardMenuList = createSelector(
-  getAllDashboards,
-  getCurrentUser,
-  (dashboards: Dashboard[], currentUser: any) => {
-    // TODO: Find best way to softcode identification of dashboard given user organisationunit assignment
-    const dashboardAssignment = {
-      jxzwi8zXBBwPF: '52893cd1b8359/52893cd1ba688',
-      qep40r08bg6zf: '52893cd1b8359/52893cd1ba688',
-      EdPCdJoe67rJr: '52893cd1b8359/52f0a11563b5e',
-      qNW24g5kcWB2V: '52893cd1b8359',
-    };
-
-    if (!currentUser) {
-      return [];
-    }
-
-    return dashboards.filter((dashboard) => {
-      const dashboardOrgUnitPath =
-        dashboardAssignment[dashboard.id]?.split('/');
-
-      const userOrgUnitPaths = (currentUser?.organisationUnits || [])
-        .map((organisationUnit) => organisationUnit?.path || '')
-        .join('/')
-        .split('/')
-        .filter((path) => path?.length > 0);
-
-      return intersection(dashboardOrgUnitPath, userOrgUnitPaths).length > 0;
-    });
-  }
+export const getCurrentDashboardSelectionsUpdateState = createSelector(
+  getDashboardState,
+  (state: DashboardState) => state.selectionsUpdatedForCurrentDashboard
 );
 
 export const getCurrentDashboardId = createSelector(

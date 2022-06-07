@@ -3,7 +3,7 @@
     dashboardPreferences?.menuAlignment
   }} w-100"
 >
-  <div class="d-flex align-items-center">
+  <div class="d-flex align-items-center" style="background-color: #fff">
     <!-- <mat-form-field floatLabel="never">
       <mat-icon matPrefix inline>search</mat-icon>
       <input
@@ -15,17 +15,35 @@
     </mat-form-field> -->
 
     <!-- dashboard menu items -->
-    <div class="dashboard-menu-list">
-      <mat-chip-list>
-        <app-dashboard-menu-item
-          *ngFor="let dashboard of dashboards | filterByName: searchTerm"
-          [dashboard]="dashboard"
-          [menuAlignment]="dashboardPreferences?.menuAlignment"
-          [currentDashboardId]="currentDashboardId"
-          (setDashboard)="onSetCurrentDashboard($event)"
+    <div class="dashboard-menu-list mat-elevation-z1">
+      <div class="w-100">
+        <mat-chip-list>
+          <app-dashboard-menu-item
+            *ngFor="
+              let dashboard of dashboards
+                | filterByName: searchTerm
+                | menuItemsControl: currentDashboardsToShow
+            "
+            [dashboard]="dashboard"
+            [menuAlignment]="dashboardPreferences?.menuAlignment"
+            [currentDashboardId]="currentDashboardId"
+            (setDashboard)="onSetCurrentDashboard($event)"
+          >
+          </app-dashboard-menu-item>
+        </mat-chip-list>
+      </div>
+      <div
+        class="w-100 d-flex justify-content-center"
+        style="height: 20px; margin-bottom: -10px; cursor: pointer"
+      >
+        <a (click)="toggleDashboardsCount($event, currentDashboardsToShow)"
+          ><mat-icon>{{
+            currentDashboardsToShow === '0'
+              ? 'keyboard_arrow_down'
+              : 'keyboard_arrow_up'
+          }}</mat-icon></a
         >
-        </app-dashboard-menu-item>
-      </mat-chip-list>
+      </div>
     </div>
     <!-- end of dashboard menu items -->
   </div>

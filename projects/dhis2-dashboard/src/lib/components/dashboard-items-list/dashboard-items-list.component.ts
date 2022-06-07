@@ -35,17 +35,6 @@ export class DashboardItemsListComponent implements OnInit {
   constructor(private store: Store<DashboardAppState>) {}
 
   ngOnInit(): void {
-    this.store.dispatch(
-      loadVisualizationsConfigurations({
-        visualizationsDetails: this.dashboardItems.map((dashboardItem) => {
-          return {
-            dashboardId: dashboardItem?.dashboardId,
-            dashboardItemId: dashboardItem?.id,
-            visId: dashboardItem?.visualization?.id,
-          };
-        }),
-      })
-    );
     // this.formattedDashboardItems = orderBy(
     //   this.dashboardItems,
     //   ['y', 'x'],

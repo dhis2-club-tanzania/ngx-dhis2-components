@@ -2,9 +2,10 @@ export function sanitizeDashboards(dashboards: any[]) {
   return dashboards.map((dashboard) => {
     return {
       ...dashboard,
-      dashboardItems: dashboard?.dashboardItems.map((dashboardItem) => {
+      dashboardItems: dashboard?.dashboardItems.map((dashboardItem, index) => {
         return {
           ...dashboardItem,
+          index,
           currentVisualizationType: dashboardItem?.type,
           dashboardId: dashboard?.id,
           visualization: !dashboardItem?.visualization
