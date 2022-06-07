@@ -42,7 +42,7 @@ import { VisualizationFiltersContainerComponent } from './components/visualizati
 import { DashboardVisualizationSelectionSummaryComponent } from './components/dashboard-visualization-selection-summary/dashboard-visualization-selection-summary.component';
 import { VisualizationFooterComponent } from './components/visualization-footer/visualization-footer.component';
 import { VisualizationTypesComponent } from './components/visualization-types/visualization-types.component';
-import { NgxDhis2DictionaryModule } from 'projects/ngx-dhis2-dictionary/src/lib/ngx-dhis2-dictionary.module';
+import { NgxDhis2DictionaryModule } from '@iapps/ngx-dhis2-dictionary';
 import { MenuItemsControlPipe } from './pipes/menu-items-control.pipe';
 
 @NgModule({
