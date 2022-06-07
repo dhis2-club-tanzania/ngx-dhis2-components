@@ -5,19 +5,9 @@
   [ngClass]="{ 'top-margin': currentDashboardsToShow !== '0' }"
 >
   <div class="d-flex align-items-center" style="background-color: #fff">
-    <!-- <mat-form-field floatLabel="never">
-      <mat-icon matPrefix inline>search</mat-icon>
-      <input
-        matInput
-        type=" text"
-        (keyup)="onSearchDashboard($event)"
-        placeholder="Search Dashboard"
-      />
-    </mat-form-field> -->
-
     <!-- dashboard menu items -->
     <div class="dashboard-menu-list mat-elevation-z1">
-      <div class="w-100">
+      <div class="w-100 d-flex" style="padding-top: 20px">
         <mat-chip-list>
           <app-dashboard-menu-item
             *ngFor="
@@ -34,7 +24,7 @@
         </mat-chip-list>
       </div>
       <div
-        class="w-100 d-flex justify-content-center"
+        class="w-100 d-flex justify-content-center align-items-center"
         style="height: 20px; margin-bottom: -10px; cursor: pointer"
       >
         <a (click)="toggleDashboardsCount($event, currentDashboardsToShow)"
