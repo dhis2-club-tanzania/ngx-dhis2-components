@@ -1,16 +1,13 @@
-
 <div
   class="visualization-card-loader-container"
   [style.height]="'calc(' + height + ' - 15px)'"
 >
   <div class="loader-block">
- 
     <div
       class="chart-loader"
       *ngIf="visualizationType === 'CHART'"
       [style.height]="'calc(' + height + ' - 70px)'"
     >
-        
       <div style="margin-top: 30%">
         <div class="animated-background">&nbsp;</div>
       </div>
@@ -54,9 +51,7 @@
       *ngIf="!visualizationType"
       [style.height]="'calc(' + height + ' - 70px)'"
       class="animated-background"
-    >
-      
-    </div>
+    ></div>
   </div>
   <!-- <div
     class="map-loader"
@@ -69,6 +64,6 @@
   </div> -->
   <div class="loading-text">
     <!-- <img src="assets/icons/balls-3.svg" alt=""> -->
-    Loading data for {{ name }}
+    {{ name ? 'Loading data for ' + name : '' }}
   </div>
 </div>

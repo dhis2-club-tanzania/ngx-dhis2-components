@@ -19,7 +19,9 @@ export function getVisualizationObject(dashboardItem: DashboardItem): any {
       statusCode: 200,
       statusText: 'OK',
       percent: 0,
-      message: `Loading Data for ${name}....`,
+      message: visualization?.name
+        ? `Loading Data for ${visualization?.name}....`
+        : '',
     },
     uiConfig: {},
     layers: [],
