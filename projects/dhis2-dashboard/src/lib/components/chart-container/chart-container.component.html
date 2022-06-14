@@ -66,7 +66,22 @@
       *ngIf="currentVisualizationType === 'CHART'"
     ></div>
     <div *ngIf="currentVisualizationType === 'MAP'"></div>
-    <div *ngIf="currentVisualizationType === 'TABLE'"></div>
+    <div *ngIf="currentVisualizationType === 'REPORT_TABLE'">
+      <ng-container
+        *ngIf="
+          visualizationConfigs &&
+          dashbordItemConfigs &&
+          analyticsResults &&
+          analyticsResults._data
+        "
+      >
+        <iapps-ngx-d2-table
+          [tableDashboardItem]="dashbordItemConfigs"
+          [tableAnalytics]="analyticsResults._data"
+          [tableConfiguration]="tableConfiguration"
+        ></iapps-ngx-d2-table>
+      </ng-container>
+    </div>
     <div *ngIf="currentVisualizationType === 'INFO'">
       <div class="dictionary-block">
         <ngx-dhis2-dictionary-list
