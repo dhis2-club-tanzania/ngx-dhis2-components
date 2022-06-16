@@ -44,6 +44,7 @@ import { VisualizationFooterComponent } from './components/visualization-footer/
 import { VisualizationTypesComponent } from './components/visualization-types/visualization-types.component';
 import { NgxDhis2DictionaryModule } from '@iapps/ngx-dhis2-dictionary';
 import { MenuItemsControlPipe } from './pipes/menu-items-control.pipe';
+import { NgxD2TableModule } from '@iapps/ngx-d2-table';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { MenuItemsControlPipe } from './pipes/menu-items-control.pipe';
     NgxDhis2PeriodFilterModule,
     NgxDhis2OrgUnitFilterModule,
     NgxDhis2DictionaryModule,
+    NgxD2TableModule
   ],
   exports: [Dhis2DashboardComponent],
 })

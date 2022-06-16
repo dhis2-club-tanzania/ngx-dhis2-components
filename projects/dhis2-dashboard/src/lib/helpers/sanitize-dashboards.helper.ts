@@ -21,7 +21,7 @@ export function sanitizeDashboards(dashboards: any[]) {
                 }
               : dashboardItem?.type === 'REPORT_TABLE'
               ? {
-                  ...dashboardItem?.reportTables,
+                  ...dashboardItem?.reportTable,
                   currentVisualizationType: dashboardItem?.type,
                 }
               : dashboardItem?.type === 'TEXT'
