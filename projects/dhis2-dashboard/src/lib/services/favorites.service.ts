@@ -38,7 +38,7 @@ export class FavoritesService {
         async.reflect((visualizationDetails, callback) => {
           this.httpClient
             .get(
-              `visualizations/${visualizationDetails?.visId}.json?fields=id,name,*,columns[dimension,dimensionType,items[*]],rows[dimension,dimensionType,items[*]],filters[dimension,dimensionType,items[*]]`
+              `visualizations/${visualizationDetails?.visId}.json?fields=id,name,*,legendSet[*],columns[dimension,dimensionType,items[*]],rows[dimension,dimensionType,items[*]],filters[dimension,dimensionType,items[*]]`
             )
             .subscribe(
               (results) => {
