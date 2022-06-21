@@ -43,6 +43,8 @@ import { DashboardVisualizationSelectionSummaryComponent } from './components/da
 import { VisualizationFooterComponent } from './components/visualization-footer/visualization-footer.component';
 import { VisualizationTypesComponent } from './components/visualization-types/visualization-types.component';
 import { NgxDhis2DictionaryModule } from '@iapps/ngx-dhis2-dictionary';
+import { NgxD2TableModule } from '@iapps/ngx-d2-table';
+
 
 @NgModule({
   declarations: [
@@ -92,6 +94,7 @@ import { NgxDhis2DictionaryModule } from '@iapps/ngx-dhis2-dictionary';
     NgxDhis2PeriodFilterModule,
     NgxDhis2OrgUnitFilterModule,
     NgxDhis2DictionaryModule,
+    NgxD2TableModule
   ],
   exports: [Dhis2DashboardComponent],
 })

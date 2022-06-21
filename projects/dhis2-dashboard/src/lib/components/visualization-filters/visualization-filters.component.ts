@@ -1,6 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { OrgUnitFilterConfig } from '@iapps/ngx-dhis2-org-unit-filter';
 import { PeriodFilterConfig } from '@iapps/ngx-dhis2-period-filter';
+import { difference } from 'lodash';
 
 @Component({
   selector: 'lib-visualization-filters',
@@ -37,7 +45,7 @@ export class VisualizationFiltersComponent implements OnInit {
     hideActionButtons: true,
     minLevel: 4,
   };
-  selectedOrgUnitItems: any[];
+  selectedOrgUnitItems: any[] = [];
   @Output() selections = new EventEmitter<any[]>();
   constructor() {}
 
@@ -45,9 +53,10 @@ export class VisualizationFiltersComponent implements OnInit {
     this.selectedPeriodItems = (this.dimensionSelections.filter(
       (selection) => selection?.dimension == 'pe'
     ) || [])[0]?.items;
-    // this.selectedOrgUnitItems = (this.dimensionSelections.filter(
-    //   (selection) => selection?.dimension == 'ou'
-    // ) || [])[0]?.items;
+
+    this.selectedOrgUnitItems = (this.dimensionSelections.filter(
+      (selection) => selection?.dimension == 'ou'
+    ) || [])[0]?.items;
   }
 
   onPeriodUpdate(periodObject: any, action: string): void {
@@ -71,7 +80,7 @@ export class VisualizationFiltersComponent implements OnInit {
           ...selections,
           {
             dimension: 'ou',
-            dimensionItemType: 'ORGANISATION_UNIT',
+            dimensionType: 'ORGANISATION_UNIT',
             action: this.action,
             items: this.selectedOrgUnitItems,
           },
