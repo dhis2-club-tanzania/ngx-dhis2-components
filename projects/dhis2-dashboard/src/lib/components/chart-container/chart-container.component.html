@@ -66,7 +66,10 @@
       *ngIf="currentVisualizationType === 'CHART'"
     ></div>
     <div *ngIf="currentVisualizationType === 'MAP'"></div>
-    <div *ngIf="currentVisualizationType === 'TABLE'"></div>
+    {{ currentVisualizationType }}
+    <div [id]="visualizationConfigs?.id" *ngIf="currentVisualizationType === 'REPORT_TABLE'">
+
+    </div>
     <div *ngIf="currentVisualizationType === 'INFO'">
       <div class="dictionary-block">
         <ngx-dhis2-dictionary-list

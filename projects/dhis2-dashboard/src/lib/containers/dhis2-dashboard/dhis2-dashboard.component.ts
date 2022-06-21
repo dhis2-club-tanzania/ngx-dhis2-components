@@ -23,8 +23,8 @@ export class Dhis2DashboardComponent implements OnInit {
     this.currentUser$ = this.store.select(getCurrentUser);
     this.store.dispatch(
       loadDashboards({
-        useDataStore: this.useDataStore,
-        dataStoreKeyRef: this.dataStoreKeyRef,
+        useDataStore: true,
+        dataStoreKeyRef: 'ehs-surveillance',
       })
     );
   }

@@ -12,6 +12,9 @@ export class CurrentDashboardComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
+
+    console.log("here first : ", this.currentDashboard?.dashboardItems)
+
     this.currentDashboardId.emit(this.currentDashboard?.id);
   }
 }
