@@ -15,6 +15,9 @@ export class CurrentDashboardComponent implements OnInit {
   constructor(private store: Store<DashboardAppState>) {}
 
   ngOnInit(): void {
+
+    console.log("here first : ", this.currentDashboard?.dashboardItems)
+
     this.currentDashboardId.emit(this.currentDashboard?.id);
     this.store.dispatch(
       loadVisualizationsConfigurations({

@@ -5,6 +5,11 @@ import { D2Visualizer } from '@iapps/d2-visualizer';
 import * as _ from 'lodash';
 import { DashboardService } from '../../services/dashboard.service';
 import { updateVisualizationObject } from '../../helpers/update-visualization-object.helper';
+import {
+  LINE_ICON,
+  COLUMN_CHART_ICON,
+  BAR_CHART_ICON,
+} from '../../shared/icons';
 
 @Component({
   selector: 'app-chart-container',
@@ -14,21 +19,30 @@ import { updateVisualizationObject } from '../../helpers/update-visualization-ob
 export class ChartContainerComponent implements OnInit {
   @Input() visualizationConfigs: any;
   @Input() dashbordItemConfigs: any;
+
+  @Output() onGraphTypeUpdate: EventEmitter<any> = new EventEmitter<any>();
+
   analyticsResults: any;
   visualizationAnalytics$: Observable<any>;
   loadingData: boolean = false;
   dataLoaded: boolean = false;
+  errorLoadingData = false;
+  errorResponse = null;
   showVisualizationOptions: boolean = false;
   currentVisualizationType: string;
   metadataIdentifiers: string[];
   dictionaryConfig: any = {
     showAllBlock: false,
   };
+  chartIcon: string;
+  barIcon: string;
+  lineIcon: string;
   keyForDX: string;
+  visualizationSubTitle: string = '';
 
   tableConfiguration = {
     id: 'rdRirQR8UwC_table',
-    title: '',
+    title: 'EHS: Colored Table',
     subtitle: '',
     showColumnTotal: true,
     showColumnSubtotal: true,
@@ -47,12 +61,40 @@ export class ChartContainerComponent implements OnInit {
     isConsecutivePeDiff: true
   };
 
+  // tableConfiguration = {
+  //   id: 'rdRirQR8UwC_table',
+  //   title: '',
+  //   subtitle: '',
+  //   showColumnTotal: true,
+  //   showColumnSubtotal: true,
+  //   showRowTotal: true,
+  //   showRowSubtotal: true,
+  //   showDimensionLabels: true,
+  //   hideEmptyRows: false,
+  //   showHierarchy: false,
+  //   displayList: false,
+  //   rows: ['dx'],
+  //   columns: ['pe'],
+  //   filters: ['ou'],
+  //   legendSet: null,
+  //   legendDisplayStrategy: 'FIXED',
+  //   styles: null,
+  //   isConsecutivePeDiff: true
+  // };
+
   constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
     this.currentVisualizationType = this.dashbordItemConfigs?.type;
     this.getAnalyticsObject();
     this.metadataIdentifiers = [];
+
+    this.chartIcon = COLUMN_CHART_ICON;
+    this.lineIcon = LINE_ICON;
+    this.barIcon = BAR_CHART_ICON;
+
+    console.log('current vis type');
+    console.log(this.currentVisualizationType);
   }
 
   drawChart(analytics: any) {
@@ -60,7 +102,7 @@ export class ChartContainerComponent implements OnInit {
       renderId: this.visualizationConfigs?.id,
       type: this.dashbordItemConfigs?.type,
       title: this.visualizationConfigs?.name,
-      subtitle: '',
+      subtitle: this.visualizationSubTitle || '',
       hideTitle: false,
       hideSubtitle: false,
       showData: true,
@@ -89,18 +131,33 @@ export class ChartContainerComponent implements OnInit {
       touched: true,
     };
 
+    console.log('type before drawing');
+    console.log(this.visualizationConfigs);
+    console.log(this.dashbordItemConfigs?.type);
+    console.log(config);
+    console.log(analytics);
+
     const visualizer = new D2Visualizer()
       .setConfig(config)
-      .setData(analytics?.data || analytics?._data)
+      .setData(analytics?._data || analytics?.data)
       .setId(this.visualizationConfigs?.id)
       .setType(this.dashbordItemConfigs?.type)
       .setChartType(this.visualizationConfigs?.type?.toLowerCase())
       .draw();
   }
 
-  getAnalyticsObject(selections?: any): void {
+  getAnalyticsObject(selections?: any, chartType?: String): void {
     this.loadingData = true;
     this.dataLoaded = false;
+    this.errorLoadingData = false;
+    this.errorResponse = null;
+
+    if (chartType != null) {
+      this.visualizationConfigs = {
+        ...this.visualizationConfigs,
+        type: chartType?.toLowerCase(),
+      };
+    }
 
     const visualizationObject = selections
       ? updateVisualizationObject(this.visualizationConfigs, selections)
@@ -129,6 +186,8 @@ export class ChartContainerComponent implements OnInit {
       }
     });
 
+    this.visualizationSubTitle = '';
+
     visualizationObject?.filters?.forEach((dimension) => {
       if (dimension?.dimension == 'dx') {
         this.keyForDX = 'filters';
@@ -139,10 +198,22 @@ export class ChartContainerComponent implements OnInit {
         analyticsData.setOrgUnit(
           dimension?.items?.map((item) => item?.id)?.join(';')
         );
+
+        this.visualizationSubTitle =
+          dimension?.items?.map((item) => item?.name)?.join(',') +
+          this.visualizationSubTitle;
       } else if (dimension?.dimension == 'pe') {
+        // console.log('the dimension');
+        // console.log(dimension);
+
         analyticsData.setPeriod(
           dimension?.items?.map((item) => item?.id)?.join(';')
         );
+
+        this.visualizationSubTitle =
+          this.visualizationSubTitle +
+          '' +
+          dimension?.items?.map((item) => item?.name)?.join(',');
       } else {
       }
     });
@@ -165,12 +236,20 @@ export class ChartContainerComponent implements OnInit {
       }
     });
 
-    analyticsData.get().then((analyticsResults) => {
-      this.drawChart(analyticsResults);
-      this.analyticsResults = analyticsResults;
-      this.dataLoaded = true;
-      this.loadingData = false;
-    });
+    analyticsData.get().then(
+      (analyticsResults) => {
+        this.drawChart(analyticsResults);
+        this.analyticsResults = analyticsResults;
+        this.dataLoaded = true;
+        this.loadingData = false;
+      },
+      (error) => {
+        this.errorResponse = error?.response;
+        this.loadingData = false;
+        this.dataLoaded = false;
+        this.errorLoadingData = true;
+      }
+    );
   }
 
   updatevisualizationConfigs(): void {}
@@ -192,5 +271,14 @@ export class ChartContainerComponent implements OnInit {
     //     dashboardItemId: this.dashboardItemConfig?.id,
     //   })
     // );
+  }
+
+  onChartTypeChange(e, type) {
+    // console.log(this.dashbordItemConfigs);
+
+    this.onGraphTypeUpdate.emit({
+      itemId: this.dashbordItemConfigs?.id,
+      type: type,
+    });
   }
 }

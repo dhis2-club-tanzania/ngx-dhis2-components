@@ -4,17 +4,69 @@
   (mouseleave)="showVisualizationOptions = false"
 >
   <app-visualization-loader
-    *ngIf="loadingData"
+    *ngIf="loadingData && !errorLoadingData"
     [visualizationType]="dashbordItemConfigs?.type"
     [name]="dashbordItemConfigs?.visualization?.name"
   ></app-visualization-loader>
 
-  <div *ngIf="!loadingData && dataLoaded" class="visualization-section">
+  <div
+    *ngIf="errorLoadingData"
+    class="visualization-section"
+    style="display: flex; align-items: center; justify-content: center"
+  >
+    <!-- <div
+    class="visualization-section"
+    style="display: flex; align-items: center; justify-content: center"
+  > -->
+    <div style="width: auto">
+      <div class="error-item">
+        <mat-icon style="color: red"> warning </mat-icon>
+      </div>
+      <div class="error-item">
+        <p>There was an error loading data</p>
+      </div>
+      <div class="error-item">
+        <p>{{ errorResponse.status }} - {{ errorResponse.statusText }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="visualization-right-bar" *ngIf="dataLoaded">
+    <button
+      class="visualization-type-btn"
+      [title]="'View Line Graph'"
+      (click)="onChartTypeChange($event, 'LINE')"
+    >
+      <img [src]="lineIcon" alt="" />
+    </button>
+
+    <button
+      class="visualization-type-btn"
+      [title]="'View Bar Graph'"
+      (click)="onChartTypeChange($event, 'BAR')"
+    >
+      <img [src]="barIcon" alt="" />
+    </button>
+
+    <button
+      class="visualization-type-btn"
+      [title]="'View Column Graph'"
+      (click)="onChartTypeChange($event, 'COLUMN')"
+    >
+      <img [src]="chartIcon" alt="" />
+    </button>
+  </div>
+
+  <div
+    *ngIf="!loadingData && dataLoaded && !errorLoadingData"
+    class="visualization-section"
+  >
     <div
       [id]="visualizationConfigs?.id"
       *ngIf="currentVisualizationType === 'CHART'"
     ></div>
     <div *ngIf="currentVisualizationType === 'MAP'"></div>
+
     <div *ngIf="currentVisualizationType === 'REPORT_TABLE'">
       <ng-container
         *ngIf="
@@ -30,6 +82,7 @@
           [tableConfiguration]="tableConfiguration"
         ></iapps-ngx-d2-table>
       </ng-container>
+      
     </div>
     <div *ngIf="currentVisualizationType === 'INFO'">
       <div class="dictionary-block">
@@ -41,6 +94,7 @@
       </div>
     </div>
   </div>
+
   <div class="visualization-footer" *ngIf="showVisualizationOptions">
     <lib-visualization-footer
       [visualizationType]="currentVisualizationType"
