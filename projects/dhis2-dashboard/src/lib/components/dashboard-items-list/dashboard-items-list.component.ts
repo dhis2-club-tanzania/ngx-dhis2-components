@@ -35,8 +35,6 @@ export class DashboardItemsListComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log("nnapita? ", this.dashboardItems)
-
     this.store.dispatch(
       loadVisualizationsConfigurations({
         visualizationsDetails: this.dashboardItems.map((dashboardItem) => {

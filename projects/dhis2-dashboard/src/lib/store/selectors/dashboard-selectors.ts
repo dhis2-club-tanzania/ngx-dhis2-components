@@ -54,10 +54,6 @@ export const getCurrentDashboard = (forAnalysis?: boolean) =>
         return null;
       }
 
-      console.log('check');
-      console.log(dashboard);
-      console.log(standardizeDashboard(dashboard));
-
       return forAnalysis ? standardizeDashboard(dashboard) : dashboard;
     }
   );

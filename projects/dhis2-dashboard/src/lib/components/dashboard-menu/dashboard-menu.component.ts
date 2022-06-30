@@ -40,6 +40,8 @@ export class DashboardMenuComponent implements OnInit {
   }
 
   onSetCurrentDashboard(id: string) {
+    console.log("app-dashboard-menu");
+    console.log(id);
     this.setCurrentDashboard.emit(id);
   }
 

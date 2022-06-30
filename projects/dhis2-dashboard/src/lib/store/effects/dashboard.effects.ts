@@ -46,7 +46,10 @@ export class DashboardEffects {
         this.store.select(getCurrentDashboardSelectionsUpdateState)
       ),
       switchMap(([action, selectionUpdateState]: [any, boolean]) => {
-        if (!selectionUpdateState) {
+
+         console.log("TODO: check")
+        if (true) {
+        // if (!selectionUpdateState) {
           return this.favoriteService
             .getVisualizationsConfigurations(action?.visualizationsDetails)
             .pipe(

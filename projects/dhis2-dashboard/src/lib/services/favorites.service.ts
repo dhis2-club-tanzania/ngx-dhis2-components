@@ -36,9 +36,7 @@ export class FavoritesService {
         visualizationsDetails,
         3,
         async.reflect((visualizationDetails, callback) => {
-          console.log('option 2');
-          console.log(visualizationsDetails);
-
+         
           this.httpClient
             .get(
               `visualizations/${visualizationDetails?.visId}.json?fields=id,name,*,legendSet[*],columns[dimension,dimensionType,items[*]],rows[dimension,dimensionType,items[*]],filters[dimension,dimensionType,items[*]]`
@@ -117,8 +115,7 @@ export class FavoritesService {
   }
 
   getVisualizationConfigs(id: string): Observable<any> {
-    console.log('option 3');
-
+    
     return this.httpClient.get(
       `visualizations/${id}.json?fields=id,name,*,columns[dimension,dimensionType,items[*]],rows[dimension,dimensionType,items[*]],filters[dimension,dimensionType,items[*]]`
     );

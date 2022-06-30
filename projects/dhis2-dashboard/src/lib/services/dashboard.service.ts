@@ -141,7 +141,6 @@ export class DashboardService {
   }
 
   getChartConfigs(chartId: String) {
-    console.log("option 1")
     const chartUrl = `visualizations/${chartId}.json?fields=id,type,dataElementDimensions,displayName~rename(name),displayDescription~rename(description),columns[dimension,legendSet[id],filter,items[dimensionItem~rename(id),displayName~rename(name),dimensionItemType]],rows[dimension,legendSet[id],filter,items[dimensionItem~rename(id),displayName~rename(name),dimensionItemType]],filters[dimension,legendSet[id],filter,items[dimensionItem~rename(id),displayName~rename(name),dimensionItemType]]`;
 
     return this.httpClient.get(chartUrl);
