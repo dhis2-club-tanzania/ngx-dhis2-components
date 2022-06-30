@@ -14,7 +14,7 @@ export class HttpClientComponent implements OnInit {
 
   ngOnInit(): void {
     this.httpClient.manifest().subscribe((manifest: Manifest) => {
-      console.log(manifest);
+      // console.log(manifest);
     });
     this.httpClient
       .get(
@@ -24,7 +24,7 @@ export class HttpClientComponent implements OnInit {
         }
       )
       .subscribe((orgUnits) => {
-        console.log(orgUnits);
+        // console.log(orgUnits);
       });
   }
 }

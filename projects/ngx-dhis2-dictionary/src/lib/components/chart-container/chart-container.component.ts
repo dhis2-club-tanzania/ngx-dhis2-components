@@ -148,7 +148,7 @@ export class ChartContainerComponent implements OnInit {
           this.drawChart(analyticsResults);
           this.analyticsResults = analyticsResults;
         } catch (err) {
-          console.log(err);
+          // console.log(err);
         }
       }
     });

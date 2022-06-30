@@ -36,8 +36,8 @@ export class DashboardComponent implements OnInit {
   }
 
   onSetCurrentDashboard(dashboardId: string): void {
-    console.log("check?");
-    console.log(dashboardId);
+    // console.log("check?");
+    // console.log(dashboardId);
     this.currentDashboardId = dashboardId;
     this.store.dispatch(setCurrentDashboard({ id: dashboardId }));
     this.currentDashboard$ = of(null);

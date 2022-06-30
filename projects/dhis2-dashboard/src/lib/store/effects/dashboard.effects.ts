@@ -47,7 +47,7 @@ export class DashboardEffects {
       ),
       switchMap(([action, selectionUpdateState]: [any, boolean]) => {
 
-         console.log("TODO: check")
+        console.log("TODO: check")
         if (true) {
         // if (!selectionUpdateState) {
           return this.favoriteService
