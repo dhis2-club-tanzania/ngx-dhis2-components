@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { User } from '@iapps/ngx-dhis2-http-client';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
   currentDashboard$: Observable<any>;
   @Output() currentDashboard: EventEmitter<string> = new EventEmitter<string>();
 
-  selectedTab = new FormControl(0);
+  selectedTab = new UntypedFormControl(0);
   constructor(private store: Store<DashboardAppState>) {}
 
   ngOnInit(): void {

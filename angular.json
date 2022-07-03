@@ -342,9 +342,10 @@
       }
     }
   },
-  "defaultProject": "ngx-dhis2-components",
   "cli": {
-    "defaultCollection": "@ngrx/schematics",
-    "analytics": "1fcc34d8-c0c2-4319-b0c0-6f1f13f9c1c4"
+    "analytics": "1fcc34d8-c0c2-4319-b0c0-6f1f13f9c1c4",
+    "schematicCollections": [
+      "@ngrx/schematics"
+    ]
   }
 }

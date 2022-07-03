@@ -3,8 +3,6 @@ import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import * as _ from 'lodash';
 import { from, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import mapLimit from 'async';
-import * as async from 'async';
 
 @Injectable()
 export class IndicatorsService {
