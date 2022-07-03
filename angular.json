@@ -46,7 +46,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -101,17 +100,6 @@
             "scripts": []
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        },
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
@@ -151,16 +139,6 @@
             "tsConfig": "projects/ngx-dhis2-http-client/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-dhis2-http-client/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/ngx-dhis2-http-client/tsconfig.lib.json",
-              "projects/ngx-dhis2-http-client/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
         }
       }
     },
@@ -188,16 +166,6 @@
             "main": "projects/ngx-dhis2-org-unit-filter/src/test.ts",
             "tsConfig": "projects/ngx-dhis2-org-unit-filter/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-dhis2-org-unit-filter/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/ngx-dhis2-org-unit-filter/tsconfig.lib.json",
-              "projects/ngx-dhis2-org-unit-filter/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -227,16 +195,6 @@
             "tsConfig": "projects/ngx-dhis2-menu/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-dhis2-menu/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/ngx-dhis2-menu/tsconfig.lib.json",
-              "projects/ngx-dhis2-menu/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
         }
       }
     },
@@ -264,16 +222,6 @@
             "main": "projects/ngx-dhis2-period-filter/src/test.ts",
             "tsConfig": "projects/ngx-dhis2-period-filter/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-dhis2-period-filter/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/ngx-dhis2-period-filter/tsconfig.lib.json",
-              "projects/ngx-dhis2-period-filter/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -303,16 +251,6 @@
             "tsConfig": "projects/ngx-dhis2-data-filter/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-dhis2-data-filter/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/ngx-dhis2-data-filter/tsconfig.lib.json",
-              "projects/ngx-dhis2-data-filter/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
         }
       }
     },
@@ -341,18 +279,6 @@
             "tsConfig": "projects/ngx-dhis2-dictionary/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-dhis2-dictionary/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/ngx-dhis2-dictionary/tsconfig.lib.json",
-              "projects/ngx-dhis2-dictionary/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     },
@@ -380,18 +306,6 @@
             "main": "projects/ngx-dhis2-selection-filters/src/test.ts",
             "tsConfig": "projects/ngx-dhis2-selection-filters/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-dhis2-selection-filters/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/ngx-dhis2-selection-filters/tsconfig.lib.json",
-              "projects/ngx-dhis2-selection-filters/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         }
       }

@@ -2,17 +2,6 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/ngx-dhis2-selection-filters",
   "lib": {
-    "entryFile": "src/public-api.ts",
-    "umdModuleIds": {
-      "lodash": "_",
-      "@iapps/ngx-dhis2-data-filter": "@iapps/ngx-dhis2-data-filter",
-      "@iapps/ngx-dhis2-http-client": "@iapps/ngx-dhis2-http-client",
-      "@iapps/ngx-dhis2-org-unit-filter": "@iapps/ngx-dhis2-org-unit-filter",
-      "@iapps/ngx-dhis2-period-filter": "@iapps/ngx-dhis2-period-filter",
-      "ngx-color-picker": "ngx-color-picker",
-      "ng2-dragula": "ng2-dragula",
-      "@iapps/ngx-dhis2-validation-rule-group-filter": "@iapps/ngx-dhis2-validation-rule-group-filter",
-      "@ngx-translate/core": "@ngx-translate/core"
-    }
+    "entryFile": "src/public-api.ts"
   }
 }

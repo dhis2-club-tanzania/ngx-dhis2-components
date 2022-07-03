@@ -2,11 +2,7 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/ngx-dhis2-menu",
   "lib": {
-    "entryFile": "src/public-api.ts",
-    "umdModuleIds": {
-      "lodash": "_",
-      "@iapps/ngx-dhis2-http-client": "@iapps/ngx-dhis2-http-client"
-    }
+    "entryFile": "src/public-api.ts"
   },
   "whitelistedNonPeerDependencies": ["."]
 }
