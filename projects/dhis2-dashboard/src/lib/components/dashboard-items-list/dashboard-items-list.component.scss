@@ -1,0 +1,25 @@
+.visualization-card {
+  background-color: #ffffff;
+  width: 100%;
+  position: relative;
+  padding: 4px;
+}
+
+.active-filter-type {
+  background-color: #e0e0e0;
+}
+.dashboard-items-container {
+  // height: 100vh;
+}
+
+gridster {
+  background: #ffffff;
+}
+
+.visualization-card {
+  background-color: #ffffff;
+  padding: 5px;
+  width: 100%;
+  box-shadow: 0 0 3px 0 #999;
+  border-radius: 3px;
+}
