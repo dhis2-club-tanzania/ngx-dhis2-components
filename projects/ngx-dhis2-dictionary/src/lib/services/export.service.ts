@@ -56,9 +56,9 @@ export class ExportService {
     const blob = new Blob([csvString], { type: 'text/csv' });
 
     // Determine which approach to take for the download
-    if (navigator.msSaveOrOpenBlob) {
+    if ((navigator as any).msSaveOrOpenBlob) {
       // Works for Internet Explorer and Microsoft Edge
-      navigator.msSaveOrOpenBlob(blob, filename + '.csv');
+      (navigator as any).msSaveOrOpenBlob(blob, filename + '.csv');
     } else {
       this._downloadAnchor(URL.createObjectURL(blob), 'csv', filename);
     }
