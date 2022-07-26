@@ -9,8 +9,19 @@ export class OrgUnitGroupService {
   loadAll() {
     return this.httpClient
       .get(`organisationUnitGroups.json?fields=id,name&paging=false`, {
-        useIndexDb: true
+        useIndexDb: true,
       })
       .pipe(map((res: any) => res.organisationUnitGroups || []));
+  }
+
+  loadAllGroupSets() {
+    return this.httpClient
+      .get(
+        `organisationUnitGroupSets.json?fields=id,name,organisationUnitGroups[id,name]&paging=false`,
+        {
+          useIndexDb: true,
+        }
+      )
+      .pipe(map((res: any) => res.organisationUnitGroupSets || []));
   }
 }

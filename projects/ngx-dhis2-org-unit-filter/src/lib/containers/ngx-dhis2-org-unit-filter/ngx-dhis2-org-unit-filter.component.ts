@@ -13,7 +13,10 @@ import { map, tap } from 'rxjs/operators';
 import { DEFAULT_ORG_UNIT_FILTER_CONFIG } from '../../constants/default-org-unit-filter-config.constant';
 import { OrgUnitTypes } from '../../constants/org-unit-types.constants';
 import { USER_ORG_UNITS } from '../../constants/user-org-units.constants';
-import { getOrgUnitGroupsWithSelected } from '../../helpers/get-org-unit-groups-with-selected.helper';
+import {
+  getOrgUnitGroupSetsWithSelected,
+  getOrgUnitGroupsWithSelected,
+} from '../../helpers/get-org-unit-groups-with-selected.helper';
 import { getOrgUnitLevelBySelectedOrgUnits } from '../../helpers/get-org-unit-level-by-selected-org-unit.helper';
 import { getOrgUnitSelection } from '../../helpers/get-org-unit-selection.helper';
 import { getSelectedOrgUnits } from '../../helpers/get-selected-org-units.helper';
@@ -40,10 +43,12 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
 
   orgUnitLevels$: Observable<OrgUnitLevel[]>;
   orgUnitGroups$: Observable<OrgUnitGroup[]>;
+  orgUnitGroupSets$: Observable<OrgUnitGroup[]>;
   userOrgUnits: OrgUnit[];
   isAnyUserOrgUnitSelected: boolean;
   loadingOrgUnitLevels: boolean;
   loadingOrgUnitGroups: boolean;
+  loadingOrgUnitGroupSets: boolean;
   loadingOrgUnits: boolean;
   topOrgUnitLevel$: Observable<number>;
   selectedOrgUnits: OrgUnit[];
@@ -60,6 +65,7 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
     this.loadingOrgUnits = true;
     this.loadingOrgUnitLevels = true;
     this.loadingOrgUnitGroups = true;
+    this.loadingOrgUnitGroupSets = true;
   }
 
   ngOnInit() {
@@ -86,9 +92,8 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
   private _getSanitizedSelectedOrgUnits(
     selectedOrgUnitItems
   ): Observable<OrgUnit[]> {
-    const initialSelectedOrgUnits: OrgUnit[] = getSelectedOrgUnits(
-      selectedOrgUnitItems
-    );
+    const initialSelectedOrgUnits: OrgUnit[] =
+      getSelectedOrgUnits(selectedOrgUnitItems);
     const sanitizedOrgUnits: OrgUnit[] = initialSelectedOrgUnits.filter(
       (orgUnit) => orgUnit.path
     );
@@ -143,6 +148,19 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
       ),
       tap(() => {
         this.loadingOrgUnitGroups = false;
+      })
+    );
+
+    // set or update org unit group sets
+    this.orgUnitGroupSets$ = this.orgUnitGroupService.loadAllGroupSets().pipe(
+      map((orgUnitGroupSets: OrgUnitGroup[]) => {
+        return getOrgUnitGroupSetsWithSelected(
+          orgUnitGroupSets,
+          this.selectedOrgUnitItems
+        );
+      }),
+      tap(() => {
+        this.loadingOrgUnitGroupSets = false;
       })
     );
 

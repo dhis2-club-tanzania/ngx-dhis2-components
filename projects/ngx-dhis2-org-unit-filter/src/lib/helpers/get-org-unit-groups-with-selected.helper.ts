@@ -13,6 +13,18 @@ export function getOrgUnitGroupsWithSelected(
   });
 }
 
+export function getOrgUnitGroupSetsWithSelected(
+  orgUnitGroupSets: OrgUnitGroup[],
+  selectedOrgUnits: any[]
+) {
+  return (orgUnitGroupSets || []).map((orgUnitGroupSet: OrgUnitGroup) => {
+    return {
+      ...orgUnitGroupSet,
+      selected: isOrgUnitGroupSelected(selectedOrgUnits, orgUnitGroupSet),
+    };
+  });
+}
+
 function isOrgUnitGroupSelected(
   selectedOrgUnits: OrgUnit[],
   orgUnitGroup: OrgUnitGroup

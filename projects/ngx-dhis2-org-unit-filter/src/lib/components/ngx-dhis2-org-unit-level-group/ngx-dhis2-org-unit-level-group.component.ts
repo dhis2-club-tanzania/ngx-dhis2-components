@@ -11,6 +11,7 @@ import { OrgUnitFilterConfig } from '../../models/org-unit-filter-config.model';
 import { OrgUnitGroup } from '../../models/org-unit-group.model';
 import { OrgUnitLevel } from '../../models/org-unit-level.model';
 import { OrgUnitTypes } from '../../constants/org-unit-types.constants';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -23,10 +24,14 @@ export class NgxDhis2OrgUnitLevelGroupComponent implements OnInit {
   @Input() orgUnitLevels: OrgUnitLevel[];
   @Input() loadingLevels: boolean;
   @Input() loadingGroups: boolean;
+  @Input() loadingOrgUnitGroupSets: boolean;
+  @Input() orgUnitGroupSets: OrgUnitGroup[];
   @Input() orgUnitGroups: OrgUnitGroup[];
   @Input() height: string;
 
   @Input() orgUnitFilterConfig: OrgUnitFilterConfig;
+
+  currentOrgUnitGroupSet: OrgUnitGroup;
 
   orgUnitGroupLevelSearchQuery: string;
   @Output() activateOrgUnitLevelOrGroup = new EventEmitter();
@@ -44,6 +49,20 @@ export class NgxDhis2OrgUnitLevelGroupComponent implements OnInit {
     ).length;
   }
 
+  get selectedOrgUnitGroupsList(): string {
+    return (
+      (
+        (this.orgUnitGroups || []).filter(
+          (orgUnitGroup, index) => orgUnitGroup.selected
+        ) || []
+      ).map((ouGroup) => ouGroup?.name) || []
+    ).join(';');
+  }
+
+  onGroupSetSelect(event: MatSelectChange): void {
+    this.currentOrgUnitGroupSet = event?.value;
+  }
+
   constructor() {}
 
   ngOnInit() {}
@@ -53,7 +72,12 @@ export class NgxDhis2OrgUnitLevelGroupComponent implements OnInit {
     this.orgUnitGroupLevelSearchQuery = e.target.value;
   }
 
-  onUpdate(e, selectedOrgUnitLevelOrGroup: any, itemType: string) {
+  onUpdate(
+    e,
+    selectedOrgUnitLevelOrGroup: any,
+    itemType: string,
+    orgUnitGroupSet?: OrgUnitGroup
+  ) {
     e.stopPropagation();
     if (selectedOrgUnitLevelOrGroup.selected) {
       this.deactivateOrgUnitLevelOrGroup.emit({
@@ -66,6 +90,13 @@ export class NgxDhis2OrgUnitLevelGroupComponent implements OnInit {
           itemType === 'LEVEL'
             ? OrgUnitTypes.ORGANISATION_UNIT_LEVEL
             : OrgUnitTypes.ORGANISATION_UNIT_GROUP,
+        groupSet:
+          itemType !== 'LEVEL'
+            ? {
+                id: orgUnitGroupSet?.id,
+                name: orgUnitGroupSet?.name,
+              }
+            : null,
       });
     } else {
       this.activateOrgUnitLevelOrGroup.emit({
@@ -78,6 +109,13 @@ export class NgxDhis2OrgUnitLevelGroupComponent implements OnInit {
           itemType === 'LEVEL'
             ? OrgUnitTypes.ORGANISATION_UNIT_LEVEL
             : OrgUnitTypes.ORGANISATION_UNIT_GROUP,
+        groupSet:
+          itemType !== 'LEVEL'
+            ? {
+                id: orgUnitGroupSet?.id,
+                name: orgUnitGroupSet?.name,
+              }
+            : null,
       });
     }
   }
