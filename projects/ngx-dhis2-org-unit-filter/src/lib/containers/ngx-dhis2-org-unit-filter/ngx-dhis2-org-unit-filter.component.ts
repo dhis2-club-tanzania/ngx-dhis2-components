@@ -143,9 +143,12 @@ export class NgxDhis2OrgUnitFilterComponent implements OnInit, OnDestroy {
 
     // set or update org unit groups
     this.orgUnitGroups$ = this.orgUnitGroupService.loadAll().pipe(
-      map((orgUnitGroups: OrgUnitGroup[]) =>
-        getOrgUnitGroupsWithSelected(orgUnitGroups, this.selectedOrgUnitItems)
-      ),
+      map((orgUnitGroups: OrgUnitGroup[]) => {
+        return getOrgUnitGroupsWithSelected(
+          orgUnitGroups,
+          this.selectedOrgUnitItems
+        );
+      }),
       tap(() => {
         this.loadingOrgUnitGroups = false;
       })

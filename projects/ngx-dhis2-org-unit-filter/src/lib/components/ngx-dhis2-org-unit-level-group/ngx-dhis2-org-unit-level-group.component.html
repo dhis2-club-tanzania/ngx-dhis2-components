@@ -89,7 +89,17 @@
         <div class="p-3">
           <mat-form-field class="w-100">
             <mat-label>Select group set</mat-label>
-            <mat-select (selectionChange)="onGroupSetSelect($event)">
+            <mat-select
+              (selectionChange)="onGroupSetSelect($event)"
+              [(ngModel)]="selectedGroupSets"
+              multiple
+            >
+              <mat-select-trigger>
+                <span *ngFor="let gSet of selectedGroupSets; let count = index">
+                  {{ gSet?.name }}
+                  <span *ngIf="count < selectedGroupSets?.length - 1"> ,</span>
+                </span>
+              </mat-select-trigger>
               <mat-option
                 *ngFor="let orgUnitGroupSet of orgUnitGroupSets"
                 [value]="orgUnitGroupSet"
@@ -99,10 +109,10 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <ng-container *ngIf="currentOrgUnitGroupSet">
+        <ng-container *ngIf="orgUnitGroupsFromGroupSets">
           <mat-list-item
             *ngFor="
-              let orgUnitGroup of currentOrgUnitGroupSet?.organisationUnitGroups
+              let orgUnitGroup of orgUnitGroupsFromGroupSets
                 | orgUnitGroupLevelFilter: orgUnitGroupLevelSearchQuery:'group';
               trackBy: trackByOrgUnitGroup
             "
@@ -112,7 +122,7 @@
               class="org-unit-list-item"
               [checked]="orgUnitGroup.selected"
               (click)="
-                onUpdate($event, orgUnitGroup, 'GROUP', currentOrgUnitGroupSet)
+                onUpdate($event, orgUnitGroup, 'GROUP', selectedGroupSets)
               "
               >{{ orgUnitGroup.name }}</mat-checkbox
             >
