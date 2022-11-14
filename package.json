@@ -40,7 +40,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^14.0.4",
-    "@angular/cdk": "^13.3.9",
+    "@angular/cdk": "^14.2.7",
     "@angular/common": "^14.0.4",
     "@angular/compiler": "^14.0.4",
     "@angular/core": "^14.0.4",
