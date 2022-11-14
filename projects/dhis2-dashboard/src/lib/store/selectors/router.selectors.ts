@@ -4,7 +4,6 @@ import { createFeatureSelector } from '@ngrx/store';
 import { DashboardState } from '../reducers';
 
 export const selectRouter = createFeatureSelector<
-  DashboardState,
   RouterReducerState
 >('router');
 

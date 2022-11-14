@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { from, Observable, of, zip } from 'rxjs';
@@ -27,8 +27,8 @@ export class DictionaryEffects {
     private domSinitizer: DomSanitizer
   ) {}
 
-  @Effect({ dispatch: false })
-  initializeDictionary$: Observable<any> = this.actions$.pipe(
+  
+  initializeDictionary$: Observable<any> = createEffect(() => this.actions$.pipe(
     ofType(DictionaryActionTypes.InitializeDictionaryMetadata),
     mergeMap((action: InitializeDictionaryMetadataAction) =>
       this.store
@@ -234,7 +234,7 @@ export class DictionaryEffects {
           }
         );
     })
-  );
+  ), { dispatch: false });
 
   getDataSetInfo(dataSetUrl: string, dataSetId: string) {
     let metadataInfoLoaded = {

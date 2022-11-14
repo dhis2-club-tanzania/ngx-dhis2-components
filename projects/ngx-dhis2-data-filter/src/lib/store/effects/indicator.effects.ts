@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ErrorMessage } from '@iapps/ngx-dhis2-http-client';
-import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { concatMap, tap, withLatestFrom } from 'rxjs/operators';
@@ -17,7 +17,7 @@ import { getIndicatorsInitiatedStatus } from '../selectors/indicator.selectors';
 
 @Injectable()
 export class IndicatorEffects {
-  @Effect({ dispatch: false })
+  
   loadIndicators$: Observable<any> = createEffect(
     () =>
       this.actions$.pipe(
