@@ -118,8 +118,6 @@ export class FavoritesService {
   }
 
   getVisualizationConfigs(id: string): Observable<any> {
-    console.log('option 3');
-
     return this.httpClient.get(
       `visualizations/${id}.json?fields=id,name,*,columns[dimension,dimensionType,items[*]],rows[dimension,dimensionType,items[*]],filters[dimension,dimensionType,items[*]]`
     );

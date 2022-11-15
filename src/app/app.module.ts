@@ -38,6 +38,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         organisationUnitLevels: 'id,level',
         organisationUnits: 'id,name,level',
         organisationUnitGroups: 'id',
+        organisationUnitGroupSets: 'id',
         dataStore_scorecards: 'id',
       },
     }),

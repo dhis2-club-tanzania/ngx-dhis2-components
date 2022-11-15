@@ -93,9 +93,7 @@ export class ChartContainerComponent implements OnInit {
     this.lineIcon = LINE_ICON;
     this.barIcon = BAR_CHART_ICON;
 
-    console.log('current vis type');
-    console.log(this.currentVisualizationType);
-  }
+   }
 
   drawChart(analytics: any) {
     let config = {
@@ -130,12 +128,6 @@ export class ChartContainerComponent implements OnInit {
       ),
       touched: true,
     };
-
-    console.log('type before drawing');
-    console.log(this.visualizationConfigs);
-    console.log(this.dashbordItemConfigs?.type);
-    console.log(config);
-    console.log(analytics);
 
     const visualizer = new D2Visualizer()
       .setConfig(config)

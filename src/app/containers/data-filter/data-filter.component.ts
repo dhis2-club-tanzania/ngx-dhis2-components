@@ -21,7 +21,7 @@ export class DataFilterComponent implements OnInit {
   ngOnInit(): void {}
 
   onDataUpdate(dataObject, action) {
-    console.log(dataObject);
+    // console.log(dataObject);
     this.dataObject = dataObject;
     this.action = action;
   }
