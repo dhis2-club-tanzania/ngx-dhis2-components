@@ -39,7 +39,7 @@ export class OrgUnitFilterComponent implements OnInit {
 
   onOrgUnitUpdate(orgUnitObject, action) {
     this.orgUnitObject = orgUnitObject;
-    console.log('or', this.orgUnitObject);
+    // console.log('or', this.orgUnitObject);
     this.action = action;
   }
 }

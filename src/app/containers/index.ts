@@ -6,6 +6,7 @@ import { DataFilterComponent } from './data-filter/data-filter.component';
 import { MenuComponent } from './menu/menu.component';
 import { DimensionFilterComponent } from './dimension-filter/dimension-filter.component';
 import { SelectionFiltersComponent } from './selection-filters/selection-filters.component';
+import { Dhis2DashboardComponent } from './dhis2-dashboard/dhis2-dashboard.component';
 
 export const containers: any[] = [
   HttpClientComponent,
@@ -16,4 +17,5 @@ export const containers: any[] = [
   MenuComponent,
   DimensionFilterComponent,
   SelectionFiltersComponent,
+  Dhis2DashboardComponent,
 ];

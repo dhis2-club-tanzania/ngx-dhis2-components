@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { find } from 'lodash';
 import { Observable, of } from 'rxjs';
@@ -86,7 +86,7 @@ export class FunctionEffects {
     { dispatch: false }
   );
 
-  @Effect()
+  
   saveFunction$: Observable<any> = createEffect(() =>
     this.actions$.pipe(
       ofType(saveFunction),

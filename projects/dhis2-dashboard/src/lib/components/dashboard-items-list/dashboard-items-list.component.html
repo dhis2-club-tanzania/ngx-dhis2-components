@@ -1,0 +1,111 @@
+<div>
+  <!-- <mat-grid-list cols="58">
+    <mat-grid-tile
+      *ngFor="let dashItem of formattedDashboardItems"
+      [colspan]="dashItem?.cols"
+      [rowspan]="dashItem?.rows"
+      [style.background]="dashItem?.color"
+    >
+      <lib-dashboard-visualization-item
+        #vizItem
+        [dashboardItemConfig]="dashItem"
+        [selections]="selections"
+      ></lib-dashboard-visualization-item>
+    </mat-grid-tile>
+  </mat-grid-list> -->
+
+  <div class="row">
+    <ng-container *ngFor="let item of dashboardItems">
+      <div
+        class="mb-3"
+        [ngClass]="{
+          'col-lg-6': item?.shape === 'NORMAL' || !item?.shape,
+          'col-md-6': item?.shape === 'NORMAL' || !item?.shape,
+          'col-sm-12': item?.shape === 'NORMAL' || !item?.shape,
+          'col-sx-12': item?.shape === 'NORMAL' || !item?.shape,
+          'col-md-12': item?.shape === 'DOUBLE_WIDTH'
+        }"
+      >
+        <mat-card class="visualization-card">
+          <div class="w-100 d-flex justify-content-left">
+            <button
+              mat-stroked-button
+              (click)="toggleFilters($event, item?.id)"
+            >
+              Filters
+            </button>
+            <button
+              class="ml-1"
+              [ngClass]="{
+                'active-filter-type': currentFilterType == 'PERIOD'
+              }"
+              *ngIf="currentDashboardItemId == item?.id"
+              mat-stroked-button
+              (click)="toggleFilterType($event, 'PERIOD')"
+            >
+              Period
+            </button>
+            <button
+              class="ml-1"
+              [ngClass]="{
+                'active-filter-type': currentFilterType == 'ORGANISATION_UNIT'
+              }"
+              *ngIf="currentDashboardItemId == item?.id"
+              mat-stroked-button
+              (click)="toggleFilterType($event, 'ORGANISATION_UNIT')"
+            >
+              Org Unit
+            </button>
+          </div>
+
+          <div
+            class="mt-1"
+            style="
+              border: solid 1px #eee;
+              position: absolute;
+              z-index: 101;
+              padding: 4px 8px;
+              background-color: #fff;
+              width: 100%;
+            "
+            *ngIf="showFilterSelections && currentDashboardItemId === item?.id"
+          >
+            <lib-visualization-filters-container
+              [filterType]="currentFilterType"
+              [dashboardItem]="item"
+              (selections)="onGetSelections($event)"
+            ></lib-visualization-filters-container>
+            <div
+              [ngClass]="{ 'mt-2': currentFilterType != 'PERIOD' }"
+              class="d-flex justify-content-end mb-2"
+            >
+              <button mat-stroked-button (click)="onCancel($event)">
+                Cancel
+              </button>
+              <button
+                mat-stroked-button
+                class="ml-2"
+                (click)="onUpdate($event, selections, currentDashboardItemId)"
+              >
+                Update
+              </button>
+            </div>
+          </div>
+          <div style="z-index: 100">
+            <lib-dashboard-visualization-item
+              #vizItem
+              [dashboardItemConfig]="item"
+              (onGraphTypeUpdate)="onGraphTypeUpdate($event)"
+            ></lib-dashboard-visualization-item>
+          </div>
+        </mat-card>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<!-- 
+[ngClass]="{
+  'col-sm-12': item.shape === 'DOUBLE_WIDTH',
+  'col-sm-6': item.shape === 'NORMAL'
+}" -->

@@ -1,0 +1,29 @@
+<div
+  class="dhi2-dashboard-container"
+  *ngIf="{
+    currentUser: currentUser$ | async
+  } as params"
+>
+  <lib-dashboard
+    *ngIf="params?.currentUser"
+    [currentUser]="params?.currentUser"
+    [useDataStore]="useDataStore"
+    [currentDashboardId]="currentDashboardId"
+    (currentDashboard)="onGetCurrentDashboard($event)"
+  ></lib-dashboard>
+  <mat-progress-bar
+    *ngIf="!params?.currentUser"
+    mode="indeterminate"
+  ></mat-progress-bar>
+</div>
+
+<!-- 
+
+    [dashboardMode]="dashboardMode$ | async"
+      [userIsAdmin]="userIsAdmin$ | async"
+      [currentDashboard]="currentDashboard$ | async"
+      (setCurrentDashboard)="onSetCurrentDashboard($event)"
+      (addDashboard)="onAddDashboard()"
+      (actionUpdate)="onDashboardActionUpdate($event)"
+      (showHelp)="onShowHelpSection($event)"
+ -->

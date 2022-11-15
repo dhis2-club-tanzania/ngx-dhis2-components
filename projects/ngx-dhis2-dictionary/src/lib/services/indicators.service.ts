@@ -1,35 +1,86 @@
 import { Injectable } from '@angular/core';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
 import * as _ from 'lodash';
-import { from, Observable } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class IndicatorsService {
   indicators: any[] = [];
+  concurrencyCount = 0;
   constructor(private httpClient: NgxDhis2HttpClientService) {}
 
   // load indicators
-  loadIndicatorsByPage(page) {
-    let url =
-      'indicators.json?fields=id,name,numerator,denominator,indicatorType[name],';
-    url +=
-      'denominatorDescription,numeratorDescription,user[name],lastUpdated,indicatorGroups[id]&pageSize=400&page=' +
-      page;
-    return this.httpClient.get(url);
+  loadIndicatorsByPage(
+    page: number,
+    pageCount: number,
+    searchingText?: string
+  ): Observable<any> {
+    return this.httpClient
+      .get(
+        'indicators.json?' +
+          (searchingText ? 'filter=name:ilike:' + searchingText + '&' : '') +
+          'fields=id,name,numerator,denominator,indicatorType[name],denominatorDescription,numeratorDescription,user[name],lastUpdated,indicatorGroups[id]&pageSize=' +
+          pageCount +
+          '&page=' +
+          page
+      )
+      .pipe(
+        map((response) => {
+          return response;
+        }),
+        catchError((error) => of(error))
+      );
   }
 
-  loadIndicatorsById(id) {
+  loadProgramIndicatorsByPage(
+    page: number,
+    pageCount: number,
+    searchingText?: string
+  ): Observable<any> {
+    return this.httpClient
+      .get(
+        'programIndicators.json?' +
+          (searchingText ? 'filter=name:ilike:' + searchingText + '&' : '') +
+          'fields=*&pageSize=' +
+          pageCount +
+          '&page=' +
+          page
+      )
+      .pipe(
+        map((response) => {
+          return response;
+        }),
+        catchError((error) => of(error))
+      );
+  }
+
+  loadIndicatorsById(id: string): Observable<any> {
     let url =
       'indicators/' +
       id +
       '.json?fields=id,name,numerator,denominator,indicatorType[name],';
     url +=
       'denominatorDescription,numeratorDescription,user[name],lastUpdated,indicatorGroups[id]';
-    return this.httpClient.get(url);
+    return this.httpClient.get(url).pipe(
+      map((response) => response),
+      catchError((error) => of(error))
+    );
   }
 
-  _loadAllIndicators(pagerDefinitions): Observable<any> {
+  // fetchUrl(url, callback): any {
+  //   var delay = parseInt(((Math.random() * 10000000) % 2000).toString(), 10);
+  //   this.concurrencyCount++;
+  //   setTimeout(() => {
+  //     this.concurrencyCount--;
+  //     callback(
+  //       null,
+  //       this.httpClient.get(url).pipe(map((response) => response?.indicators))
+  //     );
+  //   }, delay);
+  // }
+
+  _loadAllIndicators1(pagerDefinitions): Observable<any> {
     // format pageSize as per number of indicators
     let pageSize = 20;
     let pageCount = 1;
@@ -59,8 +110,11 @@ export class IndicatorsService {
       )
     ).pipe(
       mergeMap(
-        (url: string) =>
-          this.httpClient.get(url).pipe(map((indicators: any) => indicators)),
+        (url: string) => {
+          return this.httpClient
+            .get(url)
+            .pipe(map((indicators: any) => indicators));
+        },
         null,
         1
       )
@@ -104,7 +158,6 @@ export class IndicatorsService {
 
   _indicatorProperties(indicatorsObj): Observable<any> {
     this.indicators = [...this.indicators, ...indicatorsObj];
-    console.log(this.indicators);
     return from(
       _.map(
         this.indicators,

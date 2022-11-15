@@ -119,7 +119,7 @@ export class DictionaryListComponent implements OnInit {
     this.selectedIndicator = identifier;
     let identifiers = [];
     if (_.indexOf(this.metadataIdentifiers, identifier) < 0) {
-      this.metadataIdentifiers.push(identifier);
+      this.metadataIdentifiers = [...this.metadataIdentifiers, identifier];
     }
     identifiers = _.uniq(this.metadataIdentifiers);
     this.store.dispatch(
@@ -143,7 +143,7 @@ export class DictionaryListComponent implements OnInit {
 
     this.selectedMetadataId(dictionaryItemId);
     this.selectedIndicator = dictionaryItemId;
-    this.metadataIdentifiers.push(dictionaryItemId);
+    this.metadataIdentifiers = [...this.metadataIdentifiers, dictionaryItemId];
     this.metadataIdentifiers = _.uniq(this.metadataIdentifiers);
     if (this.selectedIndicator === 'all') {
       this.loadAllIndicators();
@@ -192,9 +192,8 @@ export class DictionaryListComponent implements OnInit {
       };
       this.dictionaryItemId.emit(objToEmit);
     } else {
-      this.selectedIndicator = this.metadataIdentifiers[
-        this.metadataIdentifiers.length - 1
-      ];
+      this.selectedIndicator =
+        this.metadataIdentifiers[this.metadataIdentifiers.length - 1];
       const objToEmit = {
         selected: this.selectedIndicator,
         otherSelectedIds: this.metadataIdentifiers,

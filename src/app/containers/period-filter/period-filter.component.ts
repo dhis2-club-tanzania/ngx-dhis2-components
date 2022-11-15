@@ -4,13 +4,13 @@ import { PeriodFilterConfig } from 'projects/ngx-dhis2-period-filter/src/public-
 @Component({
   selector: 'app-period-filter',
   templateUrl: './period-filter.component.html',
-  styleUrls: ['./period-filter.component.scss']
+  styleUrls: ['./period-filter.component.scss'],
 })
 export class PeriodFilterComponent {
   constructor() {
     if (Fn) {
       Fn.init({
-        baseUrl: '../../../api/'
+        baseUrl: '../../../api/',
       });
     }
   }
@@ -25,7 +25,8 @@ export class PeriodFilterComponent {
     allowRelativePeriodSelection: true,
     allowFixedPeriodSelection: true,
     hideActionButtons: true,
-    contentHeight: '300px'
+    contentHeight: '300px',
+    openFuturePeriods: 1,
   };
   selectedPeriodItems: any[] = [
     // {
@@ -48,8 +49,8 @@ export class PeriodFilterComponent {
       type: 'date-range',
       name: '2019-08-08 to 2019-08-08',
       startDate: '2019-08-08',
-      endDate: '2019-08-08'
-    }
+      endDate: '2019-08-08',
+    },
   ];
 
   onPeriodUpdate(periodObject, action) {

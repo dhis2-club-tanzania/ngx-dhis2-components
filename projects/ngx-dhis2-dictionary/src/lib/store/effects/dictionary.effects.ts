@@ -1,7 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { NgxDhis2HttpClientService } from '@iapps/ngx-dhis2-http-client';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { from, Observable, of, zip } from 'rxjs';
@@ -22,22 +23,23 @@ export class DictionaryEffects {
     private actions$: Actions,
     private store: Store<DictionaryState>,
     private httpClient: NgxDhis2HttpClientService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private domSinitizer: DomSanitizer
   ) {}
 
-  @Effect({ dispatch: false })
-  initializeDictionary$: Observable<any> = this.actions$.pipe(
+  
+  initializeDictionary$: Observable<any> = createEffect(() => this.actions$.pipe(
     ofType(DictionaryActionTypes.InitializeDictionaryMetadata),
     mergeMap((action: InitializeDictionaryMetadataAction) =>
       this.store
         .select(getDictionaryList(action.dictionaryMetadataIdentifiers))
         .pipe(
-          map((dictionaryList: any[]) =>
-            _.filter(
+          map((dictionaryList: any[]) => {
+            return _.filter(
               action.dictionaryMetadataIdentifiers,
               (metadataId) => !_.find(dictionaryList, ['id', metadataId])
-            )
-          )
+            );
+          })
         )
     ),
     tap((identifiers: any) => {
@@ -88,12 +90,12 @@ export class DictionaryEffects {
                 );
                 const indicatorUrl =
                   'indicators/' +
-                  metadata.id +
+                  metadata?.id +
                   '.json?fields=:all,user[name,email,phoneNumber],displayName,lastUpdatedBy[id,name,phoneNumber,email],id,name,numeratorDescription,' +
                   'denominatorDescription,denominator,numerator,annualized,decimals,indicatorType[name],user[name],userGroupAccesses[*],userAccesses[*],' +
                   'attributeValues[value,attribute[name]],indicatorGroups[id,name,code,indicators[id,name]],legendSet[name,symbolizer,' +
                   'legends~size],dataSets[name]';
-                this.getIndicatorInfo(indicatorUrl, metadata.id);
+                this.getIndicatorInfo(indicatorUrl, metadata?.id);
               } else if (
                 metadata.href &&
                 metadata.href.indexOf('programIndicator') !== -1
@@ -195,9 +197,8 @@ export class DictionaryEffects {
                 .pipe(catchError((err) => of(functionIdentifier)))
                 .subscribe((functionInfo) => {
                   if (functionInfo.key) {
-                    const functionInfos = this.formatFunctionsObject(
-                      functionInfo
-                    );
+                    const functionInfos =
+                      this.formatFunctionsObject(functionInfo);
                     this.store.dispatch(
                       new UpdateDictionaryMetadataAction(metadata, {
                         name: functionInfos.name,
@@ -233,7 +234,7 @@ export class DictionaryEffects {
           }
         );
     })
-  );
+  ), { dispatch: false });
 
   getDataSetInfo(dataSetUrl: string, dataSetId: string) {
     let metadataInfoLoaded = {
@@ -520,15 +521,53 @@ export class DictionaryEffects {
        * Get numerator expression
        */
       zip(
+        this.httpClient
+          .post('indicators/expression/description', indicator.numerator, {
+            httpHeaders: {
+              'Content-Type': 'application/json;charset=UTF-8',
+            },
+          })
+          .pipe(
+            map((response: any) => {
+              return {
+                ...response,
+                improvedDescription: this.domSinitizer.bypassSecurityTrustHtml(
+                  '<span style="background-color: #46a3f3ed;padding: 1px 4px;margin: 4px;border-radius: 0;">' +
+                    response?.description
+                      ?.split('+')
+                      .join(
+                        '</span> <b style="color: #000"> + </b> </br><span style="background-color: #46a3f3ed;padding: 1px  4px;margin: 4px;border-radius: 0;">'
+                      )
+                      .split(' * ')
+                      .join(
+                        '</span> <b style="color: #000"> * </b> </br><span style="background-color: #46a3f3ed;padding: 1px  4px;margin: 4px;border-radius: 0;">'
+                      )
+                      .split(' / ')
+                      .join(
+                        '</span> <b style="color: #000 !important"> / </b> </br><span style="background-color: #46a3f3ed;padding: 1px  4px;margin: 4px;border-radius: 0;">'
+                      ) +
+                    '</span>'
+                ),
+              };
+            })
+          ),
         this.httpClient.get(
-          'expressions/description?expression=' +
-            encodeURIComponent(indicator.numerator)
-        ),
-        this.httpClient.get(
-          'dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays&' +
-            'filter=dataSetElements.dataElement.id:in:[' +
-            this.getAvailableDataElements(indicator.numerator) +
-            ']&paging=false'
+          'dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays' +
+            `${
+              this.getAvailableDataElements(indicator?.numerator)?.length > 0
+                ? '&filter=dataSetElements.dataElement.id:in:[' +
+                  this.getAvailableDataElements(indicator?.numerator) +
+                  ']'
+                : ''
+            }${
+              this.getDataSetsFromExpression(indicator?.numerator)?.length > 0
+                ? '&filter=id:in:[' +
+                  this.getDataSetsFromExpression(indicator?.numerator).join(
+                    ','
+                  ) +
+                  ']'
+                : ''
+            }&paging=false`
         )
       ).subscribe((numeratorResults: any[]) => {
         if (numeratorResults[0]) {
@@ -539,17 +578,22 @@ export class DictionaryEffects {
         }
 
         if (numeratorResults[1] && numeratorResults[1].dataSets) {
-          const dataSets = numeratorResults[1].dataSets;
+          const dataSets = numeratorResults[1]?.dataSets;
           metadataInfoLoaded = {
             ...metadataInfoLoaded,
             numeratorDatasets: dataSets,
           };
-
           this.httpClient
             .get(
               `analytics.json?dimension=dx:${dataSets
-                .map((dataSet: any) => `${dataSet.id}.REPORTING_RATE`)
+                .map((dataSet: any) => {
+                  return `${dataSet.id}.REPORTING_RATE`;
+                })
                 .join(';')}&dimension=ou:USER_ORGUNIT&dimension=pe:LAST_YEAR`
+            )
+            .pipe(
+              map((response) => response),
+              catchError((error) => of(error))
             )
             .subscribe((analyticsResponse: any) => {
               const analyticsHeaders = analyticsResponse
@@ -605,15 +649,56 @@ export class DictionaryEffects {
          * Get denominator expression
          */
         zip(
+          this.httpClient
+            .post('indicators/expression/description', indicator?.denominator, {
+              httpHeaders: {
+                'Content-Type': 'application/json;charset=UTF-8',
+              },
+            })
+            .pipe(
+              map((response: any) => {
+                return {
+                  ...response,
+                  improvedDescription:
+                    this.domSinitizer.bypassSecurityTrustHtml(
+                      '<span style="background-color: #46a3f3ed;padding: 1px 4px;margin: 4px;border-radius: 0;">' +
+                        response?.description
+                          ?.split('+')
+                          .join(
+                            '</span>  <b style="color: #000"> + </b>  </br><span style="background-color: #46a3f3ed;padding: 1px  4px;margin: 4px;border-radius: 0;">'
+                          )
+                          .split(' * ')
+                          .join(
+                            '</span> <b style="color: #000"> * </b> </br><span style="background-color: #46a3f3ed;padding: 1px  4px;margin: 4px;border-radius: 0;">'
+                          )
+                          .split(' / ')
+                          .join(
+                            '</span> <b style="color: #000 !important"> / </b> </br><span style="background-color: #46a3f3ed;padding: 1px  4px;margin: 4px;border-radius: 0;">'
+                          ) +
+                        '</span>'
+                    ),
+                };
+              })
+            ),
           this.httpClient.get(
-            'expressions/description?expression=' +
-              encodeURIComponent(indicator.denominator)
-          ),
-          this.httpClient.get(
-            'dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays&' +
-              'filter=dataSetElements.dataElement.id:in:[' +
-              this.getAvailableDataElements(indicator.denominator) +
-              ']&paging=false'
+            'dataSets.json?fields=periodType,id,name,timelyDays,formType,created,expiryDays' +
+              `${
+                this.getAvailableDataElements(indicator?.denominator)?.length >
+                0
+                  ? '&filter=dataSetElements.dataElement.id:in:[' +
+                    this.getAvailableDataElements(indicator?.denominator) +
+                    ']'
+                  : ''
+              }${
+                this.getDataSetsFromExpression(indicator?.denominator)?.length >
+                0
+                  ? '&filter=id:in:[' +
+                    this.getDataSetsFromExpression(indicator?.denominator).join(
+                      ','
+                    ) +
+                    ']'
+                  : ''
+              }&paging=false`
           )
         ).subscribe((denominatorResults: any[]) => {
           if (denominatorResults[0]) {
@@ -622,19 +707,21 @@ export class DictionaryEffects {
               denominatorExpression: denominatorResults[0],
             };
           }
-
           if (denominatorResults[1] && denominatorResults[1].dataSets) {
             const dataSets = denominatorResults[1].dataSets;
             metadataInfoLoaded = {
               ...metadataInfoLoaded,
               denominatorDatasets: dataSets,
             };
-
             this.httpClient
               .get(
                 `analytics.json?dimension=dx:${dataSets
                   .map((dataSet: any) => `${dataSet.id}.REPORTING_RATE`)
                   .join(';')}&dimension=ou:USER_ORGUNIT&dimension=pe:LAST_YEAR`
+              )
+              .pipe(
+                map((response) => response),
+                catchError((error) => of(error))
               )
               .subscribe((analyticsResponse: any) => {
                 const analyticsHeaders = analyticsResponse
@@ -661,7 +748,6 @@ export class DictionaryEffects {
                       )
                       .map((row: string[]) => row[valueIndex])
                       .reduce((sum, value) => sum + parseFloat(value), 0);
-
                     return {
                       ...dataSet,
                       reportingRate,
@@ -783,7 +869,7 @@ export class DictionaryEffects {
         const allDataElements = [];
         const programStages = [];
         let dataElementsAvailable = [];
-        const associatedMetadata = [];
+        let associatedMetadata = [];
         let indicatorsAvailable = [];
         let programStagesAvailable = [];
         let trackedEntityAttributesAvailable = [];
@@ -803,12 +889,12 @@ export class DictionaryEffects {
           filterElements.split(',').forEach((elementId) => {
             associatedMetadata.push(elementId);
           });
-          const programStagesListRes = this.getAvailableDataElements(
+          let programStagesListRes = this.getAvailableDataElements(
             programIndicator.filter
           );
           programStagesListRes.split(',').forEach((programStage) => {
             if (programStage.length === 11) {
-              programStagesListRes.push(programStage);
+              programStagesListRes = [...programStagesListRes, programStage];
               associatedMetadata.push(programStage);
             }
           });
@@ -969,9 +1055,10 @@ export class DictionaryEffects {
         ).subscribe((results: any) => {
           // metadataInfoLoaded = {...metadataInfoLoaded, programStages: results[0]['programStages']};
           results[0].programStages.forEach((stage) => {
-            programIndicatorDescriptionExpression = programIndicatorDescriptionExpression
-              .split(stage.id + '.')
-              .join(stage.name);
+            programIndicatorDescriptionExpression =
+              programIndicatorDescriptionExpression
+                .split(stage.id + '.')
+                .join(stage.name);
             if (programIndicatorDescriptionExpression.indexOf(stage.name) < 0) {
               programIndicatorDescriptionExpression = stage.name;
             }
@@ -982,9 +1069,10 @@ export class DictionaryEffects {
 
           // metadataInfoLoaded = {...metadataInfoLoaded, dataElements: results[1]['dataElements']};
           results[1].dataElements.forEach((dataElement) => {
-            programIndicatorDescriptionExpression = programIndicatorDescriptionExpression
-              .split(dataElement.id)
-              .join(dataElement.name);
+            programIndicatorDescriptionExpression =
+              programIndicatorDescriptionExpression
+                .split(dataElement.id)
+                .join(dataElement.name);
             filterDescription = filterDescription
               .split(dataElement.id)
               .join(' ' + dataElement.name);
@@ -1000,9 +1088,10 @@ export class DictionaryEffects {
           };
           metadataInfoLoaded = {
             ...metadataInfoLoaded,
-            programIndicatorDescriptionExpression: this.formatProgramIndicatorExpression(
-              programIndicatorDescriptionExpression
-            ),
+            programIndicatorDescriptionExpression:
+              this.formatProgramIndicatorExpression(
+                programIndicatorDescriptionExpression
+              ),
           };
           this.store.dispatch(
             new UpdateDictionaryMetadataAction(programIndicatorId, {
@@ -1057,6 +1146,20 @@ export class DictionaryEffects {
             });
         });
       });
+  }
+
+  getDataSetsFromExpression(expression: string): string[] {
+    const dataSets =
+      (
+        expression
+          .split('+')
+          .join('.')
+          .split('.')
+          .filter((expressionItem) => expressionItem?.indexOf('R{') > -1) || []
+      ).map((item) => {
+        return item.replace('R{', '').trim();
+      }) || [];
+    return dataSets;
   }
 
   getAvailableDataElements(data, condition?) {

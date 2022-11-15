@@ -11,6 +11,7 @@ import { NgxDhis2MenuModule } from 'projects/ngx-dhis2-menu/src/public-api';
 import { NgxDhis2OrgUnitFilterModule } from 'projects/ngx-dhis2-org-unit-filter/src/public-api';
 import { NgxDhis2PeriodFilterModule } from 'projects/ngx-dhis2-period-filter/src/public-api';
 import { NgxDhis2SelectionFiltersModule } from 'projects/ngx-dhis2-selection-filters/src/public-api';
+import { Dhis2DashboardModule } from 'projects/dhis2-dashboard/src/public-api';
 import { environment } from 'src/environments/environment';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing.module';
@@ -30,13 +31,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     BrowserAnimationsModule,
     NgxDhis2HttpClientModule.forRoot({
-      namespace: 'hisptz',
+      namespace: 'iapps',
       version: 1,
       models: {
         users: 'id',
         organisationUnitLevels: 'id,level',
         organisationUnits: 'id,name,level',
         organisationUnitGroups: 'id',
+        organisationUnitGroupSets: 'id',
         dataStore_scorecards: 'id',
       },
     }),
@@ -53,6 +55,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxDhis2PeriodFilterModule,
     NgxDhis2DataFilterModule,
     NgxDhis2SelectionFiltersModule,
+    Dhis2DashboardModule,
     StoreModule.forRoot({}),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([]),

@@ -1,0 +1,21 @@
+.dashboard-input {
+  outline: none;
+  border: none;
+  padding-bottom: 5px;
+  border-bottom: solid thin #dddddd;
+  width: 100%;
+}
+
+.dashboard-title-container {
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-name {
+  display: flex;
+  align-items: center;
+
+  font-size: 19px;
+  font-weight: 500;
+}

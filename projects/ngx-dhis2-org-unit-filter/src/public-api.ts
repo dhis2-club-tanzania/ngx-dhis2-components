@@ -2,6 +2,7 @@
  * Public API Surface of ngx-dhis2-org-unit-filter
  */
 export { NgxDhis2OrgUnitFilterModule } from './lib/ngx-dhis2-org-unit-filter.module';
+export { NgxDhis2OrgUnitFilterComponent } from './lib/containers/ngx-dhis2-org-unit-filter/ngx-dhis2-org-unit-filter.component';
 export { DEFAULT_ORG_UNIT_FILTER_CONFIG } from './lib/constants/default-org-unit-filter-config.constant';
 export { USER_ORG_UNITS } from './lib/constants/user-org-units.constants';
 export { OrgUnitTypes } from './lib/constants/org-unit-types.constants';

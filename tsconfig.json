@@ -10,10 +10,14 @@
     "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2015",
+    "target": "es2020",
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2018", "dom"],
     "paths": {
+      "dhis2-dashboard": [
+        "dist/dhis2-dashboard/dhis2-dashboard",
+        "dist/dhis2-dashboard"
+      ],
       "ngx-dhis2-dictionary": [
         "dist/ngx-dhis2-dictionary/ngx-dhis2-dictionary",
         "dist/ngx-dhis2-dictionary",
@@ -47,6 +51,6 @@
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
-    "enableIvy": false
+    "enableIvy": true
   }
 }

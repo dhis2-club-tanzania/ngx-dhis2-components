@@ -3,6 +3,7 @@
  */
 
 export { NgxDhis2PeriodFilterModule } from './lib/ngx-dhis2-period-filter.module';
+export { PeriodFilterComponent } from './lib/containers/period-filter/period-filter.component';
 
 // constants
 export { PERIOD_TYPES } from './lib/constants/period-types.constant';

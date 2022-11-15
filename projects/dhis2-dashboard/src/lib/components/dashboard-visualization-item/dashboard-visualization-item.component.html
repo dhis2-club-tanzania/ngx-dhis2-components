@@ -1,0 +1,38 @@
+<div
+  *ngIf="{
+    dashboardItemVisualizationConfig: dashboardItemVisualizationConfig$ | async
+  } as params"
+>
+  <div class="visualization-body-content-block">
+    <!-- configs loader -->
+    <div class="visualization-body-loader">
+      <app-visualization-loader
+        *ngIf="
+          !params?.dashboardItemVisualizationConfig ||
+          (params?.dashboardItemVisualizationConfig &&
+            !params?.dashboardItemVisualizationConfig?.periods)
+        "
+        [name]="params?.dashboardItemVisualizationConfig?.name"
+      ></app-visualization-loader>
+    </div>
+
+    <!-- show error message on failed configs -->
+
+    <!-- pass configs to chart loader -->
+    <div
+      class="visualization-block"
+      *ngIf="
+        params?.dashboardItemVisualizationConfig &&
+        params?.dashboardItemVisualizationConfig?.periods
+      "
+    >
+      <div>
+        <app-chart-container
+          [dashbordItemConfigs]="dashboardItemConfig"
+          [visualizationConfigs]="params?.dashboardItemVisualizationConfig"
+          (onGraphTypeUpdate)="onGraphTypeUpdateFromContainer($event)"
+        ></app-chart-container>
+      </div>
+    </div>
+  </div>
+</div>

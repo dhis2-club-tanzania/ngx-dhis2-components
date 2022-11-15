@@ -1,4 +1,5 @@
 import { Fn } from '@iapps/function-analytics';
+import { Period } from '@iapps/period-utilities';
 import { PeriodFilterConfig } from '../models/period-filter-config.model';
 
 export function getPeriodName(
@@ -11,7 +12,7 @@ export function getPeriodName(
     return undefined;
   }
 
-  const periodInstance = new Fn.Period();
+  const periodInstance = new Period();
 
   switch (type) {
     case 'RelativeMonth':
@@ -25,7 +26,7 @@ export function getPeriodName(
         .setCalendar(calendar)
         .setPreferences({
           childrenPeriodSortOrder:
-            (periodConfig && periodConfig.childrenPeriodSortOrder) || 'DESC'
+            (periodConfig && periodConfig.childrenPeriodSortOrder) || 'DESC',
         })
         .get();
       const period = (periodInstance.list() || []).find(
@@ -42,7 +43,7 @@ export function getPeriodName(
         .setCalendar(calendar)
         .setPreferences({
           childrenPeriodSortOrder:
-            (periodConfig && periodConfig.childrenPeriodSortOrder) || 'DESC'
+            (periodConfig && periodConfig.childrenPeriodSortOrder) || 'DESC',
         })
         .get();
       const period = (periodInstance.list() || []).find(

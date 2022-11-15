@@ -1,0 +1,70 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.dashboard-menu-list-left,
+.dashboard-menu-list-top {
+  list-style-type: none;
+}
+
+.dashboard-menu-list-top {
+  display: flex;
+  padding: 0 15px 0 15px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.dashboard-menu-list-left > li,
+.dashboard-menu-list-top > li {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.dashboard-menu-list-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 5px 20px 5px 15px;
+  margin-bottom: 10px;
+}
+
+.dashboard-search {
+  margin-left: 20px;
+}
+
+.dashboard-menu-list {
+  margin: 0 7.5px;
+  margin-top: 35px;
+  width: 100% !important;
+  overflow-x: none;
+  position: fixed;
+  position: -webkit-sticky;
+  overflow-y: none;
+  z-index: 1005;
+  padding: 8px;
+  background-color: #fff;
+}
+
+.vertical-alignment {
+  align-items: center;
+  display: flex;
+}
+
+.vertical-alignment span {
+  margin-left: 6px;
+  cursor: pointer;
+}
+
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: 1.6em !important;
+}
+
+.menu-list-container {
+  padding: 0 8px;
+}
+
+.top-margin {
+  margin: 1.5% 0 6.8% 0 !important;
+}

@@ -1,0 +1,20 @@
+<div class="dashboard-menu-container-{{ dashboardPreferences?.menuAlignment }}">
+  <!-- dashboard menu list -->
+  <div class="dashboard-menu-list w-100">
+    <app-dashboard-menu-list
+      [dashboardPreferences]="dashboardPreferences"
+      [dashboards]="dashboards"
+      [dashboardMode]="dashboardMode"
+      [userIsAdmin]="userIsAdmin"
+      [currentDashboardId]="currentDashboardId"
+      (setCurrentDashboard)="onSetCurrentDashboard($event)"
+      (addDashboard)="onAddDashboard()"
+      (showHelp)="onShowHelpSection($event)"
+    ></app-dashboard-menu-list>
+  </div>
+  <!-- end of dashboard menu list -->
+
+  <!-- dashboard menu settings -->
+  <!-- <div class="dashboard-settings"></div> -->
+  <!-- end of dashboard menu settings -->
+</div>

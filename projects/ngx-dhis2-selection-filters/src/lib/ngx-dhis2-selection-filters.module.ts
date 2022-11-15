@@ -33,26 +33,25 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    TranslateModule.forChild(),
-    NgxDhis2OrgUnitFilterModule,
-    NgxDhis2DataFilterModule,
-    NgxDhis2PeriodFilterModule,
-    NgxDhis2ValidationRuleFilterModule,
-    MatButtonModule,
-    MatCardModule,
-    MatDialogModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatTabsModule,
-  ],
-  declarations: [
-    NgxDhis2SelectionFiltersComponent,
-    SummarizeSelectionPipe,
-    SelectionDialogComponent,
-  ],
-  entryComponents: [SelectionDialogComponent],
-  exports: [NgxDhis2SelectionFiltersComponent],
+    imports: [
+        CommonModule,
+        TranslateModule.forChild(),
+        NgxDhis2OrgUnitFilterModule,
+        NgxDhis2DataFilterModule,
+        NgxDhis2PeriodFilterModule,
+        NgxDhis2ValidationRuleFilterModule,
+        MatButtonModule,
+        MatCardModule,
+        MatDialogModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatTabsModule,
+    ],
+    declarations: [
+        NgxDhis2SelectionFiltersComponent,
+        SummarizeSelectionPipe,
+        SelectionDialogComponent,
+    ],
+    exports: [NgxDhis2SelectionFiltersComponent]
 })
 export class NgxDhis2SelectionFiltersModule {}

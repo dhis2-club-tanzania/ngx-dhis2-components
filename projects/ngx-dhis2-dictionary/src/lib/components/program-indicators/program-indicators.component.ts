@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AppState } from '../../store/reducers/indicators.reducers';
 import { Store } from '@ngrx/store';
-import { Observable, pipe } from 'rxjs';
+import { Observable, of, pipe } from 'rxjs';
 import * as _ from 'lodash';
 import {
   getListOfProgramIndicators,
@@ -13,6 +13,7 @@ import {
   LoadProgramIndicatorGroupsAction,
   loadProgramIndicatorsAction,
 } from '../../store/actions/indicators.actions';
+import { IndicatorsService } from '../../services/indicators.service';
 
 @Component({
   selector: 'app-program-indicators',
@@ -29,7 +30,7 @@ export class ProgramIndicatorsComponent implements OnInit {
   error = false;
   loading = true;
   hoverState = 'notHovered';
-  itemsPerPageCount = 10;
+  itemsPerPage = 10;
   selectedIndicator: any = null;
   searchText: string;
   currentPage = 1;
@@ -57,7 +58,10 @@ export class ProgramIndicatorsComponent implements OnInit {
   ];
   programIndicatorGroups$: Observable<any>;
   programIndicatorGroups: any;
-  constructor(private metadataStore: Store<AppState>) {
+  constructor(
+    private metadataStore: Store<AppState>,
+    private indicatorService: IndicatorsService
+  ) {
     this.searchText = '';
     this.searchingTextForIndicatorGroup = '';
     this.listingIsSet = true;
@@ -69,15 +73,40 @@ export class ProgramIndicatorsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadAllProgramIndicators();
+    this.loadAllProgramIndicators(1, this.itemsPerPage);
   }
 
-  setItemsPerPage(value) {
-    this.itemsPerPageCount = value;
+  setItemsPerPage(value: number): void {
+    this.itemsPerPage = value;
+    this.allIndicators$ = of(null);
+    this.loadAllProgramIndicators(1, this.itemsPerPage);
+  }
+
+  searchIndicator(event: any): void {
+    this.searchingText = event?.target?.value;
+    this.loadAllProgramIndicators(1, this.itemsPerPage, this.searchingText);
   }
 
   toggleListingOfItems() {
     this.listingIsSet = !this.listingIsSet;
+  }
+
+  getNewList(action: string, currentPage: number, itemsPerPage: number): void {
+    if (action === 'next') {
+      this.allIndicators$ = of(null);
+      this.loadAllProgramIndicators(
+        currentPage + 1,
+        itemsPerPage,
+        this.searchingText
+      );
+    } else {
+      this.allIndicators$ = of(null);
+      this.loadAllProgramIndicators(
+        currentPage - 1,
+        itemsPerPage,
+        this.searchingText
+      );
+    }
   }
 
   selectedMetadata(e) {
@@ -130,80 +159,21 @@ export class ProgramIndicatorsComponent implements OnInit {
     this.selectedMetadataGroups.emit(this.programIndicatorGroups);
   }
 
-  loadAllProgramIndicators() {
-    this.programIndicatorsList$ = this.metadataStore.select(
-      pipe(getListOfProgramIndicators)
-    );
+  loadAllProgramIndicators(
+    page: number,
+    itemPerPage: number,
+    searchingText?: string
+  ) {
+    this.allProgramIndicators$ =
+      this.indicatorService.loadProgramIndicatorsByPage(
+        page,
+        itemPerPage,
+        searchingText
+      );
 
     this.programIndicatorGroups$ = this.metadataStore.select(
-      pipe(getProgramIndicatorGroups)
+      getProgramIndicatorGroups
     );
-
-    this.allProgramIndicators$ = this.metadataStore.select(
-      pipe(getAllProgramIndicators)
-    );
-    this.programIndicatorsList$.subscribe((list) => {
-      if (list) {
-        this.totalAvailableProgramIndicators = list.pager['total'];
-        this.allProgramIndicators$.subscribe((indicatorsLoaded) => {
-          if (indicatorsLoaded) {
-            this.programIndicators = [];
-            _.map(indicatorsLoaded, (indicatorsByPage) => {
-              this.programIndicators = [
-                ...this.programIndicators,
-                ...indicatorsByPage,
-              ];
-              this.loadedMetadata.emit({
-                type: 'programIndicator',
-                data: this.programIndicators,
-              });
-              this.completedPercentage =
-                100 *
-                (this.programIndicators.length /
-                  this.totalAvailableProgramIndicators);
-              if (this.completedPercentage === 100) {
-                this.loading = false;
-                this.error = false;
-              }
-            });
-          }
-        });
-      } else {
-        this.metadataStore.dispatch(new loadProgramIndicatorsAction());
-        this.programIndicatorsList$ = this.metadataStore.select(
-          pipe(getListOfProgramIndicators)
-        );
-        this.allProgramIndicators$ = this.metadataStore.select(
-          pipe(getAllProgramIndicators)
-        );
-        if (this.programIndicatorsList$) {
-          this.programIndicatorsList$.subscribe((list) => {
-            if (list) {
-              this.totalAvailableProgramIndicators = list.pager['total'];
-              this.allProgramIndicators$.subscribe((indicatorsLoaded) => {
-                if (indicatorsLoaded) {
-                  this.programIndicators = [];
-                  _.map(indicatorsLoaded, (indicatorsByPage) => {
-                    this.programIndicators = [
-                      ...this.programIndicators,
-                      ...indicatorsByPage,
-                    ];
-                    this.completedPercentage =
-                      100 *
-                      (this.programIndicators.length /
-                        this.totalAvailableProgramIndicators);
-                    if (this.completedPercentage === 100) {
-                      this.loading = false;
-                      this.error = false;
-                    }
-                  });
-                }
-              });
-            }
-          });
-        }
-      }
-    });
     this.programIndicatorGroups$.subscribe((groups) => {
       if (groups) {
         this.programIndicatorGroups = groups.programIndicatorGroups;

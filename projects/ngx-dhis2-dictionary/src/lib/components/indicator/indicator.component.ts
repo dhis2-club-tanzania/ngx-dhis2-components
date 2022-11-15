@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2020 Rajab Mkomwa
+ * Copyright (C) 2020 Rajab Mkomwa & Josephat Mwakyusa
  *
  * ngx-dhis2-components is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,6 +16,7 @@
  */
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatRadioChange } from '@angular/material/radio';
 import * as _ from 'lodash';
 
 @Component({
@@ -29,6 +30,8 @@ export class IndicatorComponent implements OnInit {
   listAllMetadataInGroup: boolean;
 
   @Output() setActive: EventEmitter<string> = new EventEmitter<string>();
+
+  viewCategory: string = 'Standard';
   constructor() {}
 
   ngOnInit(): void {}
@@ -108,5 +111,26 @@ export class IndicatorComponent implements OnInit {
     } else {
       return allMedatada;
     }
+  }
+
+  toggleExpression(event: Event, dictionaryItem: any, idSection: string): void {
+    event.stopPropagation();
+    const domElement = document.getElementById(dictionaryItem?.id + idSection);
+    domElement.style.display = 'block';
+    if (domElement.innerText == '') {
+      domElement.innerHTML =
+        idSection == '-deno'
+          ? dictionaryItem?.data?.metadata?.denominator
+          : dictionaryItem?.data?.metadata?.numerator;
+      domElement.style.backgroundColor = '#eee';
+    } else {
+      domElement.innerHTML = '';
+      domElement.style.backgroundColor = '#FFF';
+      domElement.style.display = 'none';
+    }
+  }
+
+  getSelection(event: MatRadioChange): void {
+    this.viewCategory = event?.value;
   }
 }

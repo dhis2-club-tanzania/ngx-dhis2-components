@@ -1,0 +1,13 @@
+.dashboard-menu-item {
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 24px;
+  font-weight: normal;
+  font-size: 13px;
+  width: auto;
+}
+
+.current-dashboard {
+  background-color: #276696 !important;
+  color: #fff;
+}

@@ -1,0 +1,22 @@
+.dashboard-menu-container-top {
+  /* position: fixed; */
+  background-color: #ffffff;
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  top: 50 !important;
+  position: sticky;
+  z-index: 1204;
+}
+
+.dashboard-settings {
+  padding-right: 15px;
+  color: gray;
+}
+
+.dashboard-menu-list {
+  /* padding: 8px 0; */
+}

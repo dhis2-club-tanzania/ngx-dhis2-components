@@ -2,14 +2,6 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/ngx-dhis2-org-unit-filter",
   "lib": {
-    "entryFile": "src/public-api.ts",
-    "umdModuleIds": {
-      "lodash": "_",
-      "@ngrx/entity": "@ngrx/entity",
-      "@ngrx/effects": "@ngrx/effects",
-      "@ngrx/store": "@ngrx/store",
-      "@iapps/ngx-dhis2-http-client": "@iapps/ngx-dhis2-http-client"
-    }
-  },
-  "whitelistedNonPeerDependencies": ["."]
+    "entryFile": "src/public-api.ts"
+  }
 }

@@ -11,6 +11,7 @@ To use the library, put this in your component
         <ngx-dhis2-dictionary-list
           [metadataIdentifiers]="metadataIdentifiers"
           [selectedItem]="selectedItem"
+          [dictionaryConfig]="dictionaryConfig"
           (dictionaryItemId)="dictionaryItemId($event)"
           (metadataInfo)="metadataInfo($event)"
           (metadataGroupsInfo)="metadataGroupsInfo($event)"
@@ -18,7 +19,15 @@ To use the library, put this in your component
 </div>
 ```
 
-Where metadataIdentifiers are DHIS2 metadata ids you want to ge.
+Where metadataIdentifiers are DHIS2 metadata ids you want to get e.g ["ssasdawqwrw","wiweuwejfq"].
+
+dictionaryConfig is
+
+```
+        {
+                showAllBlock: true,
+        }
+```
 
 Selected item can be passed or not, if passed should be one of the metadata ids you want to be selected by default
 

@@ -6,18 +6,21 @@ import * as _ from 'lodash';
 @Component({
   selector: 'app-dictionary',
   templateUrl: './dictionary.component.html',
-  styleUrls: ['./dictionary.component.scss']
+  styleUrls: ['./dictionary.component.scss'],
 })
 export class DictionaryComponent implements OnInit {
   selectedItem: string;
   metadataIdentifiers: any;
   systemSettings: any;
+  dictionaryConfig: any = {
+    showAllBlock: true,
+  };
   metadataIdentifiersArr: any[] = [
     // 'e0Dca8sKCB0',
     // 'Bcy5tKA08ar.U6iBxWNlWyx',
     // 'W92vvsUDVfx.FmGzPdBtHaJ',
     'BfMAe6Itzgt',
-    'ulgL07PF8rq'
+    'ulgL07PF8rq',
     // 'sB79w2hiLp8',
     // 'vDdRoZYybP2',
     // 'Kswd1r4qWLh',
@@ -32,7 +35,7 @@ export class DictionaryComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.httpClient.get('system/info').subscribe(systemInfoSettings => {
+    this.httpClient.get('system/info').subscribe((systemInfoSettings) => {
       this.systemSettings = systemInfoSettings;
     });
     this.route.params.forEach((params: Params) => {
@@ -44,7 +47,7 @@ export class DictionaryComponent implements OnInit {
         } else {
           this.selectedItem = params['selected'];
           let identifiers = [];
-          params['ids'].split(',').forEach(param => {
+          params['ids'].split(',').forEach((param) => {
             identifiers.push(param);
           });
           if (this.selectedItem != 'all') {
@@ -55,7 +58,7 @@ export class DictionaryComponent implements OnInit {
             'dictionary/' +
               _.uniq(identifiers).join(',') +
               '/selected/' +
-              this.selectedItem
+              this.selectedItem,
           ]);
         }
       } else {
@@ -65,7 +68,7 @@ export class DictionaryComponent implements OnInit {
           'dictionary/' +
             _.uniq(this.metadataIdentifiers).join(',') +
             '/selected/' +
-            this.metadataIdentifiers[0]
+            this.metadataIdentifiers[0],
         ]);
       }
     });
@@ -76,7 +79,7 @@ export class DictionaryComponent implements OnInit {
       this.metadataIdentifiers = listOfItemsObj['otherSelectedIds'];
       if (this.metadataIdentifiers.length > 0) {
         let identifiers = [];
-        _.map(this.metadataIdentifiers, identifier => {
+        _.map(this.metadataIdentifiers, (identifier) => {
           if (identifier != 'all') {
             identifiers.push(identifier);
           }
@@ -87,14 +90,14 @@ export class DictionaryComponent implements OnInit {
           'dictionary/' +
             _.uniq(identifiers).join(',') +
             '/selected/' +
-            listOfItemsObj.selected
+            listOfItemsObj.selected,
         ]);
       } else {
         this.router.navigate(['dictionary/all']);
       }
     } else {
       let identifiers = [];
-      listOfItemsObj['otherSelectedIds'].forEach(identifier => {
+      listOfItemsObj['otherSelectedIds'].forEach((identifier) => {
         if (identifier != 'all') {
           identifiers.push(identifier);
         }
@@ -108,7 +111,7 @@ export class DictionaryComponent implements OnInit {
         'dictionary/' +
           _.uniq(identifiers).join(',') +
           '/selected/' +
-          listOfItemsObj.selected
+          listOfItemsObj.selected,
       ]);
     }
   }
@@ -132,21 +135,21 @@ export class DictionaryComponent implements OnInit {
       document.execCommand('copy');
       document.body.removeChild(selBox);
       let messagePart = document.getElementById('copied-message');
-      setTimeout(function() {
+      setTimeout(function () {
         messagePart.style.display = 'inline-block';
         messagePart.style.marginBottom = '-20px';
       }, 100);
-      setTimeout(function() {
+      setTimeout(function () {
         messagePart.style.display = 'none';
       }, 1500);
     }
   }
 
   metadataInfo(metadata) {
-    // console.log("metadata", metadata);
+    // console.log('metadata', metadata);
   }
 
   metadataGroupsInfo(groups) {
-    console.log('metadataGroupsInfo ', groups);
+    // console.log('metadataGroupsInfo ', groups);
   }
 }

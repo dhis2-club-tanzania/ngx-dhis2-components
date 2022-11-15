@@ -1,0 +1,41 @@
+<div
+  class="menu-list-container dashboard-menu-list-{{
+    dashboardPreferences?.menuAlignment
+  }} w-100"
+  [ngClass]="{ 'top-margin': currentDashboardsToShow !== '0' }"
+>
+  <div class="d-flex align-items-center" style="background-color: #fff">
+    <!-- dashboard menu items -->
+    <div class="dashboard-menu-list mat-elevation-z1">
+      <div class="w-100 d-flex" style="padding-top: 20px">
+        <mat-chip-list>
+          <app-dashboard-menu-item
+            *ngFor="
+              let dashboard of dashboards
+                | filterByName: searchTerm
+                | menuItemsControl: currentDashboardsToShow
+            "
+            [dashboard]="dashboard"
+            [menuAlignment]="dashboardPreferences?.menuAlignment"
+            [currentDashboardId]="currentDashboardId"
+            (setDashboard)="onSetCurrentDashboard($event)"
+          >
+          </app-dashboard-menu-item>
+        </mat-chip-list>
+      </div>
+      <div
+        class="w-100 d-flex justify-content-center align-items-center"
+        style="height: 20px; margin-bottom: -10px; cursor: pointer"
+      >
+        <a (click)="toggleDashboardsCount($event, currentDashboardsToShow)"
+          ><mat-icon>{{
+            currentDashboardsToShow === '0'
+              ? 'keyboard_arrow_down'
+              : 'keyboard_arrow_up'
+          }}</mat-icon></a
+        >
+      </div>
+    </div>
+    <!-- end of dashboard menu items -->
+  </div>
+</div>
