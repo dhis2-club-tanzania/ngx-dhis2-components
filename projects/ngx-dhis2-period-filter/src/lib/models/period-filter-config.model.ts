@@ -11,4 +11,5 @@ export interface PeriodFilterConfig {
   allowDateRangeSelection?: boolean;
   hideActionButtons?: boolean;
   contentHeight?: string;
+  openFuturePeriods?: number;
 }

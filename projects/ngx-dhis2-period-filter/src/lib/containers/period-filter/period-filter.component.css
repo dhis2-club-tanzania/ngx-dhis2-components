@@ -229,7 +229,6 @@
   padding-right: 0.1em;
 }
 
-
 .period-body .transfer-section button {
   border: 1px solid #e0e0e0;
   border-radius: 3px !important;
@@ -240,15 +239,14 @@
 .selected-active {
   background-color: #00796b !important;
 }
-.selected-active span{
-   color: #fff;
+.selected-active span {
+  color: #fff;
 }
 .cdk-drag-preview {
   box-sizing: border-box;
   border-radius: 4px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-              0 8px 10px 1px rgba(0, 0, 0, 0.14),
-              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
 .cdk-drag-placeholder {
@@ -262,6 +260,37 @@
   border: none;
 }
 
-.selected-period-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+.selected-period-list.cdk-drop-list-dragging
+  .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+
+/* input {
+  box-sizing: border-box;
+  font-size: 14px;
+  line-height: 16px;
+  user-select: text;
+  color: rgb(33, 41, 52);
+  background-color: white;
+  padding: 12px 11px 10px;
+  outline: 0px;
+  border: 1px solid rgb(160, 173, 186);
+  border-radius: 3px;
+  box-shadow: rgb(48 54 60 / 10%) 0px 1px 2px 0px inset;
+  text-overflow: ellipsis;
+}
+
+textarea {
+  box-sizing: border-box;
+  padding: 8px 12px;
+  color: rgb(33, 41, 52);
+  background-color: white;
+  border: 1px solid rgb(160, 173, 186);
+  border-radius: 3px;
+  box-shadow: rgb(102 113 123 / 15%) 0px 0px 0px 1px inset,
+    rgb(102 113 123 / 10%) 0px 1px 2px 0px inset;
+  outline: 0px;
+  font-size: 14px;
+  line-height: 16px;
+  user-select: text;
+} */
