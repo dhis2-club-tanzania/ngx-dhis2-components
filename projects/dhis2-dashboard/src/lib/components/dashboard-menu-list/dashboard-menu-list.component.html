@@ -8,12 +8,12 @@
     <!-- dashboard menu items -->
     <div class="dashboard-menu-list mat-elevation-z1">
       <div class="w-100 d-flex" style="padding-top: 20px">
-        <mat-chip-list>
+        <mat-chip-listbox>
           <app-dashboard-menu-item
             *ngFor="
               let dashboard of dashboards
-                | filterByName: searchTerm
-                | menuItemsControl: currentDashboardsToShow
+                | filterByName : searchTerm
+                | menuItemsControl : currentDashboardsToShow
             "
             [dashboard]="dashboard"
             [menuAlignment]="dashboardPreferences?.menuAlignment"
@@ -21,7 +21,7 @@
             (setDashboard)="onSetCurrentDashboard($event)"
           >
           </app-dashboard-menu-item>
-        </mat-chip-list>
+        </mat-chip-listbox>
       </div>
       <div
         class="w-100 d-flex justify-content-center align-items-center"

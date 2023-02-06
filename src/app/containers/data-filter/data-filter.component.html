@@ -1,46 +1,50 @@
 <div class="container-fluid">
-    <div class="row" style="margin-top: 30px;">
-        <div class="col-12">
-            <h4>Data filter demo</h4>
-            <p>Demo for DHIS2 based data filter</p>
-        </div>
+  <div class="row" style="margin-top: 30px">
+    <div class="col-12">
+      <h4>Data filter demo</h4>
+      <p>Demo for DHIS2 based data filter</p>
     </div>
-    <div class="row" style="margin-top: 20px;">
-        <div class="col-md-4">
-            <b>INPUTS</b>
-            <div class="card" style="height: 390px">
-                <div class="card-body">
-                    <div>
-                        <code>CONFIG: {{ dataFilterConfig | json }}</code>
-                    </div>
-                    <div>
-                        <code>SELECTED ITEMS: {{ selectedDataItems | json }}</code>
-                    </div>
-                </div>
-            </div>
+  </div>
+  <div class="row" style="margin-top: 20px">
+    <div class="col-md-4">
+      <b>INPUTS</b>
+      <div class="card" style="height: 390px">
+        <div class="card-body">
+          <div>
+            <!-- <code>CONFIG: {{ dataFilterConfig | json }}</code> -->
+          </div>
+          <div>
+            <!-- <code>SELECTED ITEMS: {{ selectedDataItems | json }}</code> -->
+          </div>
         </div>
-        <div class="col-md-4">
-            <b>DATA FILTER</b>
-            <div class="card">
-                <div class="card-body" style="padding: 5px;">
-                    <ngx-dhis2-data-filter [selectedItems]="selectedDataItems" [dataFilterConfig]="dataFilterConfig"
-                        (update)="onDataUpdate($event, 'UPDATE')" (close)="onDataUpdate($event, 'CLOSE')">
-                    </ngx-dhis2-data-filter>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <b>OUTPUT</b>
-            <div class="card" style="height: 390px; overflow: auto;">
-                <div class="card-body">
-                    <div>
-                        <code>ACTION: {{ action }}</code>
-                    </div>
-                    <div>
-                        <code>PAYLOAD: {{ dataObject | json }}</code>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+    <div class="col-md-4">
+      <b>DATA FILTER</b>
+      <div class="card">
+        <div class="card-body" style="padding: 5px">
+          <!-- <ngx-dhis2-data-filter
+            [selectedItems]="selectedDataItems"
+            [dataFilterConfig]="dataFilterConfig"
+            (update)="onDataUpdate($event, 'UPDATE')"
+            (close)="onDataUpdate($event, 'CLOSE')"
+          >
+          </ngx-dhis2-data-filter> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <b>OUTPUT</b>
+      <div class="card" style="height: 390px; overflow: auto">
+        <div class="card-body">
+          <div>
+            <code>ACTION: {{ action }}</code>
+          </div>
+          <div>
+            <!-- <code>PAYLOAD: {{ dataObject | json }}</code> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1620,13 +1620,6 @@
   dependencies:
     tslib "^1.10.0"
 
-"@iapps/ngx-dhis2-validation-rule-group-filter@^1.0.0-beta.2":
-  version "1.0.0-beta.2"
-  resolved "https://registry.npmjs.org/@iapps/ngx-dhis2-validation-rule-group-filter/-/ngx-dhis2-validation-rule-group-filter-1.0.0-beta.2.tgz"
-  integrity sha512-tiKsbG1uh9k371glDDfenpxlKy+PQ9tcP3gfEfuQIh78ZBpZHElfCFNYzL0vxZuWjSmYXD0j6DGEgS+vXh87Zg==
-  dependencies:
-    tslib "^1.9.0"
-
 "@iapps/period-utilities@^1.0.1":
   version "1.0.1"
   resolved "https://registry.npmjs.org/@iapps/period-utilities/-/period-utilities-1.0.1.tgz"
@@ -2457,10 +2450,10 @@
     "@material/theme" "15.0.0-canary.684e33d25.0"
     tslib "^2.1.0"
 
-"@ngrx/effects@^14.3.2":
-  version "14.3.2"
-  resolved "https://registry.npmjs.org/@ngrx/effects/-/effects-14.3.2.tgz"
-  integrity sha512-6bpGfA44jzwhBcmNaTwVgnFmYOX9iKPFpXyetDe41tVESo1CsNhUBPTmISDXKN9Mx2mwGbsMxrn6QFRypSsKAQ==
+"@ngrx/effects@^15.1.0":
+  version "15.1.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-15.1.0.tgz#af62b690cbc58338d1332e3c15cf0bfcec401653"
+  integrity sha512-/8YnhzyAOTdI9RYJAqmIIvh8ip4M4x4DrRyrdDDc62oFM3TrVOvknUUpMp5NxKpKph8hSpevAwaeEBDWGnKkjg==
   dependencies:
     tslib "^2.0.0"
 
@@ -5826,10 +5819,10 @@ detect-node@^2.0.4:
   resolved "https://registry.npmjs.org/detect-node/-/detect-node-2.1.0.tgz"
   integrity sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==
 
-dexie@^3.2.2:
-  version "3.2.2"
-  resolved "https://registry.npmjs.org/dexie/-/dexie-3.2.2.tgz"
-  integrity sha512-q5dC3HPmir2DERlX+toCBbHQXW5MsyrFqPFcovkH9N2S/UW/H3H5AWAB6iEOExeraAu+j+zRDG+zg/D7YhH0qg==
+dexie@^3.2.3:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/dexie/-/dexie-3.2.3.tgz#f35c91ca797599df8e771b998e9ae9669c877f8c"
+  integrity sha512-iHayBd4UYryDCVUNa3PMsJMEnd8yjyh5p7a+RFeC8i8n476BC9wMhVvqiImq5zJZJf5Tuer+s4SSj+AA3x+ZbQ==
 
 dezalgo@^1.0.0:
   version "1.0.4"

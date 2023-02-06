@@ -19,6 +19,23 @@ import { DashboardService } from './services/dashboard.service';
 import { DownloadToExcelService } from './services/download-excel.service';
 import { FavoritesService } from './services/favorites.service';
 
+import { NgxD2TableModule } from '@iapps/ngx-d2-table';
+import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
+import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
+import { NgxDhis2DictionaryModule } from 'projects/ngx-dhis2-dictionary/src/public-api';
+import { ChartContainerComponent } from './components/chart-container/chart-container.component';
+import { CurrentDashboardComponent } from './components/current-dashboard/current-dashboard.component';
+import { DashboardItemsListComponent } from './components/dashboard-items-list/dashboard-items-list.component';
+import { DashboardVisualizationItemComponent } from './components/dashboard-visualization-item/dashboard-visualization-item.component';
+import { DashboardVisualizationSelectionSummaryComponent } from './components/dashboard-visualization-selection-summary/dashboard-visualization-selection-summary.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { VisualizationFiltersContainerComponent } from './components/visualization-filters-container/visualization-filters-container.component';
+import { VisualizationFiltersComponent } from './components/visualization-filters/visualization-filters.component';
+import { VisualizationFooterComponent } from './components/visualization-footer/visualization-footer.component';
+import { VisualizationLoaderComponent } from './components/visualization-loader/visualization-loader.component';
+import { VisualizationTypesComponent } from './components/visualization-types/visualization-types.component';
+import { FilterByNamePipe } from './pipes/filter-by-name.pipe';
+import { MenuItemsControlPipe } from './pipes/menu-items-control.pipe';
 import { materialModules } from './shared/materials.module';
 import { DashboardEffects } from './store/effects/dashboard.effects';
 import { RouterEffects } from './store/effects/router.effects';
@@ -28,23 +45,6 @@ import { dashboardReducer } from './store/reducers/dashboard.reducer';
 import { globalFilterReducer } from './store/reducers/global-filter.reducer';
 import { systemInfoReducer } from './store/reducers/system-info.reducer';
 import { userReducer } from './store/reducers/user.reducer';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { DashboardVisualizationItemComponent } from './components/dashboard-visualization-item/dashboard-visualization-item.component';
-import { CurrentDashboardComponent } from './components/current-dashboard/current-dashboard.component';
-import { ChartContainerComponent } from './components/chart-container/chart-container.component';
-import { DashboardItemsListComponent } from './components/dashboard-items-list/dashboard-items-list.component';
-import { VisualizationLoaderComponent } from './components/visualization-loader/visualization-loader.component';
-import { VisualizationFiltersComponent } from './components/visualization-filters/visualization-filters.component';
-import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
-import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
-import { FilterByNamePipe } from './pipes/filter-by-name.pipe';
-import { VisualizationFiltersContainerComponent } from './components/visualization-filters-container/visualization-filters-container.component';
-import { DashboardVisualizationSelectionSummaryComponent } from './components/dashboard-visualization-selection-summary/dashboard-visualization-selection-summary.component';
-import { VisualizationFooterComponent } from './components/visualization-footer/visualization-footer.component';
-import { VisualizationTypesComponent } from './components/visualization-types/visualization-types.component';
-import { NgxDhis2DictionaryModule } from '@iapps/ngx-dhis2-dictionary';
-import { MenuItemsControlPipe } from './pipes/menu-items-control.pipe';
-import { NgxD2TableModule } from '@iapps/ngx-d2-table';
 
 @NgModule({
   declarations: [
@@ -95,7 +95,7 @@ import { NgxD2TableModule } from '@iapps/ngx-d2-table';
     NgxDhis2PeriodFilterModule,
     NgxDhis2OrgUnitFilterModule,
     NgxDhis2DictionaryModule,
-    NgxD2TableModule
+    NgxD2TableModule,
   ],
   exports: [Dhis2DashboardComponent],
 })

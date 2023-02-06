@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  NgxDhis2HttpClientService,
   Manifest,
-} from '@iapps/ngx-dhis2-http-client';
+  NgxDhis2HttpClientService,
+} from 'projects/ngx-dhis2-http-client/src/public_api';
 
 @Component({
   selector: 'app-http-client',
@@ -24,7 +24,11 @@ export class HttpClientComponent implements OnInit {
         }
       )
       .subscribe((orgUnits) => {
-        // console.log(orgUnits);
+        console.log(orgUnits);
       });
+
+    this.httpClient.get('dataStore/metabase').subscribe((data) => {
+      console.log(data);
+    });
   }
 }

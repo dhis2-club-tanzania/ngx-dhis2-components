@@ -1,64 +1,75 @@
 <mat-dialog-content *ngIf="data">
-    <mat-tab-group dynamicHeight="true">
-        <mat-tab *ngIf="data?.selectionFilterConfig?.showDataFilter">
-            <ng-template mat-tab-label>
-                <mat-icon class="tab-icon">dns</mat-icon>
-                <span>Data</span>
-            </ng-template>
-            <div class="selection-filter-content">
-                <ngx-dhis2-data-filter [selectedItems]="data.selectedData"
-                    [dataFilterConfig]="data?.selectionFilterConfig?.dataFilterConfig"
-                    (close)="onFilterUpdate($event, 'DATA')" (update)="onFilterUpdate($event, 'DATA')">
-                </ngx-dhis2-data-filter>
-            </div>
-        </mat-tab>
-        <mat-tab *ngIf="data?.selectionFilterConfig?.showValidationRuleGroupFilter">
-            <ng-template mat-tab-label>
-                <mat-icon class="tab-icon">warning</mat-icon>
-                <span class="button-text">Validation</span>
-            </ng-template>
-            <div class="selection-filter-content">
-                <lib-ngx-dhis2-validation-rule-filter [dataSelection]="data.selectedValidationDataElements"
+  <mat-tab-group dynamicHeight="true">
+    <mat-tab *ngIf="data?.selectionFilterConfig?.showDataFilter">
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">dns</mat-icon>
+        <span>Data</span>
+      </ng-template>
+      <div class="selection-filter-content">
+        <ngx-dhis2-data-filter
+          [selectedItems]="data.selectedData"
+          [dataFilterConfig]="data?.selectionFilterConfig?.dataFilterConfig"
+          (close)="onFilterUpdate($event, 'DATA')"
+          (update)="onFilterUpdate($event, 'DATA')"
+        >
+        </ngx-dhis2-data-filter>
+      </div>
+    </mat-tab>
+    <mat-tab *ngIf="data?.selectionFilterConfig?.showValidationRuleGroupFilter">
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">warning</mat-icon>
+        <span class="button-text">Validation</span>
+      </ng-template>
+      <div class="selection-filter-content">
+        <!-- <lib-ngx-dhis2-validation-rule-filter [dataSelection]="data.selectedValidationDataElements"
                     [selectedVRGs]='data.selectedValidationRuleGroups'
                     (update)="onFilterUpdate($event, 'VALIDATIONRULEGROUP')"
                     (close)="onFilterUpdate($event, 'VALIDATIONRULEGROUP')">
-                </lib-ngx-dhis2-validation-rule-filter>
-            </div>
-        </mat-tab>
-        <mat-tab *ngIf="data?.selectionFilterConfig?.showPeriodFilter">
-            <ng-template mat-tab-label>
-                <mat-icon class="tab-icon">watch_later</mat-icon>
-                <span class="button-text">Period</span>
-            </ng-template>
-            <div class="selection-filter-content">
-                <ngx-dhis2-period-filter [selectedPeriods]="data.selectedPeriods"
-                    [selectedPeriodType]="data.selectionFilterConfig.selectedPeriodType"
-                    [periodFilterConfig]="data.selectionFilterConfig.periodFilterConfig"
-                    (close)="onFilterUpdate($event, 'PERIOD')" (update)="onFilterUpdate($event, 'PERIOD')">
-                </ngx-dhis2-period-filter>
-            </div>
-        </mat-tab>
-        <mat-tab *ngIf="data?.selectionFilterConfig?.showOrgUnitFilter">
-            <ng-template mat-tab-label>
-                <mat-icon class="tab-icon">device_hub</mat-icon>
-                <span class="button-text">Organisation unit</span>
-            </ng-template>
-            <div class="selection-filter-content">
-                <ngx-dhis2-org-unit-filter [orgUnitFilterConfig]="data.selectionFilterConfig?.orgUnitFilterConfig"
-                    [selectedOrgUnitItems]="data.selectedOrgUnits" (orgUnitUpdate)="onFilterUpdate($event, 'ORG_UNIT')"
-                    (orgUnitClose)="onFilterUpdate($event, 'ORG_UNIT')">
-                </ngx-dhis2-org-unit-filter>
-            </div>
-        </mat-tab>
-    </mat-tab-group>
+                </lib-ngx-dhis2-validation-rule-filter> -->
+      </div>
+    </mat-tab>
+    <mat-tab *ngIf="data?.selectionFilterConfig?.showPeriodFilter">
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">watch_later</mat-icon>
+        <span class="button-text">Period</span>
+      </ng-template>
+      <div class="selection-filter-content">
+        <ngx-dhis2-period-filter
+          [selectedPeriods]="data.selectedPeriods"
+          [selectedPeriodType]="data.selectionFilterConfig.selectedPeriodType"
+          [periodFilterConfig]="data.selectionFilterConfig.periodFilterConfig"
+          (close)="onFilterUpdate($event, 'PERIOD')"
+          (update)="onFilterUpdate($event, 'PERIOD')"
+        >
+        </ngx-dhis2-period-filter>
+      </div>
+    </mat-tab>
+    <mat-tab *ngIf="data?.selectionFilterConfig?.showOrgUnitFilter">
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">device_hub</mat-icon>
+        <span class="button-text">Organisation unit</span>
+      </ng-template>
+      <div class="selection-filter-content">
+        <ngx-dhis2-org-unit-filter
+          [orgUnitFilterConfig]="
+            data.selectionFilterConfig?.orgUnitFilterConfig
+          "
+          [selectedOrgUnitItems]="data.selectedOrgUnits"
+          (orgUnitUpdate)="onFilterUpdate($event, 'ORG_UNIT')"
+          (orgUnitClose)="onFilterUpdate($event, 'ORG_UNIT')"
+        >
+        </ngx-dhis2-org-unit-filter>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-stroked-button (click)="onUpdate($event)">
-        <mat-icon>close</mat-icon>
-        <span class="button-text">Close</span>
-    </button>
-    <button mat-flat-button color="primary" (click)="onUpdate($event)">
-        <mat-icon>refresh</mat-icon>
-        <span class="button-text">Update</span>
-    </button>
+  <button mat-stroked-button (click)="onUpdate($event)">
+    <mat-icon>close</mat-icon>
+    <span class="button-text">Close</span>
+  </button>
+  <button mat-flat-button color="primary" (click)="onUpdate($event)">
+    <mat-icon>refresh</mat-icon>
+    <span class="button-text">Update</span>
+  </button>
 </mat-dialog-actions>

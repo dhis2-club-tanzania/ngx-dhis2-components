@@ -9,30 +9,33 @@
     <div class="col-12 mt-3 mb-3">
       <b>INPUTS</b>
       <code class="card">
-          <div class="card-body">
-            <div>CONFIG: {{ orgUnitFilterConfig | json }}</div>
-            <div>SELECTED ITEMS: {{ selectedOrgUnitItems | json }}</div>
-          </div>
-        </code>
+        <div class="card-body">
+          <!-- <div>CONFIG: {{ orgUnitFilterConfig | json }}</div> -->
+          <!-- <div>SELECTED ITEMS: {{ selectedOrgUnitItems | json }}</div> -->
+        </div>
+      </code>
     </div>
     <div class="col-12 mt-3 mb-3">
       <b>ORGUNIT FILTER</b>
       <div class="card">
-        <div class="card-body" style="padding: 5px;">
-          <ngx-dhis2-org-unit-filter [orgUnitFilterConfig]="orgUnitFilterConfig"
-            [selectedOrgUnitItems]="selectedOrgUnitItems" (orgUnitUpdate)="onOrgUnitUpdate($event, 'UPDATE')"
-            (orgUnitClose)="onOrgUnitUpdate($event, 'CLOSE')"></ngx-dhis2-org-unit-filter>
+        <div class="card-body" style="padding: 5px">
+          <ngx-dhis2-org-unit-filter
+            [orgUnitFilterConfig]="orgUnitFilterConfig"
+            [selectedOrgUnitItems]="selectedOrgUnitItems"
+            (orgUnitUpdate)="onOrgUnitUpdate($event, 'UPDATE')"
+            (orgUnitClose)="onOrgUnitUpdate($event, 'CLOSE')"
+          ></ngx-dhis2-org-unit-filter>
         </div>
       </div>
     </div>
     <div class="col-12">
       <b>OUTPUT</b>
       <code class="card">
-          <div class="card-body">
-            <div>ACTION: {{ action }}</div>
-            <div>PAYLOAD: {{ orgUnitObject | json }}</div>
-          </div>
-        </code>
+        <div class="card-body">
+          <div>ACTION: {{ action }}</div>
+          <!-- <div>PAYLOAD: {{ orgUnitObject | json }}</div> -->
+        </div>
+      </code>
     </div>
   </div>
 </div>

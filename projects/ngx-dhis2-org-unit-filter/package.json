@@ -7,15 +7,15 @@
   },
   "homepage": "https://github.com/dhis2-club-tanzania/ngx-dhis2-components/tree/master/projects/ngx-dhis2-org-unit-filter",
   "peerDependencies": {
-    "@angular/common": "^9.0.0 || 10.1 || ^11.0",
-    "@angular/core": "^9.0.0 || 10.1 || ^11.0",
-    "@angular/animations": "^9.0.0 || 10.1 || ^11.0",
-    "@angular/cdk": "^9.0.0 || 10.1 || ^11.0",
-    "@angular/material": "^9.0.0 || 10.1 || ^11.0",
+    "@angular/common": "^15.0.0",
+    "@angular/core": "^15.0.0",
+    "@angular/animations": "^15.0.0",
+    "@angular/cdk": "^15.0.0",
+    "@angular/material": "^15.0.0",
     "@iapps/ngx-dhis2-http-client": "^2.0.8-rc.2",
-    "@ngrx/effects": "^8.0.0",
-    "@ngrx/entity": "^8.0.0",
-    "@ngrx/store": "^8.0.0",
+    "@ngrx/effects": "^15.0.0",
+    "@ngrx/entity": "^15.0.0",
+    "@ngrx/store": "^15.0.0",
     "lodash": "^4.17.10"
   }
 }
