@@ -1,6 +1,6 @@
 {
   "name": "@iapps/ngx-dhis2-org-unit-filter",
-  "version": "1.1.36",
+  "version": "1.1.37",
   "repository": {
     "type": "git",
     "url": "https://github.com/dhis2-club-tanzania/ngx-dhis2-components/tree/master/projects/ngx-dhis2-org-unit-filter"
