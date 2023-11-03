@@ -155,6 +155,21 @@ export class NgxDhis2HttpClientService {
     );
   }
 
+  patch(url: string, data: any, httpConfig?: HttpConfig) {
+    const newHttpConfig = getSanitizedHttpConfig(httpConfig);
+
+    const httpOptions = this._getHttpOptions(newHttpConfig.httpHeaders);
+    return this._getRootUrl(newHttpConfig).pipe(
+      mergeMap((rootUrl) =>
+        (httpOptions
+          ? this.httpClient.patch(rootUrl + url, data, httpOptions)
+          : this.httpClient.patch(rootUrl + url, data)
+        ).pipe(catchError(this._handleError))
+      ),
+      catchError(this._handleError)
+    );
+  }
+
   delete(url: string, httpConfig?: HttpConfig) {
     const newHttpConfig = getSanitizedHttpConfig(httpConfig);
 
