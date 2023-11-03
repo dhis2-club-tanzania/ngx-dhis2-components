@@ -1,9 +1,8 @@
 # Angular DHIS2 Components
 
-[![Build Status](https://travis-ci.com/hisptz/ngx-dhis2-components.svg?branch=master)](https://travis-ci.com/hisptz/ngx-dhis2-components)
 [![Maintainability](https://api.codeclimate.com/v1/badges/0ec4e1fde9e946e52575/maintainability)](https://codeclimate.com/github/hisptz/ngx-dhis2-components/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/0ec4e1fde9e946e52575/test_coverage)](https://codeclimate.com/github/hisptz/ngx-dhis2-components/test_coverage)
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![Greenkeeper badge](https://badges.greenkeeper.io/hisptz/ngx-dhis2-components.svg)](https://greenkeeper.io/)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 Angular 8+ based DHIS2 components
 
