@@ -3,7 +3,13 @@
   <div class="component-content">
     <div class="component-list">
       <mat-nav-list role="list">
-        <a mat-list-item [routerLink]="component.id" *ngFor="let component of components"> {{ component.name }} </a>
+        <a
+          mat-list-item
+          [routerLink]="component.id"
+          *ngFor="let component of components"
+        >
+          {{ component.name }}
+        </a>
       </mat-nav-list>
     </div>
     <div class="current-component">

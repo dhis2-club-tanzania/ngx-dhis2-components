@@ -1,16 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxDhis2HttpClientModule } from '@iapps/ngx-dhis2-http-client';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { NgxDhis2DataFilterModule } from 'projects/ngx-dhis2-data-filter/src/public-api';
+// import { NgxDhis2DataFilterModule } from 'projects/ngx-dhis2-data-filter/src/public-api';
 import { NgxDhis2DictionaryModule } from 'projects/ngx-dhis2-dictionary/src/public-api';
 import { NgxDhis2MenuModule } from 'projects/ngx-dhis2-menu/src/public-api';
 import { NgxDhis2OrgUnitFilterModule } from 'projects/ngx-dhis2-org-unit-filter/src/public-api';
 import { NgxDhis2PeriodFilterModule } from 'projects/ngx-dhis2-period-filter/src/public-api';
-import { NgxDhis2SelectionFiltersModule } from 'projects/ngx-dhis2-selection-filters/src/public-api';
+// import { NgxDhis2SelectionFiltersModule } from 'projects/ngx-dhis2-selection-filters/src/public-api';
 import { Dhis2DashboardModule } from 'projects/dhis2-dashboard/src/public-api';
 import { environment } from 'src/environments/environment';
 import { AppComponent } from './app.component';
@@ -20,6 +19,7 @@ import { MaterialModule } from './material/material.module';
 import { HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { NgxDhis2HttpClientModule } from 'projects/ngx-dhis2-http-client/src/public_api';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -53,8 +53,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxDhis2DictionaryModule,
     NgxDhis2MenuModule,
     NgxDhis2PeriodFilterModule,
-    NgxDhis2DataFilterModule,
-    NgxDhis2SelectionFiltersModule,
+    // NgxDhis2DataFilterModule,
+    // NgxDhis2SelectionFiltersModule,
     Dhis2DashboardModule,
     StoreModule.forRoot({}),
     !environment.production ? StoreDevtoolsModule.instrument() : [],

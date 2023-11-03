@@ -24,7 +24,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { NgxDhis2DataFilterModule } from '@iapps/ngx-dhis2-data-filter';
 import { NgxDhis2OrgUnitFilterModule } from '@iapps/ngx-dhis2-org-unit-filter';
 import { NgxDhis2PeriodFilterModule } from '@iapps/ngx-dhis2-period-filter';
-import { NgxDhis2ValidationRuleFilterModule } from '@iapps/ngx-dhis2-validation-rule-group-filter';
+// import { NgxDhis2ValidationRuleFilterModule } from '@iapps/ngx-dhis2-validation-rule-group-filter';
 import { TranslateModule } from '@ngx-translate/core';
 import { SelectionDialogComponent } from './components/selection-dialog/selection-dialog.component';
 import { NgxDhis2SelectionFiltersComponent } from './containers/ngx-dhis2-selection-filters/ngx-dhis2-selection-filters.component';
@@ -33,25 +33,25 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        TranslateModule.forChild(),
-        NgxDhis2OrgUnitFilterModule,
-        NgxDhis2DataFilterModule,
-        NgxDhis2PeriodFilterModule,
-        NgxDhis2ValidationRuleFilterModule,
-        MatButtonModule,
-        MatCardModule,
-        MatDialogModule,
-        MatIconModule,
-        MatTooltipModule,
-        MatTabsModule,
-    ],
-    declarations: [
-        NgxDhis2SelectionFiltersComponent,
-        SummarizeSelectionPipe,
-        SelectionDialogComponent,
-    ],
-    exports: [NgxDhis2SelectionFiltersComponent]
+  imports: [
+    CommonModule,
+    TranslateModule.forChild(),
+    NgxDhis2OrgUnitFilterModule,
+    NgxDhis2DataFilterModule,
+    NgxDhis2PeriodFilterModule,
+    // NgxDhis2ValidationRuleFilterModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDialogModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatTabsModule,
+  ],
+  declarations: [
+    NgxDhis2SelectionFiltersComponent,
+    SummarizeSelectionPipe,
+    SelectionDialogComponent,
+  ],
+  exports: [NgxDhis2SelectionFiltersComponent],
 })
 export class NgxDhis2SelectionFiltersModule {}

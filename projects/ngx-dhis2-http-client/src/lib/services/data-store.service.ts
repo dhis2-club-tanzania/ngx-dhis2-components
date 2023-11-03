@@ -1,40 +1,46 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { flatten } from 'lodash';
 import { Observable, of, throwError, zip } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { getDataStoreUrlParams } from '../helpers/get-data-store-url-params.helper';
 import { ErrorMessage } from '../models/error-message.model';
-import { HttpConfig } from '../models/http-config.model';
-import { NgxDhis2HttpClientService } from './http-client.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataStoreService {
   private _dataStoreApiPrefix: string;
-  private _namespace: string;
-  constructor(private httpClient: NgxDhis2HttpClientService) {
+  constructor(private httpClient: HttpClient) {
     this._dataStoreApiPrefix = 'dataStore/';
   }
 
-  findNamespaceKeys(): Observable<string[]> {
-    return this.httpClient.get(this._dataStoreApiPrefix + this._namespace).pipe(
-      catchError((error: ErrorMessage) => {
-        if (error.status === 404) {
-          return of([]);
-        }
+  findNamespaceKeys(namespace: string, rootUrl: string): Observable<string[]> {
+    return this.httpClient
+      .get<string[]>(`${rootUrl}api/${this._dataStoreApiPrefix}${namespace}`)
+      .pipe(
+        catchError((error: ErrorMessage) => {
+          if (error.status === 404) {
+            return of([]);
+          }
 
-        return throwError(error);
-      })
-    );
+          return throwError(error);
+        })
+      );
   }
 
-  findByKeys(keys: string[], httpConfig: HttpConfig): Observable<any[]> {
+  findByKeys(
+    namespace: string,
+    keys: string[],
+    rootUrl: string
+  ): Observable<any[]> {
     if (keys?.length === 0) {
       return of([]);
     }
     return zip(
-      ...(keys || []).map((key: string) => this.findOne(key, httpConfig))
+      ...(keys || []).map((key: string) =>
+        this.findOne(namespace, key, rootUrl)
+      )
     ).pipe(
       map((results: any[]) =>
         flatten((results || []).filter((resultItem) => resultItem))
@@ -42,21 +48,24 @@ export class DataStoreService {
     );
   }
 
-  findAll(httpConfig: HttpConfig): Observable<{ [namespace: string]: any[] }> {
-    return this.findNamespaceKeys().pipe(
+  findAll(
+    namespace: string,
+    rootUrl: string
+  ): Observable<{ [namespace: string]: any[] }> {
+    return this.findNamespaceKeys(namespace, rootUrl).pipe(
       switchMap((keys: string[]) =>
-        this.findByKeys(keys, httpConfig).pipe(
+        this.findByKeys(namespace, keys, rootUrl).pipe(
           map((keyValues) => ({
-            [this._namespace]: keyValues,
+            [namespace]: keyValues,
           }))
         )
       )
     );
   }
 
-  findOne(key: string, httpConfig: HttpConfig): Observable<any> {
+  findOne(namespace: string, key: string, rootUrl: string): Observable<any> {
     return this.httpClient
-      .get(`${this._dataStoreApiPrefix + this._namespace}/${key}`, httpConfig)
+      .get(`${rootUrl}api/${this._dataStoreApiPrefix + namespace}/${key}`)
       .pipe(
         catchError((error: ErrorMessage) => {
           if (error.status === 404) {
@@ -68,34 +77,40 @@ export class DataStoreService {
       );
   }
 
-  get(dataStoreUrl: string, httpConfig: HttpConfig): Observable<any> {
+  get(dataStoreUrl: string, rootUrl: string): Observable<any> {
     const { key, namespace } = getDataStoreUrlParams(dataStoreUrl) || {
       key: undefined,
       namespace: undefined,
     };
 
-    this._namespace = namespace;
-
     if (key) {
-      return this.findOne(key, httpConfig);
+      return this.findOne(namespace, key, rootUrl);
     }
 
-    return this.findAll(httpConfig);
+    return this.findAll(namespace, rootUrl);
   }
 
-  saveByTrial(data: any): Observable<any> {
-    return this.update(data).pipe(catchError(() => this.create(data)));
+  saveByTrial(namespace: string, rootUrl: string, data: any): Observable<any> {
+    return this.update(namespace, rootUrl, data).pipe(
+      catchError(() => this.create(rootUrl, namespace, data))
+    );
   }
 
-  create(data: any): Observable<any> {
+  create(rootUrl: string, namespace: string, data: any): Observable<any> {
     return this.httpClient
-      .post(`${this._dataStoreApiPrefix + this._namespace}/${data.id}`, data)
+      .post(
+        `${rootUrl}api/${this._dataStoreApiPrefix + namespace}/${data.id}`,
+        data
+      )
       .pipe(map(() => data));
   }
 
-  update(data: any): Observable<any> {
+  update(namespace: string, rootUrl: string, data: any): Observable<any> {
     return this.httpClient
-      .put(`${this._dataStoreApiPrefix + this._namespace}/${data.id}`, data)
+      .put(
+        `${rootUrl}api/${this._dataStoreApiPrefix + namespace}/${data.id}`,
+        data
+      )
       .pipe(map(() => data));
   }
 }

@@ -1,7 +1,6 @@
 <mat-chip
   class="dashboard-menu-item"
   [ngClass]="isCurrent ? 'current-dashboard' : ''"
-  [selected]="isCurrent"
   [id]="dashboard?.id"
   (click)="onSetDashboard($event)"
 >

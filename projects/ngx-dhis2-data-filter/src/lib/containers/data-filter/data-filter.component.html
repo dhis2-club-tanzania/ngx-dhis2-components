@@ -2,15 +2,14 @@
   <!-- data filter section -->
   <div class="data-filter-content" [style.flex]="1">
     <div class="data-filter-selections-block">
-      <mat-chip-list>
+      <mat-chip-listbox>
         <mat-chip
           *ngFor="let dataFilterSelection of dataFilterSelections"
           (click)="onToggleDataFilterSelection(dataFilterSelection, $event)"
-          [selected]="dataFilterSelection.selected"
         >
           {{ dataFilterSelection.name }}
         </mat-chip>
-      </mat-chip-list>
+      </mat-chip-listbox>
     </div>
 
     <div
@@ -68,7 +67,7 @@
             *ngFor="
               let dataFilterGroup of dataFilterGroups$
                 | async
-                | filterByName: querystring
+                | filterByName : querystring
             "
           >
             <a
@@ -94,186 +93,191 @@
         [(ngModel)]="dataItemSearchTerm"
       />
     </mat-form-field>
-  <div class="data-filter-headers-section">
-    <div
-      class="data-filter-available-header {{
-        showGroupingPanel ? 'data-filter-full-width' : ''
-      }}"
-    >
-      <span class="badge badge-secondary data-filter-badge"
-        >{{
-          (
-            dataFilterItems$
-            | async
-            | removeSelectedItems: selectedItems
-            | filterByName: dataItemSearchTerm
-          ).length
-        }}
-        Available</span
+    <div class="data-filter-headers-section">
+      <div
+        class="data-filter-available-header {{
+          showGroupingPanel ? 'data-filter-full-width' : ''
+        }}"
       >
-      <button
-        mat-icon-button
-        matTooltip="Select all items"
-        class="data-btn"
-        (click)="onSelectAllItems($event)"
-      >
-        <i class="fa fa-arrow-right"></i>
-      </button>
-    </div>
-    <div *ngIf="!showGroupingPanel" class="data-filter-selected-header ">
-      <button
-        mat-icon-button
-        matTooltip="Remove all items"
-        class="data-btn"
-        (click)="onDeselectAllItems($event)"
-      >
-        <i class="fa fa-arrow-left"></i>
-      </button>
-      <span class="badge badge-primary data-filter-badge"
-        >{{ selectedItems.length }} Selected</span
-      >
-    </div>
-  </div>
-<div class="data-filter-section">
-    <div
-      class="data-filter-available-body {{
-        showGroupingPanel ? 'data-filter-full-width' : ''
-      }}"
-      [ngStyle]="{ height: showGroupingPanel ? '350px' : '150px' }"
-    >
-      <ul #scrollse>
-        <li
-          *ngIf="
-            !(dataFilterLoading$ | async) &&
+        <span class="badge badge-secondary data-filter-badge"
+          >{{
             (
               dataFilterItems$
               | async
-              | removeSelectedItems: selectedItems
-              | filterByName: dataItemSearchTerm
-            ).length == 0
-          "
+              | removeSelectedItems : selectedItems
+              | filterByName : dataItemSearchTerm
+            ).length
+          }}
+          Available</span
         >
-          <a>No items</a>
-        </li>
-        <li
-          *ngFor="
-            let dataFilterItem of dataFilterItems$
-              | async
-              | removeSelectedItems: selectedItems
-              | filterByName: dataItemSearchTerm
-              | paginate
-                : {
-                    id: 'available_list',
-                    itemsPerPage: 25,
-                    currentPage: currentPageForAvailableDataItems
-                  }
-          "
-          id="{{ dataFilterItem.id | addUnderscore }} "
+        <button
+          mat-icon-button
+          matTooltip="Select all items"
+          class="data-btn"
+          (click)="onSelectAllItems($event)"
         >
-          <a  
-           *ngIf="dataFilterItems$ | async as dataFilterItems"
-           [ngClass]="{
-            'selected-active': isInArray(
-              selectedItemsList,
-              dataFilterItem?.id
-            )
-          }"
-          (click)="
-          onClickToSelectData(dataFilterItem,dataFilterItems, $event, 'SELECT')
-        "
-          (dblclick)="moveSingleSelectedDataItem(dataFilterItem, $event)">{{
-            dataFilterItem.name
-          }}</a>
-        </li>
-        <li *ngIf="dataFilterLoading$ | async"><small>Loading...</small></li>
-
-        <li
-          *ngIf="
-            (
-              dataFilterItems$
-              | async
-              | removeSelectedItems: selectedItems
-              | filterByName: dataItemSearchTerm
-            ).length >= 25
-          "
+          <i class="fa fa-arrow-right"></i>
+        </button>
+      </div>
+      <div *ngIf="!showGroupingPanel" class="data-filter-selected-header">
+        <button
+          mat-icon-button
+          matTooltip="Remove all items"
+          class="data-btn"
+          (click)="onDeselectAllItems($event)"
         >
-          <a>
-            <pagination-controls
-              id="available_list"
-              (pageChange)="currentPageForAvailableDataItems = $event"
-              maxSize="0"
+          <i class="fa fa-arrow-left"></i>
+        </button>
+        <span class="badge badge-primary data-filter-badge"
+          >{{ selectedItems.length }} Selected</span
+        >
+      </div>
+    </div>
+    <div class="data-filter-section">
+      <div
+        class="data-filter-available-body {{
+          showGroupingPanel ? 'data-filter-full-width' : ''
+        }}"
+        [ngStyle]="{ height: showGroupingPanel ? '350px' : '150px' }"
+      >
+        <ul #scrollse>
+          <li
+            *ngIf="
+              !(dataFilterLoading$ | async) &&
+              (
+                dataFilterItems$
+                | async
+                | removeSelectedItems : selectedItems
+                | filterByName : dataItemSearchTerm
+              ).length == 0
+            "
+          >
+            <a>No items</a>
+          </li>
+          <li
+            *ngFor="
+              let dataFilterItem of dataFilterItems$
+                | async
+                | removeSelectedItems : selectedItems
+                | filterByName : dataItemSearchTerm
+                | paginate
+                  : {
+                      id: 'available_list',
+                      itemsPerPage: 25,
+                      currentPage: currentPageForAvailableDataItems
+                    }
+            "
+            id="{{ dataFilterItem.id | addUnderscore }} "
+          >
+            <a
+              *ngIf="dataFilterItems$ | async as dataFilterItems"
+              [ngClass]="{
+                'selected-active': isInArray(
+                  selectedItemsList,
+                  dataFilterItem?.id
+                )
+              }"
+              (click)="
+                onClickToSelectData(
+                  dataFilterItem,
+                  dataFilterItems,
+                  $event,
+                  'SELECT'
+                )
+              "
+              (dblclick)="moveSingleSelectedDataItem(dataFilterItem, $event)"
+              >{{ dataFilterItem.name }}</a
             >
-            </pagination-controls>
-          </a>
-        </li>
-      </ul>
-     
-    </div>
-   
-    <div  class="transfer-section">
-      <button
-      type="button"
-      class="transfer-btn"
-      (click)="moveSelectedItems($event)"
-      [disabled]="!selectedItemsList.length"
-      mat-icon-button
-    >
-      <mat-icon>arrow_forward</mat-icon>
-    </button>
-    <button
-      type="button"
-      class="transfer-btn"
-      mat-icon-button
-      (click)="moveDeselectedItems($event)"
-      [disabled]="!deselectedItemsList.length"
-    >
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-    </div>
-    <div
-      *ngIf="!showGroupingPanel"
-      class="data-filter-selected-body"
-      [ngStyle]="{ height: showGroupingPanel ? '350px' : '150px' }"
-    >
-  
-      <ul>
-        <li
-          *ngFor="
-            let item of selectedItems
-              | paginate
-                : {
-                    id: 'selected_list',
-                    itemsPerPage: 100,
-                    currentPage: currentPageForSelectedDataItems
-                  }
-          "
+          </li>
+          <li *ngIf="dataFilterLoading$ | async"><small>Loading...</small></li>
+
+          <li
+            *ngIf="
+              (
+                dataFilterItems$
+                | async
+                | removeSelectedItems : selectedItems
+                | filterByName : dataItemSearchTerm
+              ).length >= 25
+            "
+          >
+            <a>
+              <pagination-controls
+                id="available_list"
+                (pageChange)="currentPageForAvailableDataItems = $event"
+                maxSize="0"
+              >
+              </pagination-controls>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="transfer-section">
+        <button
+          type="button"
+          class="transfer-btn"
+          (click)="moveSelectedItems($event)"
+          [disabled]="!selectedItemsList.length"
+          mat-icon-button
         >
-          <a 
-          *ngIf="dataFilterItems$ | async as dataFilterItems"
-          [ngClass]="{
-            'selected-active': isInArray(
-              deselectedItemsList,
-              item?.id
-            )
-          }"
-          (click)="onClickToSelectData(item,dataFilterItems, $event, 'DESELECT')"
-          (dblclick)="moveSingleDeselectedDataItem(item,$event)">
-            <span class="badge badge-info">{{ item.type | readableName }}</span
-            >&nbsp;
-            <span>{{ item.name }}</span>
-          </a>
-        </li>
-        <li *ngIf="selectedItems.length > 100">
-          <pagination-controls
-            id="selected_list"
-            maxSize="0"
-            (pageChange)="currentPageForSelectedDataItems = $event"
-          ></pagination-controls>
-        </li>
-      </ul>
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+        <button
+          type="button"
+          class="transfer-btn"
+          mat-icon-button
+          (click)="moveDeselectedItems($event)"
+          [disabled]="!deselectedItemsList.length"
+        >
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
+      <div
+        *ngIf="!showGroupingPanel"
+        class="data-filter-selected-body"
+        [ngStyle]="{ height: showGroupingPanel ? '350px' : '150px' }"
+      >
+        <ul>
+          <li
+            *ngFor="
+              let item of selectedItems
+                | paginate
+                  : {
+                      id: 'selected_list',
+                      itemsPerPage: 100,
+                      currentPage: currentPageForSelectedDataItems
+                    }
+            "
+          >
+            <a
+              *ngIf="dataFilterItems$ | async as dataFilterItems"
+              [ngClass]="{
+                'selected-active': isInArray(deselectedItemsList, item?.id)
+              }"
+              (click)="
+                onClickToSelectData(item, dataFilterItems, $event, 'DESELECT')
+              "
+              (dblclick)="moveSingleDeselectedDataItem(item, $event)"
+            >
+              <span class="badge badge-info">{{
+                item.type | readableName
+              }}</span
+              >&nbsp;
+              <span>{{ item.name }}</span>
+            </a>
+          </li>
+          <li *ngIf="selectedItems.length > 100">
+            <pagination-controls
+              id="selected_list"
+              maxSize="0"
+              (pageChange)="currentPageForSelectedDataItems = $event"
+            ></pagination-controls>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
-</div>
   <!-- end of data filter section -->
 
   <!-- data filter groups -->
