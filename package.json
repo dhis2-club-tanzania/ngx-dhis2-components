@@ -84,7 +84,7 @@
     "ngx-color-picker": "^9.1.0",
     "ngx-pagination": "^5.0.0",
     "npm": "^10.2.3",
-    "rxjs": "~6.6.3",
+    "rxjs": "~7.8.1",
     "tslib": "^2.0.0",
     "xlsx": "^0.18.5",
     "zone.js": "~0.11.4"
