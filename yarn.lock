@@ -1562,12 +1562,12 @@
   dependencies:
     tslib "^1.10.0"
 
-"@iapps/ngx-dhis2-period-filter@^2.0.0-rc.1":
-  version "2.0.0-rc.14"
-  resolved "https://registry.npmjs.org/@iapps/ngx-dhis2-period-filter/-/ngx-dhis2-period-filter-2.0.0-rc.14.tgz"
-  integrity sha512-HUnYbkqSW2I8L6aKyyxbpXFrvV7JxdovvxvG/DaZ2m/iEjTWd8ltlS3VFDwhOSyM+5rF9/49iF5jdXG5HE4nEg==
+"@iapps/ngx-dhis2-period-filter@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@iapps/ngx-dhis2-period-filter/-/ngx-dhis2-period-filter-2.0.0.tgz#c3d2e945069ec5aa30d667b74bc6e52bb7b4b880"
+  integrity sha512-sj4IKWocoma6kzq1a7zhLWwACpn+5xxhL9a79mqdIxcCf+imLk6bih6A5QEb3AUst1ZCG4ku8rMxjWP7hpvpAQ==
   dependencies:
-    tslib "^1.10.0"
+    tslib "^2.3.0"
 
 "@iapps/period-utilities@^1.0.1":
   version "1.0.1"
