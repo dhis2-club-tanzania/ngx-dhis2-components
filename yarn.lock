@@ -2483,10 +2483,12 @@
   resolved "https://registry.npmjs.org/@ngtools/webpack/-/webpack-15.2.6.tgz"
   integrity sha512-I+kekKItfsCLdX+ZjjmsWqd0AyoYGTQPjlbQAiPtmdH73/rfPOF4Q/3AU4tzTdn0n0GXqZWv6VOs91w99ydi0A==
 
-"@ngx-translate/core@^12.1.2":
-  version "12.1.2"
-  resolved "https://registry.npmjs.org/@ngx-translate/core/-/core-12.1.2.tgz"
-  integrity sha512-ZudJsqIxTKlLmPoqK8gJY3UpMGujR0Xm7HfXL6AR79yGRS23QqpjAhMfx4v5qUCcHMmQ9/78bW8QJLfp31c7vQ==
+"@ngx-translate/core@^14.0.0":
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/@ngx-translate/core/-/core-14.0.0.tgz#af421d0e1a28376843f0fed375cd2fae7630a5ff"
+  integrity sha512-UevdwNCXMRCdJv//0kC8h2eSfmi02r29xeE8E9gJ1Al4D4jEJ7eiLPdjslTMc21oJNGguqqWeEVjf64SFtvw2w==
+  dependencies:
+    tslib "^2.3.0"
 
 "@ngx-translate/http-loader@^4.0.0":
   version "4.0.0"

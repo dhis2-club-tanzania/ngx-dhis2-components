@@ -65,7 +65,7 @@
     "@ngrx/schematics": "^14.3.2",
     "@ngrx/store": "^14.3.2",
     "@ngrx/store-devtools": "^14.3.2",
-    "@ngx-translate/core": "^12.1.2",
+    "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^4.0.0",
     "@turf/turf": "^6.5.0",
     "@types/async": "^3.2.14",
