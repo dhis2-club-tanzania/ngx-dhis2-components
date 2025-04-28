@@ -278,14 +278,28 @@ export class NgxDhis2HttpClientService {
     return this._getFromServer(url, httpConfig, httpOptions);
   }
 
-  private _getFromServer(url, httpConfig: HttpConfig, httpOptions: any) {
+ // TODO: START: DEPRECATED APPROACH
+  // private _getFromServer(url, httpConfig: HttpConfig, httpOptions: any) {
+  //   return this._getRootUrl(httpConfig).pipe(
+  //     mergeMap((rootUrl) =>
+  //       (httpOptions
+  //         ? this.httpClient.get(rootUrl + url, httpOptions)
+  //         : this.httpClient.get(rootUrl + url, httpConfig)
+  //       ).pipe(catchError(this._handleError))
+  //     ),
+  //     catchError(this._handleError)
+  //   );
+  // }
+  // TODO: END: DEPRECATED APPROACH
+
+  private _getFromServer(url, httpConfig: HttpConfig, httpOptions: any) {  
     return this._getRootUrl(httpConfig).pipe(
-      mergeMap((rootUrl) =>
-        (httpOptions
-          ? this.httpClient.get(rootUrl + url, httpOptions)
-          : this.httpClient.get(rootUrl + url)
-        ).pipe(catchError(this._handleError))
-      ),
+      mergeMap((rootUrl) => {
+        const optionsToUse = httpOptions ? httpOptions : (httpConfig || {});
+                return this.httpClient.get(rootUrl + url, optionsToUse).pipe(
+          catchError(this._handleError)
+        );
+      }),
       catchError(this._handleError)
     );
   }

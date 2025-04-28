@@ -7,6 +7,7 @@ export const HTTP_CONFIG: HttpConfig = {
     useIndexDb: false,
     fetchOnlineIfNotExist: true,
     isExternalLink: false,
+    responseType: 'json'
 };
 
 export const DEFAULT_ROOT_URL = '../../../';

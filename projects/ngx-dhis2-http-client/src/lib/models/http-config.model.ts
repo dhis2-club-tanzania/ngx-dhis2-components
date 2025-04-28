@@ -11,6 +11,7 @@ export interface HttpConfig {
         schema: string;
     };
     httpHeaders?: any;
+    responseType: any
 }
 
 export interface IndexDbSchema {
